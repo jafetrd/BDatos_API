@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
-
+using MahApps.Metro.Controls.Dialogs;
 
 namespace BDatos_API
 {
@@ -22,24 +22,27 @@ namespace BDatos_API
     /// </summary>
     public partial class MainWindow : MetroWindow
     {
-        List<Control> controles = new List<Control>();
-       
+        List<Control> Controles = new List<Control>();
+
         public MainWindow()
         {
             InitializeComponent();
-            caja_texto_usuario.Focus();
-            controles.Add(caja_texto_usuario);
-            controles.Add(caja_contrasena);
+            Controles.Add(caja_texto_usuario);  //0 caja de texto usuario
+            Controles.Add(caja_contrasena);     //1 caja de contraseña
+            Controles.Add(boton_ingresar);      //2 boton ingresar
+            Controles[0].Focus();
         }
 
         private void Caja_texto_usuario_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter) caja_contrasena.Focus();
+            Marcar_control(Controles[0], true);
+            if (e.Key == Key.Enter) Controles[1].Focus();
         }
 
         private void Caja_contrasena_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter) boton_ingresar.Focus();
+            Marcar_control(Controles[1], true);
+            if (e.Key == Key.Enter) Controles[2].Focus();
         }
 
         private void Boton_ingresar_Click(object sender, RoutedEventArgs e)
@@ -49,20 +52,15 @@ namespace BDatos_API
 
         private void Boton_ingresar_KeyDown(object sender, KeyEventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(caja_texto_usuario.Text.Trim()))
+            if (Seleccionar_control())
             {
-
-                Glow_TextBox_Border(caja_texto_usuario);
-                caja_texto_usuario.Focus();
-                MessageBox.Show("Usuario no valido");
-                return;
+                Ventana_principal ventana_Principal = new Ventana_principal();
+                ventana_Principal.Show();
+                this.Hide();
             }
-            if (String.IsNullOrWhiteSpace(caja_contrasena.Password.ToString()))
+            else
             {
-                Glow_TextBox_Border(caja_contrasena);
-                caja_contrasena.Focus();
-                MessageBox.Show("Contraseña no valida");
-                return;
+                this.ShowMessageAsync("Inicio de sesión", "Datos incorrectos");
             }
         }
 
@@ -84,11 +82,43 @@ namespace BDatos_API
             }
         }
 
-        private void Glow_TextBox_Border(Control control)
+        private bool Seleccionar_control()
         {
-            control.BorderThickness = new Thickness(2, 2, 2, 2);
-            control.BorderBrush = Brushes.Red;
-            control.Background = Brushes.Beige;
+            //bool valor=true;
+            foreach (Control a in Controles)
+            {
+                switch (a.GetType().Name)
+                {
+                    case "TextBox":
+                        if (string.IsNullOrEmpty((a as TextBox).Text))
+                        {
+                            Marcar_control(a, false);
+                            a.Focus();
+                            return false;
+                        }
+                        break;
+
+                    case "PasswordBox":
+                        if (string.IsNullOrEmpty((a as PasswordBox).Password.ToString()))
+                        {
+                            Marcar_control(a, false);
+                            a.Focus();
+                            return false;
+                        }
+                        break;
+                }
+            }
+            return true;
         }
+
+        private void Marcar_control(Control control,Boolean limpiar)
+        {
+            if (limpiar)
+                control.Background = Brushes.White;
+            else
+                control.Background = Brushes.LightGray;
+        }
+
+       
     }
 }

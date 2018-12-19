@@ -28,9 +28,9 @@
                     <ColumnDefinition Width="2*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Grid.Row="1" Text="Usuario" HorizontalAlignment="Center" FontSize="20" FontWeight="Light" Foreground="DarkSlateBlue"> </TextBlock>
-                <TextBox Grid.Row="1" Grid.Column="1" Name="caja_texto_usuario" KeyDown="Caja_texto_usuario_KeyDown"></TextBox>
-                <TextBlock Grid.Column="0" Grid.Row="3" Text="Contraseña" HorizontalAlignment="Center" FontSize="20" FontWeight="Light" Foreground="DarkSlateBlue"></TextBlock>
+                <TextBlock  Grid.Column="0" Grid.Row="1" Text="Usuario" HorizontalAlignment="Center" FontSize="20" FontWeight="Light" Foreground="DarkSlateBlue"> </TextBlock>
+                <TextBox Grid.Row="1" Grid.Column="1" Name="caja_texto_usuario" KeyDown="Caja_texto_usuario_KeyDown" ></TextBox>
+                <TextBlock  Grid.Column="0" Grid.Row="3" Text="Contraseña" HorizontalAlignment="Center" FontSize="20" FontWeight="Light" Foreground="DarkSlateBlue"></TextBlock>
                 <PasswordBox Grid.Row="3" Grid.Column="1" Name="caja_contrasena" KeyDown="Caja_contrasena_KeyDown"></PasswordBox>
                 <Button Name="boton_ingresar"  Grid.Column="1" Grid.Row="5" Content="Ingresar" FontWeight="Light"  FontSize="20" Style="{StaticResource AccentedSquareButtonStyle}" Click="Boton_ingresar_Click" KeyDown="Boton_ingresar_KeyDown"></Button>
                 <Button Name="boton_nueva_cuenta" Content="Nueva cuenta" Grid.Column="1" Grid.Row="7" BorderThickness="0" Background="Transparent"></Button>
