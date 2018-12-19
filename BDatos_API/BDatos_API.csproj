@@ -64,6 +64,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConectorDB.cs" />
     <Compile Include="Ventana_principal.xaml.cs">
       <DependentUpon>Ventana_principal.xaml</DependentUpon>
     </Compile>
