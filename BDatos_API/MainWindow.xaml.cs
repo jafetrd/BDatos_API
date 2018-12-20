@@ -1,12 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Xml;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MySql.Data.MySqlClient;
+using ToastNotifications;
+using ToastNotifications.Core;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Position;
+using ToastNotifications.Messages;
+
 
 namespace BDatos_API
 {
@@ -22,6 +30,9 @@ namespace BDatos_API
         private bool _sePuedeEjecutar = true;   //Para ejecutar una sola vez el mensaje tipo METRO
         private bool _sePuedeEjecutar1 = true;  //para el boton de ingresar y el de atajos
         private bool boolcontrol = false;       //para que seleccioncontrol solo se ejecute una vez
+        private readonly ToastViewModel _vm;
+        private bool nuevo = false;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -29,13 +40,19 @@ namespace BDatos_API
             Controles.Add(caja_contrasena);     //1 caja de contraseña
             Controles[0].Focus();
             comandoTecla.InputGestures.Add(new KeyGesture(Key.I, ModifierKeys.Control));
+            _vm = new ToastViewModel();
+            Unloaded += OnUnload;
+            
         }
 
-
+        private void OnUnload(object sender, RoutedEventArgs e)
+        {
+            _vm.OnUnloaded();
+        }
 
         #region Botones y cajas de texto
         //*******************Botones y cajas de texto********************************//
-        
+
         //Cajas de texto de usuario y contraseña con enfoque al siguiente elemento
         private void Caja_texto_usuario_KeyDown(object sender, KeyEventArgs e)
         {
@@ -78,12 +95,14 @@ namespace BDatos_API
         //Boton nueva cuenta con Enter y con Click
         private void Boton_nueva_cuenta_Click(object sender, RoutedEventArgs e)
         {
-            
+            nuevo = true;
+            if (boolcontrol == false) botoningresar();
         }
 
         private void Boton_nueva_cuenta_KeyDown(object sender, KeyEventArgs e)
         {
-            
+            nuevo = true;
+            if (e.Key == Key.Enter & boolcontrol == false) botoningresar();
         }
 
         #endregion
@@ -185,9 +204,28 @@ namespace BDatos_API
             /*Comprobamos que el usuario exista*/
             if (comprobarID(reader))
             {
-                /*Si todo a salido bien se abrira el formulario principal*/
-                new Ventana_principal().Show();
-                this.Hide();
+                /*Si todo a salido bien se abrira el formulario principal y muestra notificacion*/
+                if (nuevo == true)
+                {
+                    if (Usuario.TIPO_USUARIO == 1)
+                    { //si es administrador
+                        new Nuevo_usuario().Show();
+                        this.Hide();
+                    }
+                    else
+                    {
+                        await botoncomandoAsync("Registro denegado", "No es administrador");
+                        caja_texto_usuario.Clear();
+                        caja_contrasena.Clear();
+                        boolcontrol = Seleccionar_control();
+                    }
+                }
+                else
+                {
+                    _vm.ShowSuccess("Sesion iniciada");
+                    new Ventana_principal().Show();
+                    this.Hide();
+                }
             }
             else
             {
@@ -196,6 +234,8 @@ namespace BDatos_API
                 caja_contrasena.Clear();
                 boolcontrol = Seleccionar_control();
             }
+            reader.Dispose();
+            nuevo = false;
         }
 
 
@@ -217,7 +257,6 @@ namespace BDatos_API
             }
             return false;
         }
-
         #endregion
 
     } //termina clase

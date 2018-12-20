@@ -15,20 +15,13 @@ using System.Windows.Shapes;
 namespace BDatos_API
 {
     /// <summary>
-    /// Lógica de interacción para Ventana_principal.xaml
+    /// Lógica de interacción para Verificacion.xaml
     /// </summary>
-    public partial class Ventana_principal : Window
+    public partial class Nuevo_usuario : Window
     {
-        Metodos_comunes metodos = new Metodos_comunes();
-        public Ventana_principal()
+        public Nuevo_usuario()
         {
             InitializeComponent();
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            Application.Current.MainWindow.Close();
-            new MainWindow().Show();
         }
     }
 }
