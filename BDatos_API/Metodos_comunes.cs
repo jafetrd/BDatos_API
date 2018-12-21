@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MahApps.Metro.Controls.Dialogs;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ using System.Windows.Media;
 
 namespace BDatos_API
 {
-    public  class Metodos_comunes
+    public class Metodos_comunes
     {
-        public  List<Control> Controles = new List<Control>();
+        public List<Control> Controles = new List<Control>();
 
-        public bool Seleccionar_control()
+        public  bool Seleccionar_control(bool apuntar)
         {
             foreach (Control a in Controles)
             {
@@ -22,7 +23,7 @@ namespace BDatos_API
                     case "TextBox":
                         if (string.IsNullOrEmpty((a as TextBox).Text))
                         {
-                            Marcar_control(a, false);
+                            Marcar_control(a, apuntar);
                             a.Focus();
                             return false;
                         }
@@ -31,20 +32,19 @@ namespace BDatos_API
                     case "PasswordBox":
                         if (string.IsNullOrEmpty((a as PasswordBox).Password.ToString()))
                         {
-                            Marcar_control(a, false);
+                            Marcar_control(a, apuntar);
                             a.Focus();
                             return false;
                         }
                         break;
                     case "ComboBox":
-                        if (string.IsNullOrEmpty((a as ComboBox).SelectedItem.ToString()))
+                        if ((a as ComboBox).SelectedValue==null)
                         {
-                            Marcar_control(a, false);
+                            Marcar_control(a, apuntar);
                             a.Focus();
                             return false;
                         }
                         break;
-                    default: return true;
                 }
             }
             return true;

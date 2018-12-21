@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BDatos_API
 {
-    public class Usuario
+    public static class Usuario
     {
         /*Datos del Usuario*/
         public static int ID_USUARIO { get; set; }

@@ -19,7 +19,6 @@ namespace BDatos_API
     /// </summary>
     public partial class Ventana_principal : Window
     {
-        Metodos_comunes metodos = new Metodos_comunes();
         public Ventana_principal()
         {
             InitializeComponent();
@@ -27,8 +26,7 @@ namespace BDatos_API
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Application.Current.MainWindow.Close();
-            new MainWindow().Show();
+            Navegacion.NavegarAtras();
         }
     }
 }

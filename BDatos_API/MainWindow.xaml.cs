@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Xml;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MySql.Data.MySqlClient;
-using ToastNotifications;
-using ToastNotifications.Core;
-using ToastNotifications.Lifetime;
-using ToastNotifications.Position;
-using ToastNotifications.Messages;
+
 
 
 namespace BDatos_API
@@ -26,7 +20,7 @@ namespace BDatos_API
     public partial class MainWindow : MetroWindow
     {
         List<Control> Controles = new List<Control>();
-        public static RoutedCommand comandoTecla = new RoutedCommand();
+        //public static RoutedCommand comandoTecla = new RoutedCommand();
         private bool _sePuedeEjecutar = true;   //Para ejecutar una sola vez el mensaje tipo METRO
         private bool _sePuedeEjecutar1 = true;  //para el boton de ingresar y el de atajos
         private bool boolcontrol = false;       //para que seleccioncontrol solo se ejecute una vez
@@ -35,19 +29,33 @@ namespace BDatos_API
         
         public MainWindow()
         {
+            ConectorDB.Initialize();
             InitializeComponent();
             Controles.Add(caja_texto_usuario);  //0 caja de texto usuario
             Controles.Add(caja_contrasena);     //1 caja de contraseña
             Controles[0].Focus();
-            comandoTecla.InputGestures.Add(new KeyGesture(Key.I, ModifierKeys.Control));
-            _vm = new ToastViewModel();
-            Unloaded += OnUnload;
-            
+            //Verificacion de conexion a servidor
+            abrir();
+            ConectorDB.CerrarConexion();
+            _vm = new ToastViewModel();            
         }
 
-        private void OnUnload(object sender, RoutedEventArgs e)
+        public async System.Threading.Tasks.Task verificar_bdAsync()
         {
-            _vm.OnUnloaded();
+            var res = await this.ShowMessageAsync("Error base de datos", "No se conecto servidor. Contactar administrador\n jafetrd@gmail.com" +
+                "\nDatos registrados: \nServidor: " + ConectorDB.server + "\nBase de datos: " + ConectorDB.database, MessageDialogStyle.Affirmative);
+            if (res == MessageDialogResult.Affirmative)
+            {
+                this.Close();
+            }
+        }
+
+        public void abrir()
+        {
+            if (ConectorDB.ObtenerConexion() == false)
+            {
+                var task = verificar_bdAsync();
+            }
         }
 
         #region Botones y cajas de texto
@@ -71,7 +79,7 @@ namespace BDatos_API
         //Boton ingresar con Enter y con Click
         private void Boton_ingresar_Click(object sender, RoutedEventArgs e)
         {
-           if(boolcontrol==false) botoningresar();
+           if (boolcontrol==false) botoningresar();
         }
 
         private void Boton_ingresar_KeyDown(object sender, KeyEventArgs e)
@@ -115,7 +123,9 @@ namespace BDatos_API
             boolcontrol = Seleccionar_control();
             if (boolcontrol)
             {
+                abrir();
                 VerificarAsync();
+                ConectorDB.CerrarConexion();
                 caja_texto_usuario.Focus();
             }
             else
@@ -153,7 +163,6 @@ namespace BDatos_API
                             return false;
                         }
                         break;
-                    default: return true;
                 }
             }
             return true;
@@ -190,52 +199,56 @@ namespace BDatos_API
             e.Handled = true;
         }
 
+        private void limpiar()
+        {
+            caja_texto_usuario.Clear();
+            caja_contrasena.Clear();
+            _sePuedeEjecutar = true;   
+            _sePuedeEjecutar1 = true;   
+            nuevo = false;
+            boolcontrol = Seleccionar_control();
+        }
         #endregion
 
         #region base_datos
         private async void VerificarAsync()
         {
             /*Creamos la sentencia SQL que podra realizar la consulta que nesesitamos*/
+          
             string SQL = String.Format(
                 "SELECT * FROM tabla_usuario  where nombre_Usuario ='{0}' and contraseña_Usuario='{1}'",
                 caja_texto_usuario.Text.Trim(), caja_contrasena.Password.Trim());
             MySqlDataReader reader = ConectorDB.Consultas(SQL);
 
             /*Comprobamos que el usuario exista*/
-            if (comprobarID(reader))
+            bool local = comprobarID(reader);
+            ConectorDB.CerrarConexion();
+            reader.Dispose();
+            if (local)
             {
                 /*Si todo a salido bien se abrira el formulario principal y muestra notificacion*/
                 if (nuevo == true)
                 {
                     if (Usuario.TIPO_USUARIO == 1)
                     { //si es administrador
-                        new Nuevo_usuario().Show();
-                        this.Hide();
+                        Navegacion.NavigarA(new Nuevo_usuario());
                     }
                     else
                     {
                         await botoncomandoAsync("Registro denegado", "No es administrador");
-                        caja_texto_usuario.Clear();
-                        caja_contrasena.Clear();
-                        boolcontrol = Seleccionar_control();
                     }
                 }
                 else
-                {
+                {//inicio de sesion normal
                     _vm.ShowSuccess("Sesion iniciada");
-                    new Ventana_principal().Show();
-                    this.Hide();
+                    Navegacion.NavigarA(new Ventana_principal());
                 }
             }
             else
             {
                 await botoncomandoAsync("Inicio de sesión", "Usuario no encontrado");
-                caja_texto_usuario.Clear();
-                caja_contrasena.Clear();
-                boolcontrol = Seleccionar_control();
             }
-            reader.Dispose();
-            nuevo = false;
+            limpiar();
         }
 
 

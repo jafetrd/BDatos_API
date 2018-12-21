@@ -123,6 +123,7 @@
     </ApplicationDefinition>
     <Compile Include="ConectorDB.cs" />
     <Compile Include="Metodos_comunes.cs" />
+    <Compile Include="Navegacion.cs" />
     <Compile Include="ToastViewModel.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Ventana_principal.xaml.cs">
