@@ -22,7 +22,7 @@ namespace BDatos_API
         private bool boolcontrol=false;
         private bool contrasena_igual = false;
         Metodos_comunes Controles;
-
+        private string modo = "crear";
         public Nuevo_usuario()
         {
             InitializeComponent();
@@ -56,11 +56,15 @@ namespace BDatos_API
             MySqlDataReader reader = ConectorDB.Consultas(SQL);
             while (reader.Read())
             {
-                caja_texto_usuario.Text = reader.GetString(1);
-                caja_contrasena.Password = reader.GetString(2);
-                caja_contrasena1.Password = reader.GetString(2);
-                local = reader.GetInt16(3);
+                Usuario2.ID_USUARIO = reader.GetInt32(0);
+                Usuario2.USUARIO = reader.GetString(1);
+                Usuario2.CONTRASEÑA = reader.GetString(2);
+                Usuario2.TIPO_USUARIO = reader.GetInt16(3);
             }
+            caja_texto_usuario.Text = Usuario2.USUARIO;
+            caja_contrasena.Password = Usuario2.CONTRASEÑA;
+            caja_contrasena1.Password = Usuario2.CONTRASEÑA;
+            local = Usuario2.TIPO_USUARIO;
             switch (local)
             {
                 case 1: Combobox_tipo.SelectedIndex = 0;
@@ -72,7 +76,38 @@ namespace BDatos_API
                     Combobox_tipo.SelectedIndex = 2;
                     break;
             }
+           
+            modo = "editar";
+            boton_borrar.Visibility = Visibility.Visible;
+            boton_guardar.Content = "Editar";
         }//fin metodo llenarCampos
+
+        private void editar()
+        {
+            string SQL = string.Format("UPDATE tabla_usuario SET nombre_Usuario='{0}', contraseña_Usuario='{1}', tipo_Usuario='{2}' WHERE id_usuario='{3}'",
+                caja_texto_usuario.Text,caja_contrasena.Password,(Combobox_tipo.SelectedIndex+1), Usuario2.ID_USUARIO);
+            ConectorDB.Inyectar(SQL);
+        }
+
+        private void DataGridCell_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (tabla_Principal.SelectedItems.Count == 1)
+            {
+                int id = 0;
+                try
+                {
+                    DataRowView row = (DataRowView)tabla_Principal.SelectedItems[0];
+                    id = Convert.ToInt32(row[0]);
+                }
+                catch (Exception)
+                {
+                }
+                abrir();
+                llenarCampos(id);
+                ConectorDB.CerrarConexion();
+            }
+
+        }
         #endregion
 
         #region eventos_controles
@@ -108,14 +143,28 @@ namespace BDatos_API
         {
             _sePuedeEjecutar = true;
             Controles.Marcar_control(Combobox_tipo, true);
-            if (e.Key == Key.Enter) boton_guardar.Focus();
+            if (Combobox_tipo.IsDropDownOpen==true)
+            {
+                if (Combobox_tipo.SelectedItem != null)
+                {
+                    if (e.Key == Key.Enter) boton_guardar.Focus();
+                }
+            }
+            else
+            {
+                Combobox_tipo.IsDropDownOpen = true;
+            }
         }
 
         private void Combobox_tipo_DropDownClosed(object sender, EventArgs e)
         {
             _sePuedeEjecutar = true;
             Controles.Marcar_control(Combobox_tipo, true);
-            boton_guardar.Focus();
+            if (Combobox_tipo.SelectedItem != null)
+                boton_guardar.Focus();
+            else
+                Combobox_tipo.Focus();
+       
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -126,6 +175,7 @@ namespace BDatos_API
         private void Boton_guardar_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter & boolcontrol == false) botoningresar();
+           
         }
 
         private void Boton_guardar_Click(object sender, RoutedEventArgs e)
@@ -165,25 +215,6 @@ namespace BDatos_API
         {
 
         }
-
-        private void DataGridCell_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (tabla_Principal.SelectedItems.Count == 1)
-            {
-                int id=0;
-                try
-                {
-                    DataRowView row = (DataRowView)tabla_Principal.SelectedItems[0];
-                    id = Convert.ToInt32(row[0]);
-                }
-                catch (Exception) {
-                }
-                abrir();
-                llenarCampos(id);
-                ConectorDB.CerrarConexion();
-            }
-          
-        }
         #endregion
 
         #region mensajes_y_apuntadores
@@ -214,6 +245,8 @@ namespace BDatos_API
             Combobox_tipo.SelectedItem = null;
             caja_contrasena.Background = Brushes.White;
             caja_contrasena1.Background = Brushes.White;
+            modo = "crear";
+            boton_borrar.Visibility = Visibility.Hidden;
             boolcontrol =Controles.Seleccionar_control(false);
         }
 
@@ -266,11 +299,20 @@ namespace BDatos_API
                     if (contrasena_igual)
                     {
                         abrir();
-                        Guardar();
+                        switch (modo)
+                        {
+                            case "crear":
+                                Guardar();
+                                var c = comandoAsync("Nuevo usuario", "Usuario creado");
+                                break;
+                            case "editar":
+                                editar();
+                                var d = comandoAsync("Editar usuario", "Usuario modificado");
+                                break;
+                        }
                         ConectorDB.CerrarConexion();
-                        limpiar();
-                        var c = comandoAsync("Nuevo usuario", "Usuario creado");
                         cargar_datagrid();
+                        limpiar();
                     }
                     else
                     {
@@ -328,6 +370,25 @@ namespace BDatos_API
 
         #endregion
 
-       
+
+        private void Boton_borrar_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Boton_borrar_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void CommandBinding_CanExecute_3(object sender, CanExecuteRoutedEventArgs e)
+        {
+
+        }
+
+        private void CommandBinding_Executed_3(object sender, ExecutedRoutedEventArgs e)
+        {
+
+        }
     }
 }

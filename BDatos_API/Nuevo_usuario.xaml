@@ -6,12 +6,13 @@
         xmlns:Window="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:BDatos_API"
         mc:Ignorable="d"
-        Title="Usuarios" Height="500" Width="800" WindowStartupLocation="CenterScreen" StateChanged="Window_StateChanged" WindowState="Maximized" ResizeMode="CanResize" Closing="Window_Closing">
+        Title="Usuarios" Height="500" Width="800" WindowStartupLocation="CenterScreen" StateChanged="Window_StateChanged" WindowState="Normal" ResizeMode="NoResize" Closing="Window_Closing">
 
     <Window.Resources>
         <RoutedUICommand x:Key="Comando_guardar" Text="iniciar" />
         <RoutedUICommand x:Key="Comando_ayuda" Text="ayuda" />
         <RoutedUICommand x:Key="Comando_limpiar" Text="nuevo" />
+        <RoutedUICommand x:Key="Comando_Borrar" Text="nuevo" />
     </Window.Resources>
 
     <Window.CommandBindings>
@@ -24,12 +25,16 @@
         <CommandBinding Command="{StaticResource Comando_limpiar}" 
                     CanExecute="CommandBinding_CanExecute_2"
                     Executed="CommandBinding_Executed_2" />
+        <CommandBinding Command="{StaticResource Comando_Borrar}" 
+                    CanExecute="CommandBinding_CanExecute_3"
+                    Executed="CommandBinding_Executed_3" />
     </Window.CommandBindings>
 
     <Window.InputBindings>
         <KeyBinding Key="G" Modifiers="Ctrl" Command="{StaticResource Comando_guardar}" />
         <KeyBinding Key="H" Modifiers="Ctrl" Command="{StaticResource Comando_ayuda}" />
         <KeyBinding Key="L" Modifiers="Ctrl" Command="{StaticResource Comando_limpiar}" />
+        <KeyBinding Key="B" Modifiers="Ctrl" Command="{StaticResource Comando_Borrar}" />
     </Window.InputBindings>
 
     <Border Padding="10">
@@ -77,7 +82,11 @@
                 </Grid>
                 <Button Name="boton_guardar"  Grid.Column="0" Grid.Row="2" Content="Guardar" FontWeight="Light"  FontSize="20" 
                         Style="{StaticResource AccentedSquareButtonStyle}" Click="Boton_guardar_Click" KeyDown="Boton_guardar_KeyDown" 
-                        Command="{StaticResource Comando_guardar}" ToolTip="Ctrl+G"></Button>
+                        Command="{StaticResource Comando_guardar}" ToolTip="Ctrl+G" Margin="100 0 100 0"></Button>
+                
+                <Button Name="boton_borrar"  Grid.Column="1" Grid.Row="2" Content="Borrar" FontWeight="Light"  FontSize="20" 
+                        Style="{StaticResource AccentedSquareButtonStyle}" Click="Boton_borrar_Click"  KeyDown="Boton_borrar_KeyDown"
+                        Command="{StaticResource Comando_Borrar}" ToolTip="Ctrl+G" Margin="100 0 100 0" Visibility="Hidden"></Button>
 
                 <DataGrid Name="tabla_Principal" ItemsSource="{Binding Path=cargarUsuarios}" AutoGenerateColumns="False" Grid.Column="1" Grid.Row="0"
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="20 0 20 0" FontWeight="Light" FontSize="15" SelectionMode="Single"

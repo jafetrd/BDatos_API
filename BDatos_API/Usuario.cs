@@ -13,5 +13,31 @@ namespace BDatos_API
         public static string USUARIO { get; set; }
         public static string CONTRASEÑA { get; set; }
         public static int TIPO_USUARIO { get; set; }
+
+        public static void limpiar()
+        {
+            ID_USUARIO = 0;
+            USUARIO = null;
+            CONTRASEÑA = null;
+            TIPO_USUARIO = 0;
+        }
     }
+
+    public static class Usuario2
+    {
+        /*Datos del Usuario*/
+        public static int ID_USUARIO { get; set; }
+        public static string USUARIO { get; set; }
+        public static string CONTRASEÑA { get; set; }
+        public static int TIPO_USUARIO { get; set; }
+
+        public static void limpiar()
+        {
+            ID_USUARIO = 0;
+            USUARIO = null;
+            CONTRASEÑA = null;
+            TIPO_USUARIO = 0;
+        }
+    }
+
 }
