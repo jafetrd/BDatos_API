@@ -30,10 +30,16 @@ namespace BDatos_API
             conectar = new MySqlConnection(datos);
         }
 
-        public static MySqlConnection ObtenerConexion2()
+       public static void AbrirConexion()
         {
-            conectar.Open();
-            return conectar;
+            try
+            {
+                conectar.Open();
+            }
+            catch (MySqlException)
+            {
+
+            }
         }
 
         public static bool ObtenerConexion()

@@ -122,6 +122,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ConectorDB.cs" />
+    <Compile Include="Metodos_bd.cs" />
     <Compile Include="Metodos_comunes.cs" />
     <Compile Include="Navegacion.cs" />
     <Compile Include="ToastViewModel.cs" />

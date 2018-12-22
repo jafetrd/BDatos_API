@@ -16,37 +16,31 @@ namespace BDatos_API
     /// </summary>
     public partial class Nuevo_usuario : MetroWindow
     {
-        private bool _sePuedeEjecutar=true;
-        private bool _sePuedeEjecutar1=true;
-        private bool _sePuedeEjecutar2=true;
         private bool boolcontrol=false;
         private bool contrasena_igual = false;
         Metodos_comunes Controles;
+        Metodos_bd metodos_bd;
         private string modo = "crear";
+       
         public Nuevo_usuario()
         {
             InitializeComponent();
             Controles = new Metodos_comunes();
-            Controles.Controles.Add(caja_texto_usuario);
-            Controles.Controles.Add(caja_contrasena);
-            Controles.Controles.Add(caja_contrasena1);
-            Controles.Controles.Add(Combobox_tipo);
-            Controles.Controles[0].Focus();
+            metodos_bd = new Metodos_bd();
+            Controles.Limpiar_lista();
+
+            Controles.campos.Add(caja_texto_usuario);
+            Controles.campos.Add(caja_contrasena);
+            Controles.campos.Add(caja_contrasena1);
+            Controles.campos.Add(Combobox_tipo);
+            Controles.Inicial.Focus();
             cargar_datagrid();
         }
 
         #region datagrid
         private void cargar_datagrid()
         {
-            abrir();
-            /*Creamos la sentencia SQL que podra realizar la consulta que nesesitamos*/
-            string SQL = "SELECT id_usuario,nombre_Usuario,tipo_Usuario FROM tabla_usuario";
-            MySqlCommand mySqlCommand = new MySqlCommand(SQL,ConectorDB.conectar);
-            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
-            DataSet dataSet = new DataSet();
-            mySqlDataAdapter.Fill(dataSet, "cargarUsuarios");
-            tabla_Principal.DataContext = dataSet;
-            ConectorDB.CerrarConexion();
+            metodos_bd.popular_tabla(tabla_Principal, "id_usuario,nombre_Usuario,tipo_Usuario", "tabla_usuario", "cargarUsuarios");
         }
 
         private void llenarCampos(int Id)
@@ -85,7 +79,7 @@ namespace BDatos_API
         private void editar()
         {
             string SQL = string.Format("UPDATE tabla_usuario SET nombre_Usuario='{0}', contraseña_Usuario='{1}', tipo_Usuario='{2}' WHERE id_usuario='{3}'",
-                caja_texto_usuario.Text,caja_contrasena.Password,(Combobox_tipo.SelectedIndex+1), Usuario2.ID_USUARIO);
+                Usuario2.USUARIO,Usuario2.CONTRASEÑA,(Usuario2.TIPO_USUARIO+1), Usuario2.ID_USUARIO);
             ConectorDB.Inyectar(SQL);
         }
 
@@ -120,28 +114,24 @@ namespace BDatos_API
 
         private void Caja_texto_usuario_KeyDown(object sender, KeyEventArgs e)
         {
-            _sePuedeEjecutar = true;
             Controles.Marcar_control(caja_texto_usuario, true);
             if (e.Key == Key.Enter) caja_contrasena.Focus();
         }
 
         private void Caja_contrasena_KeyDown(object sender, KeyEventArgs e)
         {
-            _sePuedeEjecutar = true;
             Controles.Marcar_control(caja_contrasena, true);
             if (e.Key == Key.Enter) caja_contrasena1.Focus();
         }
 
         private void Caja_contrasena1_KeyDown(object sender, KeyEventArgs e)
         {
-            _sePuedeEjecutar = true;
             Controles.Marcar_control(caja_contrasena1, true);
             if (e.Key == Key.Enter) Combobox_tipo.Focus();
         }
 
         private void Combobox_tipo_KeyDown(object sender, KeyEventArgs e)
         {
-            _sePuedeEjecutar = true;
             Controles.Marcar_control(Combobox_tipo, true);
             if (Combobox_tipo.IsDropDownOpen==true)
             {
@@ -158,18 +148,12 @@ namespace BDatos_API
 
         private void Combobox_tipo_DropDownClosed(object sender, EventArgs e)
         {
-            _sePuedeEjecutar = true;
             Controles.Marcar_control(Combobox_tipo, true);
             if (Combobox_tipo.SelectedItem != null)
                 boton_guardar.Focus();
             else
                 Combobox_tipo.Focus();
        
-        }
-
-        private void Window_StateChanged(object sender, EventArgs e)
-        {
-            
         }
 
         private void Boton_guardar_KeyDown(object sender, KeyEventArgs e)
@@ -183,35 +167,12 @@ namespace BDatos_API
             if (boolcontrol == false) botoningresar();
         }
 
-        private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = _sePuedeEjecutar;
-            e.Handled = true;
-        }
-
-        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        private void Boton_borrar_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void CommandBinding_CanExecute_1(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = _sePuedeEjecutar1;
-            e.Handled = true;
-        }
-
-        private void CommandBinding_Executed_1(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-
-        private void CommandBinding_CanExecute_2(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = _sePuedeEjecutar2;
-            e.Handled = true;
-        }
-
-        private void CommandBinding_Executed_2(object sender, ExecutedRoutedEventArgs e)
+        private void Boton_borrar_KeyDown(object sender, KeyEventArgs e)
         {
 
         }
@@ -233,8 +194,22 @@ namespace BDatos_API
             var res = await this.ShowMessageAsync(a, b, MessageDialogStyle.Affirmative);
             if (res == MessageDialogResult.Affirmative)
             {
-                _sePuedeEjecutar1 = true; //solo cuando se oprimi el mensaje se puede volver a mostrar
+                
             }
+        }
+
+        private async void confirmarAsync(string a, string b)
+        {
+            var res = await this.ShowMessageAsync(a, b, MessageDialogStyle.AffirmativeAndNegative);
+            if (res == MessageDialogResult.Affirmative)
+            {
+                abrir();
+                editar();
+                await this.ShowMessageAsync("Editar usuario", "Usuario modificado", MessageDialogStyle.Affirmative);
+            }
+            ConectorDB.CerrarConexion();
+            cargar_datagrid();
+            limpiar();
         }
 
         private void limpiar()
@@ -280,7 +255,7 @@ namespace BDatos_API
 
         #region metodos_base_datos
 
-        private void botoningresar()
+        private async void botoningresar()
         {
             boolcontrol = Controles.Seleccionar_control(false);
 
@@ -306,8 +281,10 @@ namespace BDatos_API
                                 var c = comandoAsync("Nuevo usuario", "Usuario creado");
                                 break;
                             case "editar":
-                                editar();
-                                var d = comandoAsync("Editar usuario", "Usuario modificado");
+                                Usuario2.USUARIO = caja_texto_usuario.Text.Trim();
+                                Usuario2.CONTRASEÑA = caja_contrasena.Password.Trim();
+                                Usuario2.TIPO_USUARIO = Combobox_tipo.SelectedIndex;
+                                confirmarAsync("Editar usuario", "¿Guardar cambios?");
                                 break;
                         }
                         ConectorDB.CerrarConexion();
@@ -319,13 +296,11 @@ namespace BDatos_API
                         var b = comandoAsync("Nuevo usuario", "Las contraseñas no coinciden");
                     }
                 }
-                _sePuedeEjecutar = false;
                 caja_texto_usuario.Focus();
             }
             else
             {
-                _sePuedeEjecutar = false;
-                this.ShowMessageAsync("Nuevo usuario", "Campos en blanco");
+                await this.ShowMessageAsync("Nuevo usuario", "Campos en blanco");
             }
         }
 
@@ -364,31 +339,17 @@ namespace BDatos_API
                     retorno = true;
                 }
             }
+            if (modo == "editar")
+            {
+                if (Usuario.ID_USUARIO == Usuario2.ID_USUARIO)
+                {
+                    retorno = false;
+                }
+            }
             reader.Dispose();
             return retorno;
         }//fin metodo Verificar
 
         #endregion
-
-
-        private void Boton_borrar_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Boton_borrar_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
-
-        private void CommandBinding_CanExecute_3(object sender, CanExecuteRoutedEventArgs e)
-        {
-
-        }
-
-        private void CommandBinding_Executed_3(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
     }
 }

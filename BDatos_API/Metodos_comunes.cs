@@ -12,11 +12,12 @@ namespace BDatos_API
 {
     public class Metodos_comunes
     {
-        public List<Control> Controles = new List<Control>();
+        public List<Control> campos = new List<Control>();
+
 
         public  bool Seleccionar_control(bool apuntar)
         {
-            foreach (Control a in Controles)
+            foreach (Control a in campos)
             {
                 switch (a.GetType().Name)
                 {
@@ -60,7 +61,16 @@ namespace BDatos_API
 
        public void Limpiar_lista()
         {
-            Controles.Clear();
+            if(campos.Count>0)
+            campos.Clear();
+        }
+
+        public Control Inicial
+        {
+            get
+            {
+                return campos[0];
+            }
         }
     }
 }

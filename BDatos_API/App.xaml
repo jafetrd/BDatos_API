@@ -19,6 +19,40 @@
                 <ResourceDictionary Source="pack://application:,,,/ToastNotifications.Messages;component/Themes/Default.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="DataGridColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}"  >
+                <Setter Property="Background" Value="#88800080" />
+                <Setter Property="Foreground" Value="White" />
+                <Style.Triggers>
+                    <Trigger Property="SortDirection" Value="{x:Null}">
+                        <Setter Property="Background" Value="{DynamicResource DataGridHeaderBackgroundBrush}" />
+                        <Setter Property="BorderBrush"  Value="Transparent" />
+                    </Trigger>
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Property="IsMouseOver" Value="True" />
+                            <Condition Property="SortDirection" Value="{x:Null}" />
+                        </MultiTrigger.Conditions>
+                        <Setter Property="Background" Value="{StaticResource DataGridHeaderMouseOverBackgroundBrush}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource DataGridHeaderBorderBrush}" />
+                    </MultiTrigger>
+
+                    <MultiTrigger>
+                        <MultiTrigger.Conditions>
+                            <Condition Property="IsMouseOver" Value="true" />
+                            <Condition Property="SortDirection" Value="{x:Null}" />
+                        </MultiTrigger.Conditions>
+                        <Setter Property="Background" Value="{StaticResource DataGridHeaderMouseOverBackgroundBrush}" />
+                        <Setter Property="BorderBrush" Value="{StaticResource DataGridHeaderBorderBrush}" />
+                    </MultiTrigger>
+                    <Trigger Property="SortDirection" Value="Ascending">
+                        <Setter Property="Background" Value="{StaticResource DataGridHeaderSortedBackgroundBrush}" />
+                    </Trigger>
+                    <Trigger Property="SortDirection" Value="Descending">
+                        <Setter Property="Background" Value="{StaticResource DataGridHeaderSortedBackgroundBrush}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
+        
     </Application.Resources>
 </Application>
