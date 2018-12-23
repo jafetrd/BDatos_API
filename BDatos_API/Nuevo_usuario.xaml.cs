@@ -19,12 +19,11 @@ namespace BDatos_API
     /// </summary>
     public partial class Nuevo_usuario : MetroWindow
     {
-        private bool boolcontrol=false;
-        private bool contrasena_igual = false;
+        private bool boolcontrol=true;
         Metodos_comunes Controles;
         Metodos_bd metodos_bd;
         public int ESTADO = 0;
-  
+
         public Nuevo_usuario()
         {
             InitializeComponent();
@@ -53,27 +52,36 @@ namespace BDatos_API
                     /*se verifica que todos los campos esten llenos*/
                     if (Controles.Seleccionar_control(false))
                     {   /*Se verifica que no exista un usuario con el mismo nombre*/
-                        ArrayList resultado = metodos_bd.obtener_por_criterio(TablaUsuario.TABLA_USUARIO, TablaUsuario.NOMBRE, TablaUsuario.USUARIOdato,4,TablaUsuario.TODO);
-                        if (resultado.Count > 0) /*si hay mas de un resultado entonces si existe el usuario*/
+                        if (verificar_contrasena())
                         {
-                            await this.ShowMessageAsync("Administrador de usuarios", "Nombre no disponible", MessageDialogStyle.Affirmative);
-                        }
-                        else /*sino hay resultado entonces podemos guardar al nuevo usuario*/
-                        {
-                            var a = await this.ShowMessageAsync("Administrador de usuarios", "¿Crear nuevo usuario?", MessageDialogStyle.AffirmativeAndNegative);
-                            if (a == MessageDialogResult.Affirmative)/*se confirma si o no se quiere guardar*/
+                            ArrayList resultado = metodos_bd.obtener_por_criterio(TablaUsuario.TABLA_USUARIO, TablaUsuario.NOMBRE, TablaUsuario.USUARIOdato, 4, TablaUsuario.TODO);
+                            if (resultado.Count > 0) /*si hay mas de un resultado entonces si existe el usuario*/
                             {
-                                metodos_bd.guardarenSQL(TablaUsuario.TABLA_USUARIO, (TablaUsuario.NOMBRE, TablaUsuario.USUARIOdato), (TablaUsuario.CONTRASEÑA, TablaUsuario.CONTRASEÑAdato), (TablaUsuario.TIPO_USUARIO, TablaUsuario.TIPO_USUARIOdato));
-                                await this.ShowMessageAsync("Administrador de usuarios", "Usuario creado", MessageDialogStyle.Affirmative);
-                                limpiar();
-                                cargar_datagrid();
+                                await this.ShowMessageAsync(TablaUsuario.TITULO_MENSAJE, "Nombre no disponible", MessageDialogStyle.Affirmative);
                             }
+                            else /*sino hay resultado entonces podemos guardar al nuevo usuario*/
+                            {
+                                var a = await this.ShowMessageAsync(TablaUsuario.TITULO_MENSAJE, "¿Crear nuevo usuario?", MessageDialogStyle.AffirmativeAndNegative);
+                                if (a == MessageDialogResult.Affirmative)/*se confirma si o no se quiere guardar*/
+                                {
+                                    metodos_bd.guardarenSQL(TablaUsuario.TABLA_USUARIO, (TablaUsuario.NOMBRE, TablaUsuario.USUARIOdato), (TablaUsuario.CONTRASEÑA, TablaUsuario.CONTRASEÑAdato), (TablaUsuario.TIPO_USUARIO, TablaUsuario.TIPO_USUARIOdato));
+                                    await this.ShowMessageAsync(TablaUsuario.TITULO_MENSAJE, "Usuario creado", MessageDialogStyle.Affirmative);
+                                    limpiar();
+                                    cargar_datagrid();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            await this.ShowMessageAsync(TablaUsuario.TITULO_MENSAJE, "Las contraseñas no coinciden", MessageDialogStyle.Affirmative);
                         }
                     }
                     else
                     {
-                        await this.ShowMessageAsync("Administrador de usuarios", "Información incompleta", MessageDialogStyle.Affirmative);
+                        await this.ShowMessageAsync(TablaUsuario.TITULO_MENSAJE, "Información incompleta", MessageDialogStyle.Affirmative);
                     }
+
+                    ESTADO = TablaUsuario.CREAR;
                     break;
 
                 case TablaUsuario.APUNTAR:
@@ -95,32 +103,74 @@ namespace BDatos_API
                     /*se verifica que todos los campos esten llenos*/
                     if (Controles.Seleccionar_control(false))
                     {
-                        TablaUsuario.USUARIOdato = caja_texto_usuario.Text;
-                        TablaUsuario.CONTRASEÑAdato = caja_contrasena.Password;
-                        TablaUsuario.TIPO_USUARIOdato = Combobox_tipo.Text;
-                        ArrayList resultado3 = metodos_bd.obtener_por_criterio(TablaUsuario.TABLA_USUARIO, TablaUsuario.NOMBRE, TablaUsuario.USUARIOdato, 4, TablaUsuario.TODO);
-                        if (resultado3.Count > 0)
+                        if (verificar_contrasena())
                         {
-                            if (resultado3[0].ToString() == TablaUsuario.ID_USUARIOcopia)
-                            {/*si resultado3 me regreso a mi mismo puedo modificar el dato*/
-                                var a2 =await this.ShowMessageAsync("Administrador de usuarios", "¿Guardar cambios?", MessageDialogStyle.AffirmativeAndNegative);
-                                if (a2 == MessageDialogResult.Affirmative) { editar(); }
+                            TablaUsuario.USUARIOdato = caja_texto_usuario.Text;
+                            TablaUsuario.CONTRASEÑAdato = caja_contrasena.Password;
+                            TablaUsuario.TIPO_USUARIOdato = Combobox_tipo.Text;
+                            ArrayList resultado3 = metodos_bd.obtener_por_criterio(TablaUsuario.TABLA_USUARIO, TablaUsuario.NOMBRE, TablaUsuario.USUARIOdato, 4, TablaUsuario.TODO);
+                            if (resultado3.Count > 0)
+                            {
+                                if (resultado3[0].ToString() == TablaUsuario.ID_USUARIOcopia)
+                                {/*si resultado3 me regreso a mi mismo puedo modificar el dato*/
+                                    var a2 = await this.ShowMessageAsync(TablaUsuario.TITULO_MENSAJE, "¿Guardar cambios?", MessageDialogStyle.AffirmativeAndNegative);
+                                    if (a2 == MessageDialogResult.Affirmative) { editar(); }
+                                }
+                                else
+                                {/*sino esto quiere decir que es otro usuario y por lo tanto no puedo usar ese nombre*/
+                                    await this.ShowMessageAsync(TablaUsuario.TITULO_MENSAJE, "Nombre no disponible", MessageDialogStyle.Affirmative);
+                                }
                             }
                             else
-                            {/*sino esto quiere decir que es otro usuario y por lo tanto no puedo usar ese nombre*/
-                                await this.ShowMessageAsync("Administrador de usuarios", "Nombre no disponible", MessageDialogStyle.Affirmative);
+                            {/*si no se regreso ningun dato de la busque significa que el dato esta disponilbe*/
+                                var a2 = await this.ShowMessageAsync(TablaUsuario.TITULO_MENSAJE, "¿Guardar cambios?", MessageDialogStyle.AffirmativeAndNegative);
+                                if (a2 == MessageDialogResult.Affirmative) { editar(); }
                             }
                         }
                         else
-                        {/*si no se regreso ningun dato de la busque significa que el dato esta disponilbe*/
-                            var a2 = await this.ShowMessageAsync("Administrador de usuarios", "¿Guardar cambios?", MessageDialogStyle.AffirmativeAndNegative);
-                            if (a2 == MessageDialogResult.Affirmative) { editar(); }
+                        {
+                            await this.ShowMessageAsync(TablaUsuario.TITULO_MENSAJE, "Las contraseñas no coinciden", MessageDialogStyle.Affirmative);
                         }
                     }
-                        break;
+                    ESTADO = TablaUsuario.CREAR;
+                    break;
 
-                case TablaUsuario.SELECCIONAR:
+                case TablaUsuario.BORRAR:
+                    var mySettings = new MetroDialogSettings
+                    {
+                        AffirmativeButtonText = "Yes",
+                        ColorScheme = MetroDialogColorScheme.Inverted
+                    };
+                    var a3 = await this.ShowMessageAsync(TablaUsuario.TITULO_MENSAJE, "¿Eliminar usuario?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
+                    if (a3 == MessageDialogResult.Affirmative)
+                    {
+                        metodos_bd.eliminar(TablaUsuario.TABLA_USUARIO, TablaUsuario.ID_USUARIO, TablaUsuario.ID_USUARIOcopia);
+                        limpiar();
+                        cargar_datagrid();
+                    }
+                    ESTADO = TablaUsuario.CREAR;
+                    break;
 
+                case TablaUsuario.ULTIMO_USUARIO:
+                    ArrayList resultado4 = metodos_bd.obtener_por_criterio(TablaUsuario.TABLA_USUARIO, TablaUsuario.ID_USUARIO, TablaUsuario.ID_USUARIOcopia, 4, TablaUsuario.TODO);
+                    /*los datos se respaldan en unas variables auxiliares y se muestran en los componentes correspondientes*/
+                    TablaUsuario.ID_USUARIOcopia = resultado4[0].ToString();
+                    caja_texto_usuario.Text = TablaUsuario.USUARIOcopia = resultado4[1].ToString();
+                    caja_contrasena.Password = caja_contrasena1.Password = TablaUsuario.CONTRASEÑAcopia= resultado4[2].ToString();
+                    Combobox_tipo.Text = TablaUsuario.TIPO_USUARIOcopia = resultado4[3].ToString();
+                    boton_borrar.Visibility = Visibility.Hidden;
+
+                    if (TablaUsuario.TIPO_USUARIOcopia != TablaUsuario.TIPO_ADMINISTRADOR)
+                    {
+                        await this.ShowMessageAsync(TablaUsuario.TITULO_MENSAJE, "El usuario se cambiara a administrador", MessageDialogStyle.Affirmative);
+                        TablaUsuario.TIPO_USUARIOdato = TablaUsuario.TIPO_ADMINISTRADOR;
+                        editar();
+                    }
+                    else
+                    {
+                        await this.ShowMessageAsync(TablaUsuario.TITULO_MENSAJE, "Ultimo usuario", MessageDialogStyle.Affirmative);
+                    }
+                  
                     break;
             }
         }
@@ -128,7 +178,9 @@ namespace BDatos_API
         #region datagrid
         private void cargar_datagrid()
         {
-        metodos_bd.popular_tabla(tabla_Principal, TablaUsuario.TABLA_USUARIO, "cargarUsuarios",TablaUsuario.ID_USUARIO,TablaUsuario.NOMBRE,TablaUsuario.TIPO_USUARIO);  
+            metodos_bd.popular_tabla(tabla_Principal, TablaUsuario.TABLA_USUARIO, "cargarUsuarios", TablaUsuario.ID_USUARIO, TablaUsuario.NOMBRE, TablaUsuario.TIPO_USUARIO);
+            
+            DataGridCell_MouseDoubleClick(null, null);
         }
 
         private async void editar()
@@ -137,25 +189,37 @@ namespace BDatos_API
                                       (TablaUsuario.NOMBRE, TablaUsuario.USUARIOdato),
                                       (TablaUsuario.CONTRASEÑA, TablaUsuario.CONTRASEÑAdato),
                                       (TablaUsuario.TIPO_USUARIO, TablaUsuario.TIPO_USUARIOdato));
-            await this.ShowMessageAsync("Administrador de usuarios", "Usuario actualizado", MessageDialogStyle.AffirmativeAndNegative);
+            await this.ShowMessageAsync(TablaUsuario.TITULO_MENSAJE, "Usuario actualizado", MessageDialogStyle.AffirmativeAndNegative);
             cargar_datagrid();
+            
             limpiar();
             ESTADO = TablaUsuario.CREAR;
         }
 
         private void DataGridCell_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (tabla_Principal.SelectedItems.Count == 1)
+            if (tabla_Principal.Items.Count == 1)
             {
-                limpiar();
-                try
-                {
-                    DataRowView row = (DataRowView)tabla_Principal.SelectedItems[0];
-                    TablaUsuario.ID_USUARIOcopia = (row[0]).ToString();
-                }
-                catch (Exception){}
-                ESTADO = TablaUsuario.APUNTAR;
+                ESTADO = TablaUsuario.ULTIMO_USUARIO;
+                DataRowView fila = (DataRowView)tabla_Principal.Items[0];
+                TablaUsuario.ID_USUARIOcopia = (fila[0]).ToString();
                 maquina_estados();
+            }
+            else
+            {
+                if (tabla_Principal.SelectedItems.Count == 1)
+                {
+                    limpiar();
+                    try
+                    {
+                        DataRowView row = (DataRowView)tabla_Principal.SelectedItems[0];
+                        TablaUsuario.ID_USUARIOcopia = (row[0]).ToString();
+                    }
+                    catch (Exception) { }
+
+                    ESTADO = TablaUsuario.APUNTAR;
+                    maquina_estados();
+                }
             }
         }
         #endregion
@@ -201,20 +265,20 @@ namespace BDatos_API
             verificar_contrasena();
         }
 
-        void verificar_contrasena()
+        private bool verificar_contrasena()
         {
             if (caja_contrasena.Password != caja_contrasena1.Password)
             {
                 caja_contrasena1.Background = Brushes.LightYellow;
                 caja_contrasena.Background = Brushes.LightYellow;
-                contrasena_igual = false;
+                return false;
             }
             else
             {
                 TablaUsuario.CONTRASEÑAdato = caja_contrasena.Password.Trim();
                 caja_contrasena1.Background = Brushes.LightGreen;
                 caja_contrasena.Background = Brushes.LightGreen;
-                contrasena_igual = true;
+                return true;
             }
         }
 
@@ -265,18 +329,19 @@ namespace BDatos_API
 
         private void Boton_borrar_Click(object sender, RoutedEventArgs e)
         {
-
+            ESTADO = TablaUsuario.BORRAR;
+            maquina_estados();
         }
 
         private void Boton_borrar_KeyDown(object sender, KeyEventArgs e)
         {
-
+            ESTADO = TablaUsuario.BORRAR;
+            maquina_estados();
         }
         #endregion
         private void limpiar()
         {
             ESTADO = TablaUsuario.CREAR;
-            contrasena_igual = false;
             boton_borrar.Visibility = Visibility.Hidden;
             boton_guardar.Content = TablaUsuario.BTN_GUARDAR;
             boolcontrol = false;

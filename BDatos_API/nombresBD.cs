@@ -23,6 +23,8 @@ namespace BDatos_API
         public static string NOMBRE { get { return "nombre_Usuario"; } }
         public static string TIPO_USUARIO { get { return "tipo_Usuario"; } }
         public static string TODO { get { return "*"; } }
+        public static string TITULO_MENSAJE { get { return "Administrador de usuarios"; } }
+        public static string TIPO_ADMINISTRADOR { get { return "Administrador"; } }
         public static int numeroColumnas { get { return 4; } }
 
         public const int CERRAR = 1;
@@ -33,6 +35,7 @@ namespace BDatos_API
         public const int ERROR_BD = 6;
         public const int LIMPIAR = 7;
         public const int APUNTAR = 8;
+        public const int ULTIMO_USUARIO=9;
 
         public static string BTN_GUARDAR { get { return "GUARDAR"; } }
         public static string BTN_EDITAR { get { return "EDITAR"; } }

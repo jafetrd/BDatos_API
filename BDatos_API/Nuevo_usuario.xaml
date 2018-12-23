@@ -9,7 +9,7 @@
         Title="Usuarios" Height="500" Width="800" WindowStartupLocation="CenterScreen" WindowState="Normal" ResizeMode="NoResize" Closing="Window_Closing">
 
     <Border Padding="10">
-        <StackPanel>
+        <StackPanel VerticalAlignment="Stretch">
             <Grid>
                 <Grid.ColumnDefinitions >
                     <ColumnDefinition Width="*" ></ColumnDefinition>
@@ -57,9 +57,9 @@
                 
                 <Button Name="boton_borrar"  Grid.Column="1" Grid.Row="2" Content="Borrar" FontWeight="Light"  FontSize="20" 
                         Style="{StaticResource AccentedSquareButtonStyle}" Click="Boton_borrar_Click"  KeyDown="Boton_borrar_KeyDown"
-                        ToolTip="Ctrl+G" Margin="100 0 100 0" Visibility="Hidden"></Button>
+                        ToolTip="Ctrl+G" Margin="100 0 100 0"></Button>
 
-                <DataGrid Name="tabla_Principal" ItemsSource="{Binding Path=cargarUsuarios}" AutoGenerateColumns="False" Grid.Column="1" Grid.Row="0"
+                <DataGrid Name="tabla_Principal" ItemsSource="{Binding Path=cargarUsuarios}" AutoGenerateColumns="False" Grid.Column="1"
                           HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="20 0 20 0" FontWeight="Light" FontSize="15" SelectionMode="Single"
                           IsReadOnly="True">
                     <DataGrid.Resources>

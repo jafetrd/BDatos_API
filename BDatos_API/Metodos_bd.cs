@@ -141,6 +141,31 @@ namespace BDatos_API
             int query = sqlCommand.ExecuteNonQuery();
             ConectorDB.CerrarConexion();
         }
+
+        public void eliminar(string tabla,string selector,params string[] filas)
+        {
+            int longitud = filas.Length;
+            string[] parametros = new string[filas.Length];
+            string aux = null;
+            for (int a = 0; a < longitud; a++)
+            {
+                parametros[a] = "@" + filas[a]; 
+            }
+            aux = string.Join(",", parametros);
+            string SQL_1 = "DELETE from " + tabla + " WHERE " + selector + " IN ({0})";
+            string SQL = string.Format(SQL_1, aux);
+            
+            MySqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
+            sqlCommand.CommandType = CommandType.Text;
+            sqlCommand.CommandText = SQL;
+            for(int a = 0; a < longitud; a++)
+            {
+                sqlCommand.Parameters.AddWithValue(parametros[a], filas[a]);
+            }
+            ConectorDB.AbrirConexion();
+            int query = sqlCommand.ExecuteNonQuery();
+            ConectorDB.CerrarConexion();
+        }
     }
 
     public class TemporalGetSet
