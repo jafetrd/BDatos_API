@@ -1,12 +1,12 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls.Primitives;
-
 namespace BDatos_API
 {
     class Metodos_bd
@@ -15,13 +15,14 @@ namespace BDatos_API
         /// Metodo para rellenar una tabla 
         /// </summary>
         /// <param name="grid"> Nombre de la tabla principal</param>
-        /// <param name="campos"> Columnas de la tabla SQL "columna1,columna2" </param>
         /// <param name="tabla_SQL"> Nombre de la tabla SQL </param>
         /// <param name="tabla_DataGRID"> nombre de la ruta de enlace con DataGrid </param>
-        public void popular_tabla(MultiSelector grid, string campos,string tabla_SQL,string tabla_DataGRID)
+        /// <param name="campos"> Columnas de la tabla SQL </param>
+        public void popular_tabla(MultiSelector grid,string tabla_SQL,string tabla_DataGRID, params string[] campos)
         {
+            string campos_local = String.Join(",", campos);
             ConectorDB.AbrirConexion();
-            string SQL = "SELECT "+ campos +" FROM "+tabla_SQL;
+            string SQL = "SELECT "+ campos_local +" FROM "+tabla_SQL;
             MySqlCommand mySqlCommand = new MySqlCommand(SQL, ConectorDB.conectar);
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             DataSet dataSet = new DataSet();
@@ -31,22 +32,133 @@ namespace BDatos_API
         }
 
         /// <summary>
-        /// Metodo para obtener los datos basados en un criterio de seleccion
+        /// Metodo para seleccionar (buscar) datos en la tabla SQL
         /// </summary>
         /// <param name="tabla_SQL">Nombre de la tabla SQL</param>
-        /// <param name="criterio_seleccion"> Columnas de la tabla SQL, ejemplo: columna1 = '{0}' AND columna2 = '{1}'</param>
-        /// <param name="datos">Datos a guardar en fomato array </param>
-        public void obtener_por_criterio(string tabla_SQL,string criterio_seleccion,object[] datos)
+        /// <param name="selector">Nombre de la columna en la cual se buscara</param>
+        /// <param name="dato">Dato que se buscara en la columna seleccionada</param>
+        /// <param name="numColum">Cantidad de columnas de la tabla</param>
+        /// <param name="columnas">Las columnas que se retornaran de la busqueda</param>
+        /// <returns></returns>
+        public ArrayList obtener_por_criterio(string tabla_SQL,string selector,string dato,int numColum, params string[] columnas)
         {
-            string SQL = string.Format("SELECT * FROM "+tabla_SQL+" WHERE "+criterio_seleccion, datos);
-            MySqlDataReader reader = ConectorDB.Consultas(SQL);
-            while (reader.Read())
+            int count = 0;
+            string columna = String.Join(",", columnas);
+            TemporalGetSet temporal = new TemporalGetSet();
+            string parametroSelector = "@" + selector;
+                string SQL = "SELECT "+columna+" FROM " + tabla_SQL + " WHERE " + selector + " = " + parametroSelector;
+                MySqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
+                sqlCommand.CommandText = SQL;
+                sqlCommand.Parameters.AddWithValue(parametroSelector, dato);
+                ConectorDB.AbrirConexion();
+                MySqlDataReader reader = sqlCommand.ExecuteReader();
+                while (reader.Read()) { count++; }
+            if (count > 0)
             {
-                Usuario2.ID_USUARIO = reader.GetInt32(0);
-                Usuario2.USUARIO = reader.GetString(1);
-                Usuario2.CONTRASEÑA = reader.GetString(2);
-                Usuario2.TIPO_USUARIO = reader.GetInt16(3);
+                for (int a = 0; a < numColum; a++)
+                {
+                    temporal.Lista.Add(reader.GetString(a));
+                }
             }
+                ConectorDB.CerrarConexion(); 
+                return temporal.Lista;
+        }
+        /// <summary>
+        /// Metodo para guardar datos en la base SQL
+        /// </summary>
+        /// <param name="tabla">Insertar el nombre de la tabla SQL</param>
+        /// <param name="datos">Insertar el nombre de la columna y la variable de donde se obtiene la informacion (columna,campo)</param>
+
+        public void guardarenSQL(string tabla, params (string columnas, string campos)[] datos)
+        {
+            string nombreParametroColumna = null;
+            string campos_local = null;
+            int longitud = datos.Length - 1;
+            string[] parametro = new string[datos.Length];
+            //concatenacion de las columnas en formato SQL
+            for (int a = 0; a < longitud; a++)
+            {
+                nombreParametroColumna += "@" + datos[a].columnas + ",";
+                parametro[a] = "@" + datos[a].columnas;
+            }
+            nombreParametroColumna += "@" + datos[longitud].columnas;
+            parametro[longitud] = "@" + datos[longitud].columnas;
+
+            //concatenacion de los campos en formato SQL 
+            for (int a = 0; a < longitud; a++)
+            {
+                campos_local += datos[a].columnas + ",";
+            }
+            campos_local += datos[longitud].columnas;
+
+            string SQL = "Insert into " + tabla + " (" + campos_local + ") values (" + nombreParametroColumna + ")";
+
+            MySqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
+            sqlCommand.CommandType = CommandType.Text;
+            sqlCommand.CommandText = SQL;
+
+            for (int a = 0; a < datos.Length; a++)
+            {
+                sqlCommand.Parameters.AddWithValue(parametro[a], datos[a].campos);
+            }
+            ConectorDB.AbrirConexion();
+            int query = sqlCommand.ExecuteNonQuery();
+            ConectorDB.CerrarConexion();
+        }
+
+        /// <summary>
+        /// Metodo para actualizar la base SQL
+        /// </summary>
+        /// <param name="tabla">Agregar el nombre de la tabla</param>
+        /// <param name="selector">Dato que especifica que fila se va a actualizar</param>
+        /// <param name="dato"> Indica sobre que registro se hara la actualizacion </param>
+        /// <param name="datos"> Insertar el nombre de la columna y la variable de donde se obtiene la informacion (columna,campo)</param>
+        public void actualizar(string tabla,string selector,string dato, params (string columnas, string campos)[] datos)
+        {
+            string aux=null;
+            string[] parametros = new string[datos.Length];
+            int longitud = datos.Length - 1;
+            string parametroSelector = "@" + selector;
+
+            for (int a = 0; a < longitud; a++)
+            {
+                aux += datos[a].columnas + "=@" + datos[a].columnas+",";
+                parametros[a] = "@" + datos[a].columnas;
+            }
+            aux += datos[longitud].columnas + "=@" + datos[longitud].columnas;
+            parametros[longitud] = "@" + datos[longitud].columnas;
+
+            string SQL = "UPDATE " + tabla + " SET "+aux+" WHERE "+selector+ "=@" + selector;
+            MySqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
+            sqlCommand.CommandType = CommandType.Text;
+            sqlCommand.CommandText = SQL;
+            for (int a = 0; a < datos.Length; a++)
+            {
+                sqlCommand.Parameters.AddWithValue(parametros[a], datos[a].campos);
+            }
+            sqlCommand.Parameters.AddWithValue(parametroSelector, dato);
+            ConectorDB.AbrirConexion();
+            int query = sqlCommand.ExecuteNonQuery();
+            ConectorDB.CerrarConexion();
         }
     }
+
+    public class TemporalGetSet
+    {
+        private ArrayList _array = new ArrayList(); // use underscore to indicate private field
+
+        public ArrayList Lista
+        {
+            get { return _array; } // do not implement setter as to avoid outside to overwrite the object's array instance.
+        }
+
+        /* Shortcut getter/setter to the array */
+        public object this[int index]
+        {
+            get { return _array[index]; }
+            set { _array[index] = value; }
+        }
+    }
+
+   
 }

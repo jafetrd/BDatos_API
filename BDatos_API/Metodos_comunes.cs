@@ -1,10 +1,9 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using MySql.Data.MySqlClient;
+﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -39,7 +38,7 @@ namespace BDatos_API
                         }
                         break;
                     case "ComboBox":
-                        if ((a as ComboBox).SelectedValue==null)
+                        if ((a as ComboBox).SelectedItem==null)
                         {
                             Marcar_control(a, apuntar);
                             a.Focus();
@@ -65,6 +64,28 @@ namespace BDatos_API
             campos.Clear();
         }
 
+        public void Limpiar_controles()
+        {
+            foreach(Control a in campos)
+            {
+                switch (a.GetType().Name)
+                {
+                    case "TextBox":
+                        (a as TextBox).Clear();
+                        (a as TextBox).Background = Brushes.White;
+                        break;
+
+                    case "PasswordBox":
+                        (a as PasswordBox).Clear();
+                        (a as PasswordBox).Background = Brushes.White;
+                        break;
+                    case "ComboBox":
+                        (a as ComboBox).SelectedItem = null;
+                        break;
+                }
+            }
+        }
+
         public Control Inicial
         {
             get
@@ -73,4 +94,5 @@ namespace BDatos_API
             }
         }
     }
+
 }

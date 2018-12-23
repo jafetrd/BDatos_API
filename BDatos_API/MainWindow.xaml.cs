@@ -37,7 +37,11 @@ namespace BDatos_API
             //Verificacion de conexion a servidor
             abrir();
             ConectorDB.CerrarConexion();
-            _vm = new ToastViewModel();            
+            _vm = new ToastViewModel();
+            //bypass 
+            caja_texto_usuario.Text = "jafet";
+            caja_contrasena.Password = "0000000000";
+            Boton_nueva_cuenta_Click(null, null);
         }
 
         public async System.Threading.Tasks.Task verificar_bdAsync()
@@ -229,7 +233,7 @@ namespace BDatos_API
                 /*Si todo a salido bien se abrira el formulario principal y muestra notificacion*/
                 if (nuevo == true)
                 {
-                    if (Usuario.TIPO_USUARIO == 1)
+                    if (Usuario.TIPO_USUARIO == "Administrador")
                     { //si es administrador
                         Navegacion.NavigarA(new Nuevo_usuario());
                     }
@@ -264,7 +268,7 @@ namespace BDatos_API
                     Usuario.ID_USUARIO = reader.GetInt16(0);
                     Usuario.USUARIO = reader.GetString(1);
                     Usuario.CONTRASEÑA = reader.GetString(2);
-                    Usuario.TIPO_USUARIO = reader.GetInt16(3);
+                    Usuario.TIPO_USUARIO = reader.GetString(3);
                     return true;
                 }
             }

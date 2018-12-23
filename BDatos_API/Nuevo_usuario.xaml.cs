@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -8,6 +10,7 @@ using System.Windows.Media;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using MySql.Data.MySqlClient;
+
 
 namespace BDatos_API
 {
@@ -20,87 +23,140 @@ namespace BDatos_API
         private bool contrasena_igual = false;
         Metodos_comunes Controles;
         Metodos_bd metodos_bd;
-        private string modo = "crear";
-       
+        public int ESTADO = 0;
+  
         public Nuevo_usuario()
         {
             InitializeComponent();
+            /*se inician constructores*/
             Controles = new Metodos_comunes();
             metodos_bd = new Metodos_bd();
-            Controles.Limpiar_lista();
-
+            /*limpiar toda la forma y variables*/
+            limpiar();
+            /*se mandan los controles visuales a una lista para facilitar su manejo*/
             Controles.campos.Add(caja_texto_usuario);
             Controles.campos.Add(caja_contrasena);
             Controles.campos.Add(caja_contrasena1);
             Controles.campos.Add(Combobox_tipo);
+            /*se apunta al primer control de la forma*/
             Controles.Inicial.Focus();
+            /*Se carga la tabla en la cuadricula DataGrid*/
             cargar_datagrid();
+        }
+
+        private async void maquina_estados()
+        {
+            switch (ESTADO)
+            {
+
+                case TablaUsuario.CREAR:
+                    /*se verifica que todos los campos esten llenos*/
+                    if (Controles.Seleccionar_control(false))
+                    {   /*Se verifica que no exista un usuario con el mismo nombre*/
+                        ArrayList resultado = metodos_bd.obtener_por_criterio(TablaUsuario.TABLA_USUARIO, TablaUsuario.NOMBRE, TablaUsuario.USUARIOdato,4,TablaUsuario.TODO);
+                        if (resultado.Count > 0) /*si hay mas de un resultado entonces si existe el usuario*/
+                        {
+                            await this.ShowMessageAsync("Administrador de usuarios", "Nombre no disponible", MessageDialogStyle.Affirmative);
+                        }
+                        else /*sino hay resultado entonces podemos guardar al nuevo usuario*/
+                        {
+                            var a = await this.ShowMessageAsync("Administrador de usuarios", "¿Crear nuevo usuario?", MessageDialogStyle.AffirmativeAndNegative);
+                            if (a == MessageDialogResult.Affirmative)/*se confirma si o no se quiere guardar*/
+                            {
+                                metodos_bd.guardarenSQL(TablaUsuario.TABLA_USUARIO, (TablaUsuario.NOMBRE, TablaUsuario.USUARIOdato), (TablaUsuario.CONTRASEÑA, TablaUsuario.CONTRASEÑAdato), (TablaUsuario.TIPO_USUARIO, TablaUsuario.TIPO_USUARIOdato));
+                                await this.ShowMessageAsync("Administrador de usuarios", "Usuario creado", MessageDialogStyle.Affirmative);
+                                limpiar();
+                                cargar_datagrid();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        await this.ShowMessageAsync("Administrador de usuarios", "Información incompleta", MessageDialogStyle.Affirmative);
+                    }
+                    break;
+
+                case TablaUsuario.APUNTAR:
+                    /*se busca el usaurio con el Id que se selecciono al hacer clic sobre el DataGrid*/
+                    ArrayList resultado2 = metodos_bd.obtener_por_criterio(TablaUsuario.TABLA_USUARIO, TablaUsuario.ID_USUARIO, TablaUsuario.ID_USUARIOcopia, 4, TablaUsuario.TODO);
+                    /*los datos se respaldan en unas variables auxiliares y se muestran en los componentes correspondientes*/
+                    TablaUsuario.ID_USUARIOcopia = resultado2[0].ToString();
+                    caja_texto_usuario.Text = TablaUsuario.USUARIOcopia = resultado2[1].ToString();
+                    caja_contrasena.Password = caja_contrasena1.Password = TablaUsuario.CONTRASEÑAcopia = resultado2[2].ToString();
+                    Combobox_tipo.Text = TablaUsuario.TIPO_USUARIOcopia = resultado2[3].ToString();
+
+                    boton_borrar.Visibility = Visibility.Visible;
+                    boton_guardar.Content = TablaUsuario.BTN_EDITAR;
+
+                    ESTADO = TablaUsuario.ACTUALIZAR;
+                    break;
+
+                case TablaUsuario.ACTUALIZAR:
+                    /*se verifica que todos los campos esten llenos*/
+                    if (Controles.Seleccionar_control(false))
+                    {
+                        TablaUsuario.USUARIOdato = caja_texto_usuario.Text;
+                        TablaUsuario.CONTRASEÑAdato = caja_contrasena.Password;
+                        TablaUsuario.TIPO_USUARIOdato = Combobox_tipo.Text;
+                        ArrayList resultado3 = metodos_bd.obtener_por_criterio(TablaUsuario.TABLA_USUARIO, TablaUsuario.NOMBRE, TablaUsuario.USUARIOdato, 4, TablaUsuario.TODO);
+                        if (resultado3.Count > 0)
+                        {
+                            if (resultado3[0].ToString() == TablaUsuario.ID_USUARIOcopia)
+                            {/*si resultado3 me regreso a mi mismo puedo modificar el dato*/
+                                var a2 =await this.ShowMessageAsync("Administrador de usuarios", "¿Guardar cambios?", MessageDialogStyle.AffirmativeAndNegative);
+                                if (a2 == MessageDialogResult.Affirmative) { editar(); }
+                            }
+                            else
+                            {/*sino esto quiere decir que es otro usuario y por lo tanto no puedo usar ese nombre*/
+                                await this.ShowMessageAsync("Administrador de usuarios", "Nombre no disponible", MessageDialogStyle.Affirmative);
+                            }
+                        }
+                        else
+                        {/*si no se regreso ningun dato de la busque significa que el dato esta disponilbe*/
+                            var a2 = await this.ShowMessageAsync("Administrador de usuarios", "¿Guardar cambios?", MessageDialogStyle.AffirmativeAndNegative);
+                            if (a2 == MessageDialogResult.Affirmative) { editar(); }
+                        }
+                    }
+                        break;
+
+                case TablaUsuario.SELECCIONAR:
+
+                    break;
+            }
         }
 
         #region datagrid
         private void cargar_datagrid()
         {
-            metodos_bd.popular_tabla(tabla_Principal, "id_usuario,nombre_Usuario,tipo_Usuario", "tabla_usuario", "cargarUsuarios");
+        metodos_bd.popular_tabla(tabla_Principal, TablaUsuario.TABLA_USUARIO, "cargarUsuarios",TablaUsuario.ID_USUARIO,TablaUsuario.NOMBRE,TablaUsuario.TIPO_USUARIO);  
         }
 
-        private void llenarCampos(int Id)
+        private async void editar()
         {
-            int local = 0;
-            string SQL = string.Format("SELECT * FROM tabla_usuario WHERE id_usuario = '{0}'", Id);
-            MySqlDataReader reader = ConectorDB.Consultas(SQL);
-            while (reader.Read())
-            {
-                Usuario2.ID_USUARIO = reader.GetInt32(0);
-                Usuario2.USUARIO = reader.GetString(1);
-                Usuario2.CONTRASEÑA = reader.GetString(2);
-                Usuario2.TIPO_USUARIO = reader.GetInt16(3);
-            }
-            caja_texto_usuario.Text = Usuario2.USUARIO;
-            caja_contrasena.Password = Usuario2.CONTRASEÑA;
-            caja_contrasena1.Password = Usuario2.CONTRASEÑA;
-            local = Usuario2.TIPO_USUARIO;
-            switch (local)
-            {
-                case 1: Combobox_tipo.SelectedIndex = 0;
-                    break;
-                case 2:
-                    Combobox_tipo.SelectedIndex = 1;
-                    break;
-                case 3:
-                    Combobox_tipo.SelectedIndex = 2;
-                    break;
-            }
-           
-            modo = "editar";
-            boton_borrar.Visibility = Visibility.Visible;
-            boton_guardar.Content = "Editar";
-        }//fin metodo llenarCampos
-
-        private void editar()
-        {
-            string SQL = string.Format("UPDATE tabla_usuario SET nombre_Usuario='{0}', contraseña_Usuario='{1}', tipo_Usuario='{2}' WHERE id_usuario='{3}'",
-                Usuario2.USUARIO,Usuario2.CONTRASEÑA,(Usuario2.TIPO_USUARIO+1), Usuario2.ID_USUARIO);
-            ConectorDB.Inyectar(SQL);
+            metodos_bd.actualizar(TablaUsuario.TABLA_USUARIO, TablaUsuario.ID_USUARIO,TablaUsuario.ID_USUARIOcopia,
+                                      (TablaUsuario.NOMBRE, TablaUsuario.USUARIOdato),
+                                      (TablaUsuario.CONTRASEÑA, TablaUsuario.CONTRASEÑAdato),
+                                      (TablaUsuario.TIPO_USUARIO, TablaUsuario.TIPO_USUARIOdato));
+            await this.ShowMessageAsync("Administrador de usuarios", "Usuario actualizado", MessageDialogStyle.AffirmativeAndNegative);
+            cargar_datagrid();
+            limpiar();
+            ESTADO = TablaUsuario.CREAR;
         }
 
         private void DataGridCell_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (tabla_Principal.SelectedItems.Count == 1)
             {
-                int id = 0;
+                limpiar();
                 try
                 {
                     DataRowView row = (DataRowView)tabla_Principal.SelectedItems[0];
-                    id = Convert.ToInt32(row[0]);
+                    TablaUsuario.ID_USUARIOcopia = (row[0]).ToString();
                 }
-                catch (Exception)
-                {
-                }
-                abrir();
-                llenarCampos(id);
-                ConectorDB.CerrarConexion();
+                catch (Exception){}
+                ESTADO = TablaUsuario.APUNTAR;
+                maquina_estados();
             }
-
         }
         #endregion
 
@@ -118,6 +174,11 @@ namespace BDatos_API
             if (e.Key == Key.Enter) caja_contrasena.Focus();
         }
 
+        private void Caja_texto_usuario_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TablaUsuario.USUARIOdato = caja_texto_usuario.Text.Trim();
+        }
+
         private void Caja_contrasena_KeyDown(object sender, KeyEventArgs e)
         {
             Controles.Marcar_control(caja_contrasena, true);
@@ -128,101 +189,6 @@ namespace BDatos_API
         {
             Controles.Marcar_control(caja_contrasena1, true);
             if (e.Key == Key.Enter) Combobox_tipo.Focus();
-        }
-
-        private void Combobox_tipo_KeyDown(object sender, KeyEventArgs e)
-        {
-            Controles.Marcar_control(Combobox_tipo, true);
-            if (Combobox_tipo.IsDropDownOpen==true)
-            {
-                if (Combobox_tipo.SelectedItem != null)
-                {
-                    if (e.Key == Key.Enter) boton_guardar.Focus();
-                }
-            }
-            else
-            {
-                Combobox_tipo.IsDropDownOpen = true;
-            }
-        }
-
-        private void Combobox_tipo_DropDownClosed(object sender, EventArgs e)
-        {
-            Controles.Marcar_control(Combobox_tipo, true);
-            if (Combobox_tipo.SelectedItem != null)
-                boton_guardar.Focus();
-            else
-                Combobox_tipo.Focus();
-       
-        }
-
-        private void Boton_guardar_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter & boolcontrol == false) botoningresar();
-           
-        }
-
-        private void Boton_guardar_Click(object sender, RoutedEventArgs e)
-        {
-            if (boolcontrol == false) botoningresar();
-        }
-
-        private void Boton_borrar_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Boton_borrar_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
-        #endregion
-
-        #region mensajes_y_apuntadores
-        public async System.Threading.Tasks.Task verificar_bdAsync()
-        {
-            var res = await this.ShowMessageAsync("Error base de datos", "No se conecto servidor. Contactar administrador" +
-                "\nDatos registrados: \nServidor: " + ConectorDB.server + "\nBase de datos: " + ConectorDB.database, MessageDialogStyle.Affirmative);
-            if (res == MessageDialogResult.Affirmative)
-            {
-                this.Close();
-            }
-        }
-
-        private async System.Threading.Tasks.Task comandoAsync(string a, string b)
-        {
-            var res = await this.ShowMessageAsync(a, b, MessageDialogStyle.Affirmative);
-            if (res == MessageDialogResult.Affirmative)
-            {
-                
-            }
-        }
-
-        private async void confirmarAsync(string a, string b)
-        {
-            var res = await this.ShowMessageAsync(a, b, MessageDialogStyle.AffirmativeAndNegative);
-            if (res == MessageDialogResult.Affirmative)
-            {
-                abrir();
-                editar();
-                await this.ShowMessageAsync("Editar usuario", "Usuario modificado", MessageDialogStyle.Affirmative);
-            }
-            ConectorDB.CerrarConexion();
-            cargar_datagrid();
-            limpiar();
-        }
-
-        private void limpiar()
-        {
-            caja_texto_usuario.Clear();
-            caja_contrasena.Clear();
-            caja_contrasena1.Clear();
-            Combobox_tipo.SelectedItem = null;
-            caja_contrasena.Background = Brushes.White;
-            caja_contrasena1.Background = Brushes.White;
-            modo = "crear";
-            boton_borrar.Visibility = Visibility.Hidden;
-            boolcontrol =Controles.Seleccionar_control(false);
         }
 
         private void Caja_contrasena_PasswordChanged(object sender, RoutedEventArgs e)
@@ -245,111 +211,76 @@ namespace BDatos_API
             }
             else
             {
+                TablaUsuario.CONTRASEÑAdato = caja_contrasena.Password.Trim();
                 caja_contrasena1.Background = Brushes.LightGreen;
                 caja_contrasena.Background = Brushes.LightGreen;
                 contrasena_igual = true;
             }
         }
 
-        #endregion
-
-        #region metodos_base_datos
-
-        private async void botoningresar()
+        private void Combobox_tipo_KeyDown(object sender, KeyEventArgs e)
         {
-            boolcontrol = Controles.Seleccionar_control(false);
-
-            if (boolcontrol)
+            Controles.Marcar_control(Combobox_tipo, true);
+            if (Combobox_tipo.IsDropDownOpen==true)
             {
-                abrir();
-                boolcontrol = false;
-                bool local = Verificar();
-                ConectorDB.CerrarConexion();
-                if (local)
+                if (Combobox_tipo.SelectedItem != null)
                 {
-                    var a = comandoAsync("Nuevo usuario","Nombre no disponible");
-                }
-                else
-                {
-                    if (contrasena_igual)
+                    if (e.Key == Key.Enter)
                     {
-                        abrir();
-                        switch (modo)
-                        {
-                            case "crear":
-                                Guardar();
-                                var c = comandoAsync("Nuevo usuario", "Usuario creado");
-                                break;
-                            case "editar":
-                                Usuario2.USUARIO = caja_texto_usuario.Text.Trim();
-                                Usuario2.CONTRASEÑA = caja_contrasena.Password.Trim();
-                                Usuario2.TIPO_USUARIO = Combobox_tipo.SelectedIndex;
-                                confirmarAsync("Editar usuario", "¿Guardar cambios?");
-                                break;
-                        }
-                        ConectorDB.CerrarConexion();
-                        cargar_datagrid();
-                        limpiar();
-                    }
-                    else
-                    {
-                        var b = comandoAsync("Nuevo usuario", "Las contraseñas no coinciden");
+                        TablaUsuario.TIPO_USUARIOdato = Combobox_tipo.Text;
+                        boton_guardar.Focus();
                     }
                 }
-                caja_texto_usuario.Focus();
             }
             else
             {
-                await this.ShowMessageAsync("Nuevo usuario", "Campos en blanco");
+                Combobox_tipo.IsDropDownOpen = true;
             }
         }
 
-        public void abrir()
+        private void Combobox_tipo_DropDownClosed(object sender, EventArgs e)
         {
-            bool local = ConectorDB.ObtenerConexion();
-            if (local == false)
+            Controles.Marcar_control(Combobox_tipo, true);
+            if (Combobox_tipo.SelectedItem != null)
             {
-                var task = verificar_bdAsync();
+                TablaUsuario.TIPO_USUARIOdato = Combobox_tipo.Text;
+                boton_guardar.Focus();
+            }
+            else
+            {
+                Combobox_tipo.Focus();
             }
         }
 
-        private void Guardar()
+        private void Boton_guardar_KeyDown(object sender, KeyEventArgs e)
         {
-            /*Creamos la sentencia SQL que indicara correctamente como guardar un nuevo usuario en la tabla USUARIOS*/
-            string SQL = string.Format("Insert into tabla_usuario (nombre_Usuario, contraseña_Usuario, tipo_Usuario)" +
-                "values ('{0}','{1}','{2}')",
-               caja_texto_usuario.Text.Trim(),
-               caja_contrasena.Password.ToString(),
-               Combobox_tipo.SelectedIndex+1);
-            ConectorDB.Inyectar(SQL);
+            if (e.Key == Key.Enter & boolcontrol == false) maquina_estados();
+           
         }
 
-        private bool Verificar()
+        private void Boton_guardar_Click(object sender, RoutedEventArgs e)
         {
-            bool retorno = false;
-            /*Creamos la sentencia SQL que podra realizar la consulta que nesesitamos*/
-            string SQL = String.Format("SELECT id_usuario FROM tabla_usuario where nombre_Usuario ='{0}'",caja_texto_usuario.Text.Trim());
-            MySqlDataReader reader = ConectorDB.Consultas(SQL);
-            while (reader.Read())
-            {
-                /*Si existe el usuario mandara un id_usuario mayor a 0*/
-                Usuario.ID_USUARIO = reader.GetInt16(0);
-                if (Usuario.ID_USUARIO > 0)
-                {
-                    retorno = true;
-                }
-            }
-            if (modo == "editar")
-            {
-                if (Usuario.ID_USUARIO == Usuario2.ID_USUARIO)
-                {
-                    retorno = false;
-                }
-            }
-            reader.Dispose();
-            return retorno;
-        }//fin metodo Verificar
+            if (boolcontrol == false) maquina_estados();
+        }
 
+        private void Boton_borrar_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Boton_borrar_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
         #endregion
+        private void limpiar()
+        {
+            ESTADO = TablaUsuario.CREAR;
+            contrasena_igual = false;
+            boton_borrar.Visibility = Visibility.Hidden;
+            boton_guardar.Content = TablaUsuario.BTN_GUARDAR;
+            boolcontrol = false;
+            Controles.Limpiar_controles();
+        }
     }
 }

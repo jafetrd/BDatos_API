@@ -38,7 +38,7 @@
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <TextBlock  Grid.Column="0" Grid.Row="1" Text="Usuario" HorizontalAlignment="Center" FontSize="20" FontWeight="Light" Foreground="DarkSlateBlue"></TextBlock>
-                    <TextBox Grid.Column="1" Grid.Row="1" Name="caja_texto_usuario" KeyDown="Caja_texto_usuario_KeyDown" Margin="0 0 10 0"></TextBox>
+                    <TextBox Grid.Column="1" Grid.Row="1" Name="caja_texto_usuario" KeyDown="Caja_texto_usuario_KeyDown" Margin="0 0 10 0" TextChanged="Caja_texto_usuario_TextChanged"></TextBox>
                     <TextBlock  Grid.Column="0" Grid.Row="3" Text="Contraseña" HorizontalAlignment="Center" FontSize="20" FontWeight="Light" Foreground="DarkSlateBlue"></TextBlock>
                     <PasswordBox Grid.Row="3" Grid.Column="1" Name="caja_contrasena" KeyDown="Caja_contrasena_KeyDown" PasswordChanged="Caja_contrasena_PasswordChanged" Margin="0 0 10 0"></PasswordBox>
                     <TextBlock  Grid.Column="0" Grid.Row="5" Text="Contraseña" HorizontalAlignment="Center" FontSize="20" FontWeight="Light" Foreground="DarkSlateBlue"></TextBlock>
