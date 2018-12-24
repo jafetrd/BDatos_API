@@ -54,5 +54,41 @@ namespace BDatos_API
 
     }
 
+    public static class InicioSesion
+    {
+        public static string ERROR_CONEXION_BD
+        {
+            get
+            {
+                return "No se conecto servidor. Contactar administrador\nDatos registrados: \nServidor: " + ConectorDB.server + "\nBase de datos: " + ConectorDB.database;
+            }
+        }
+
+        public static string TABLA_USUARIO { get { return "tabla_usuario"; } }
+        public static string ID_USUARIO { get { return "id_usuario"; } }
+        public static string CONTRASEÑA { get { return "contraseña_Usuario"; } }
+        public static string NOMBRE { get { return "nombre_Usuario"; } }
+        public static string TIPO_USUARIO { get { return "tipo_Usuario"; } }
+        public static string TODO { get { return "*"; } }
+        public static string TITULO_MENSAJE { get { return "Inicio de sesión"; } }
+        public static string TIPO_ADMINISTRADOR { get { return "Administrador"; } }
+        public static int numeroColumnas { get { return 4; } }
+
+        public const int ABRIR = 1;
+        public const int CUENTA_NUEVA = 2;
+     
+
+
+        public static string ID_USUARIOdato { get; set; }
+        public static string USUARIOdato { get; set; }
+        public static string CONTRASEÑAdato { get; set; }
+        public static string TIPO_USUARIOdato { get; set; }
+
+        public static string ID_USUARIOcopia { get; set; }
+        public static string USUARIOcopia { get; set; }
+        public static string CONTRASEÑAcopia { get; set; }
+        public static string TIPO_USUARIOcopia { get; set; }
+
+    }
 
 }

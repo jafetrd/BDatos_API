@@ -130,7 +130,6 @@
     <Compile Include="Navegacion.cs" />
     <Compile Include="nombresBD.cs" />
     <Compile Include="ToastViewModel.cs" />
-    <Compile Include="Usuario.cs" />
     <Compile Include="Ventana_principal.xaml.cs">
       <DependentUpon>Ventana_principal.xaml</DependentUpon>
     </Compile>
