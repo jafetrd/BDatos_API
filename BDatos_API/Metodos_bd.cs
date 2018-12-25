@@ -14,48 +14,50 @@ namespace BDatos_API
         /// <summary>
         /// Metodo para rellenar una tabla 
         /// </summary>
-        /// <param name="grid"> Nombre de la tabla principal</param>
-        /// <param name="tabla_SQL"> Nombre de la tabla SQL </param>
-        /// <param name="tabla_DataGRID"> nombre de la ruta de enlace con DataGrid </param>
-        /// <param name="campos"> Columnas de la tabla SQL </param>
-        public void popular_tabla(MultiSelector grid,string tabla_SQL,string tabla_DataGRID, params string[] campos)
+        /// <param name="DataGrid"> Nombre de la tabla principal</param>
+        /// <param name="NombreTabla"> Nombre de la tabla SQL </param>
+        /// <param name="RutaEnlaceDataGrid"> nombre de la ruta de enlace con DataGrid </param>
+        /// <param name="Columnas"> Columnas de la tabla SQL </param>
+        public int LLENAR_DATAGRID(MultiSelector DataGrid,string NombreTabla,string RutaEnlaceDataGrid, params string[] Columnas)
         {
-            string campos_local = String.Join(",", campos);
+            int cantidad = 0;
+            string campos_local = String.Join(",", Columnas);
             ConectorDB.AbrirConexion();
-            string SQL = "SELECT "+ campos_local +" FROM "+tabla_SQL;
+            string SQL = "SELECT "+ campos_local +" FROM "+NombreTabla;
             MySqlCommand mySqlCommand = new MySqlCommand(SQL, ConectorDB.conectar);
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             DataSet dataSet = new DataSet();
-            mySqlDataAdapter.Fill(dataSet, tabla_DataGRID);
-            grid.DataContext = dataSet;
+            cantidad = mySqlDataAdapter.Fill(dataSet, RutaEnlaceDataGrid);
+            DataGrid.DataContext = dataSet;
             ConectorDB.CerrarConexion();
+            return cantidad;
         }
 
         /// <summary>
         /// Metodo para seleccionar (buscar) datos en la tabla SQL
         /// </summary>
-        /// <param name="tabla_SQL">Nombre de la tabla SQL</param>
-        /// <param name="selector">Nombre de la columna en la cual se buscara</param>
-        /// <param name="dato">Dato que se buscara en la columna seleccionada</param>
-        /// <param name="numColum">Cantidad de columnas de la tabla</param>
-        /// <param name="columnas">Las columnas que se retornaran de la busqueda</param>
+        /// <param name="NombreTabla">Nombre de la tabla SQL</param>
+        /// <param name="NombreColumna">Nombre de la columna en la cual se buscara</param>
+        /// <param name="Dato_Buscar">Dato que se buscara en la columna seleccionada</param>
+        /// <param name="CantidadColumnas">Cantidad de columnas de la tabla</param>
+        /// <param name="ColumnasRetorno">Las columnas que se retornaran de la busqueda</param>
         /// <returns></returns>
-        public ArrayList obtener_por_criterio(string tabla_SQL,string selector,string dato,int numColum, params string[] columnas)
+        public ArrayList BUSCAR(string NombreTabla,string NombreColumna,string Dato_Buscar,int CantidadColumnas, params string[] ColumnasRetorno)
         {
             int count = 0;
-            string columna = String.Join(",", columnas);
+            string columna = String.Join(",", ColumnasRetorno);
             TemporalGetSet temporal = new TemporalGetSet();
-            string parametroSelector = "@" + selector;
-                string SQL = "SELECT "+columna+" FROM " + tabla_SQL + " WHERE " + selector + " = " + parametroSelector;
+            string parametroSelector = "@" + NombreColumna;
+                string SQL = "SELECT "+columna+" FROM " + NombreTabla + " WHERE " + NombreColumna + " = " + parametroSelector;
                 MySqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
                 sqlCommand.CommandText = SQL;
-                sqlCommand.Parameters.AddWithValue(parametroSelector, dato);
+                sqlCommand.Parameters.AddWithValue(parametroSelector, Dato_Buscar);
                 ConectorDB.AbrirConexion();
                 MySqlDataReader reader = sqlCommand.ExecuteReader();
                 while (reader.Read()) { count++; }
             if (count > 0)
             {
-                for (int a = 0; a < numColum; a++)
+                for (int a = 0; a < CantidadColumnas; a++)
                 {
                     temporal.Lista.Add(reader.GetString(a));
                 }
@@ -69,7 +71,7 @@ namespace BDatos_API
         /// <param name="tabla">Insertar el nombre de la tabla SQL</param>
         /// <param name="datos">Insertar el nombre de la columna y la variable de donde se obtiene la informacion (columna,campo)</param>
 
-        public void guardarenSQL(string tabla, params (string columnas, string campos)[] datos)
+        public void GUARDAR(string tabla, params (string columnas, string campos)[] datos)
         {
             string nombreParametroColumna = null;
             string campos_local = null;
@@ -113,7 +115,7 @@ namespace BDatos_API
         /// <param name="selector">Dato que especifica que fila se va a actualizar</param>
         /// <param name="dato"> Indica sobre que registro se hara la actualizacion </param>
         /// <param name="datos"> Insertar el nombre de la columna y la variable de donde se obtiene la informacion (columna,campo)</param>
-        public void actualizar(string tabla,string selector,string dato, params (string columnas, string campos)[] datos)
+        public void ACTUALIZAR(string tabla,string selector,string dato, params (string columnas, string campos)[] datos)
         {
             string aux=null;
             string[] parametros = new string[datos.Length];
@@ -142,7 +144,7 @@ namespace BDatos_API
             ConectorDB.CerrarConexion();
         }
 
-        public void eliminar(string tabla,string selector,params string[] filas)
+        public void ELIMINAR(string tabla,string selector,params string[] filas)
         {
             int longitud = filas.Length;
             string[] parametros = new string[filas.Length];

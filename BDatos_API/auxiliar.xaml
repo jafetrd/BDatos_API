@@ -1,0 +1,18 @@
+﻿<Window x:Class="BDatos_API.auxiliar"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BDatos_API"
+        mc:Ignorable="d"
+        Title="Auxiliar" Height="194.4" Width="313.6" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <PasswordBox x:Name="caja_contrasena" HorizontalAlignment="Left" Margin="148,44,0,0" VerticalAlignment="Top" Width="126" PasswordChanged="PasswordBox_PasswordChanged" KeyDown="Caja_contrasena_KeyDown"/>
+        <PasswordBox x:Name="caja_contrasena1" HorizontalAlignment="Left" Margin="148,91,0,0" VerticalAlignment="Top" Width="126" PasswordChanged="PasswordBox_Copy_PasswordChanged" KeyDown="Caja_contrasena1_KeyDown"/>
+        <Label x:Name="label" Content="Contraseña" HorizontalAlignment="Left" Margin="35,44,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="label1" Content="Contraseña" HorizontalAlignment="Left" Margin="35,93,0,0" VerticalAlignment="Top" Width="70"/>
+        <Label x:Name="label2" Content="USUARIO:  Administrador" HorizontalAlignment="Left" Margin="76,10,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="button" Content="Guardar" HorizontalAlignment="Left" Margin="111,130,0,0" VerticalAlignment="Top" Width="75" KeyDown="Button_KeyDown" Click="Button_Click"/>
+
+    </Grid>
+</Window>

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace BDatos_API
@@ -93,6 +94,16 @@ namespace BDatos_API
                 return campos[0];
             }
         }
+
+        public static IEnumerable<Key> seDetectoTecla()
+        {
+            foreach (Key key in Enum.GetValues(typeof(Key)))
+            {
+                if (Keyboard.IsKeyDown(key))
+                    yield return key;
+            }
+        }
+
     }
 
 }

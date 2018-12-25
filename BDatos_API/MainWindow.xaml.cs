@@ -42,7 +42,7 @@ namespace BDatos_API
         }
 
 
-        private async void maquina_estados()
+        private  void maquina_estados()
         {
             switch (ESTADO)
             {
@@ -59,7 +59,7 @@ namespace BDatos_API
         {
             if (Controles.Seleccionar_control(false))
             {
-                ArrayList resultado = metodos_bd.obtener_por_criterio(InicioSesion.TABLA_USUARIO, InicioSesion.NOMBRE, InicioSesion.USUARIOdato, 4, InicioSesion.TODO);
+                ArrayList resultado = metodos_bd.BUSCAR(InicioSesion.TABLA_USUARIO, InicioSesion.NOMBRE, InicioSesion.USUARIOdato, 4, InicioSesion.TODO);
                 if (resultado.Count > 0) /*si hay mas de un resultado entonces si existe el usuario*/
                 {
                     _vm.ShowInformation("Bienvenida(o): " +resultado[1].ToString());

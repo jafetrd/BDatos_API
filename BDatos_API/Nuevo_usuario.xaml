@@ -6,10 +6,10 @@
         xmlns:Window="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:BDatos_API"
         mc:Ignorable="d"
-        Title="Usuarios" Height="500" Width="800" WindowStartupLocation="CenterScreen" WindowState="Normal" ResizeMode="NoResize" Closing="Window_Closing">
+        Title="Usuarios" Height="500" Width="800" WindowStartupLocation="CenterScreen" WindowState="Normal" ResizeMode="CanResize" Closing="Window_Closing">
 
     <Border Padding="10">
-        <StackPanel VerticalAlignment="Stretch">
+        <StackPanel VerticalAlignment="Stretch" Orientation="Vertical">
             <Grid>
                 <Grid.ColumnDefinitions >
                     <ColumnDefinition Width="*" ></ColumnDefinition>
@@ -54,28 +54,28 @@
                 <Button Name="boton_guardar"  Grid.Column="0" Grid.Row="2" Content="Guardar" FontWeight="Light"  FontSize="20" 
                         Style="{StaticResource AccentedSquareButtonStyle}" Click="Boton_guardar_Click" KeyDown="Boton_guardar_KeyDown" 
                         ToolTip="Ctrl+G" Margin="100 0 100 0"></Button>
-                
+
                 <Button Name="boton_borrar"  Grid.Column="1" Grid.Row="2" Content="Borrar" FontWeight="Light"  FontSize="20" 
                         Style="{StaticResource AccentedSquareButtonStyle}" Click="Boton_borrar_Click"  KeyDown="Boton_borrar_KeyDown"
                         ToolTip="Ctrl+G" Margin="100 0 100 0"></Button>
-
-                <DataGrid Name="tabla_Principal" ItemsSource="{Binding Path=cargarUsuarios}" AutoGenerateColumns="False" Grid.Column="1"
-                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="20 0 20 0" FontWeight="Light" FontSize="15" SelectionMode="Single"
-                          IsReadOnly="True">
-                    <DataGrid.Resources>
-                        <Style TargetType="{x:Type DataGridCell}">
-                            <EventSetter Event="MouseDoubleClick" Handler="DataGridCell_MouseDoubleClick"/>
-                        </Style>
-                      
-                    </DataGrid.Resources>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="ID" Width="*" Binding="{Binding Path=id_usuario}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Usuario" Width="*" Binding="{Binding Path=nombre_Usuario}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Tipo" Width="*" Binding="{Binding Path=tipo_Usuario}"></DataGridTextColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-                
             </Grid>
+            
+            <DataGrid Name="tabla_Principal" ItemsSource="{Binding Path=cargarUsuarios}" AutoGenerateColumns="False" Grid.Column="1"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="20 0 20 0" FontWeight="Light" FontSize="15" SelectionMode="Single"
+                          IsReadOnly="True"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <DataGrid.Resources>
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <EventSetter Event="MouseDoubleClick" Handler="DataGridCell_MouseDoubleClick" />
+                    </Style>
+
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Width="*" Binding="{Binding Path=id_usuario}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Usuario" Width="*" Binding="{Binding Path=nombre_Usuario}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Tipo" Width="*" Binding="{Binding Path=tipo_Usuario}"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            
         </StackPanel>
     </Border>
 </Window:MetroWindow>

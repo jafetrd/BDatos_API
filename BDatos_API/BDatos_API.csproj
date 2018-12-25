@@ -124,6 +124,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="auxiliar.xaml.cs">
+      <DependentUpon>auxiliar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ConectorDB.cs" />
     <Compile Include="Metodos_bd.cs" />
     <Compile Include="Metodos_comunes.cs" />
@@ -136,6 +139,10 @@
     <Compile Include="Nuevo_usuario.xaml.cs">
       <DependentUpon>Nuevo_usuario.xaml</DependentUpon>
     </Compile>
+    <Page Include="auxiliar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
