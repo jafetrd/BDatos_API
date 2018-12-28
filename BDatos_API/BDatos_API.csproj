@@ -132,7 +132,6 @@
     <Compile Include="Metodos_comunes.cs" />
     <Compile Include="Navegacion.cs" />
     <Compile Include="nombresBD.cs" />
-    <Compile Include="Notificador.cs" />
     <Compile Include="ToastViewModel.cs" />
     <Compile Include="Ventana_principal.xaml.cs">
       <DependentUpon>Ventana_principal.xaml</DependentUpon>
