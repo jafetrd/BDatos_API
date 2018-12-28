@@ -33,6 +33,24 @@ namespace BDatos_API
         }
 
         /// <summary>
+        /// Obtiene el ultimo ID de la tabla
+        /// </summary>
+        /// <param name="NombreTabla"> Nombre de la tabla SQL </param>
+        /// <param name="NombreColumna"> Sobre que columna se ordenara la busqueda (casi siempre ID del registro) </param>
+        /// <param name="CantidadColumnas">Numero de columnas de la tabla</param>
+        /// <returns></returns>
+        public int ULTIMO_REGISTRO(string NombreTabla, string NombreColumna)
+        {
+            string SQL = "SELECT MAX(" + NombreColumna + ") FROM " + NombreTabla;
+            MySqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
+            sqlCommand.CommandText = SQL;
+            ConectorDB.AbrirConexion();
+            int maxId = Convert.ToInt32(sqlCommand.ExecuteScalar());
+            ConectorDB.CerrarConexion();
+            return maxId;
+        }
+
+        /// <summary>
         /// Metodo para seleccionar (buscar) datos en la tabla SQL
         /// </summary>
         /// <param name="NombreTabla">Nombre de la tabla SQL</param>

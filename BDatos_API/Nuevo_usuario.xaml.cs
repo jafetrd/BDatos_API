@@ -22,6 +22,7 @@ namespace BDatos_API
         Metodos_comunes Controles;
         Metodos_bd metodos_bd;
         configMetroDialog configMetro;
+        DataSet dataSetTabla = null;
         public int ESTADO = 0;
 
         public Nuevo_usuario()
@@ -42,9 +43,18 @@ namespace BDatos_API
             /*se apunta al primer control de la forma*/
             Controles.Inicial.Focus();
             /*Se carga la tabla en la cuadricula DataGrid*/
-            DataSet fuente = metodos_bd.LLENAR_DATAGRID(tabla_Principal, NOMBRE_TABLA, RUTA_ENLACE_DATAGRID, ID_USUARIO, NOMBRE, TIPO_USUARIO);
-            tabla_Principal.DataContext = fuente;
+            dataSetTabla = metodos_bd.LLENAR_DATAGRID(tabla_Principal, NOMBRE_TABLA, RUTA_ENLACE_DATAGRID, ID_USUARIO, NOMBRE, TIPO_USUARIO);
+            tabla_Principal.DataContext = dataSetTabla;
         }
+
+        public struct ultimoDato
+        {
+            public int id_usuario { set; get; }
+            public string nombre { set; get; }
+            public string tipo { set; get; }
+
+        }
+
 
         private async void maquina_estados()
         {
@@ -78,9 +88,11 @@ namespace BDatos_API
                                     if (a == MessageDialogResult.Affirmative)/*Se guarda el nuevo usuario*/
                                     {
                                         metodos_bd.GUARDAR(NOMBRE_TABLA, (NOMBRE, NOMBRE_D), (CONTRASEÑA, CONTRASEÑA_D), (TIPO_USUARIO, TIPO_USUARIO_D));
-                                        await this.ShowMessageAsync(TITULO_MENSAJE, "Usuario creado", MessageDialogStyle.Affirmative,configMetro.mensajeNormal);
+                                        await this.ShowMessageAsync(TITULO_MENSAJE, "Usuario creado", MessageDialogStyle.Affirmative, configMetro.mensajeNormal);
                                         LIMPIAR_TODO();
-                                        tabla_Principal.Items.Refresh();
+                                        int ultimooID = metodos_bd.ULTIMO_REGISTRO(NOMBRE_TABLA, ID_USUARIO);
+                                        ArrayList userLocal = metodos_bd.BUSCAR(NOMBRE_TABLA, ID_USUARIO, ultimooID.ToString(), CANTIDAD_COLUMNAS, TODO);
+    /////////////////////////////////////////////////////////////AQUI ///////////////////////////////                                   
                                     }
                                     else
                                     {
@@ -340,7 +352,6 @@ namespace BDatos_API
         
         private void LIMPIAR_TODO()
         {
-            caja_texto_usuario.IsEnabled = true;
             boton_borrar.Visibility = Visibility.Hidden;
             boton_guardar.Content = BTN_GUARDAR;
             ESTADO = GUARDAR;

@@ -64,19 +64,27 @@ namespace BDatos_API
                 ArrayList resultado = metodos_bd.BUSCAR(NOMBRE_TABLA, NOMBRE, USUARIOdato, CANTIDAD_COLUMNAS, TODO);
                 if (resultado.Count > 0) /*si hay mas de un resultado entonces si existe el usuario*/
                 {
-                    _vm.ShowInformation("Bienvenida(o): " +resultado[1].ToString());
-                    if (seleccionar == ABRIR) { Navegacion.NavigarA(new Ventana_principal()); }
-                    if (seleccionar == CUENTA_NUEVA)
+                    if (resultado[2].ToString() == caja_contrasena.Password)
                     {
-                        if (resultado[3].ToString() != TIPO_ADMINISTRADOR)
+                        _vm.ShowInformation("Bienvenida(o): " + resultado[1].ToString());
+                        if (seleccionar == ABRIR) { Navegacion.NavigarA(new Ventana_principal()); }
+                        if (seleccionar == CUENTA_NUEVA)
                         {
-                            await this.ShowMessageAsync(TITULO_MENSAJE, "No es administrador", MessageDialogStyle.Affirmative);
+                            if (resultado[3].ToString() != TIPO_ADMINISTRADOR)
+                            {
+                                await this.ShowMessageAsync(TITULO_MENSAJE, "No es administrador", MessageDialogStyle.Affirmative);
+                            }
+                            else
+                            {
+                                Navegacion.NavigarA(new Nuevo_usuario());
+                                _vm.ShowInformation("Ajustes de administrador");
+                            }
                         }
-                        else
-                        {
-                            Navegacion.NavigarA(new Nuevo_usuario());
-                            _vm.ShowInformation("Ajustes de administrador");
-                        }
+                    }
+                    else
+                    {
+                        await this.ShowMessageAsync(TITULO_MENSAJE, "Contraseña incorrecta", MessageDialogStyle.Affirmative);
+                        limpiar();
                     }
                 }
                 else

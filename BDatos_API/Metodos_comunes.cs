@@ -13,7 +13,11 @@ namespace BDatos_API
     public class Metodos_comunes
     {
         public List<Control> campos = new List<Control>();
+       
 
+        public Metodos_comunes(){
+            
+        }
 
         public  bool Seleccionar_control(bool apuntar)
         {
@@ -23,10 +27,11 @@ namespace BDatos_API
 
             foreach (Control a in campos)
             {
+
                 switch (a.GetType().Name)
                 {
                     case "TextBox":
-                        textBox = (a as TextBox);
+                        textBox = a as TextBox;
                         if (string.IsNullOrEmpty(textBox.Text))
                         {
                             Marcar_control(textBox, apuntar);
@@ -61,7 +66,7 @@ namespace BDatos_API
         public void Marcar_control(Control control, Boolean limpiar)
         {
             if (limpiar)
-                control.Background = Brushes.White;
+                control.ClearValue(Control.BackgroundProperty);
             else
                 control.Background = Brushes.LightGray;
         }
@@ -80,15 +85,16 @@ namespace BDatos_API
                 {
                     case "TextBox":
                         (a as TextBox).Clear();
-                        (a as TextBox).Background = Brushes.White;
+                        (a as TextBox).ClearValue(Control.BackgroundProperty);
                         break;
 
                     case "PasswordBox":
                         (a as PasswordBox).Clear();
-                        (a as PasswordBox).Background = Brushes.White;
+                        (a as PasswordBox).ClearValue(Control.BackgroundProperty);
                         break;
                     case "ComboBox":
                         (a as ComboBox).SelectedItem = null;
+                        (a as ComboBox).ClearValue(Control.BackgroundProperty);
                         break;
                 }
             }
