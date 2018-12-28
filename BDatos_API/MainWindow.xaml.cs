@@ -6,8 +6,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using MahApps.Metro.Controls;
+using static BDatos_API.InicioSesion;
 using MahApps.Metro.Controls.Dialogs;
 using MySql.Data.MySqlClient;
+
 
 
 
@@ -46,11 +48,11 @@ namespace BDatos_API
         {
             switch (ESTADO)
             {
-                case InicioSesion.ABRIR:
-                    metodo_abrir(InicioSesion.ABRIR);
+                case ABRIR:
+                    metodo_abrir(ABRIR);
                     break;
-                case InicioSesion.CUENTA_NUEVA:
-                    metodo_abrir(InicioSesion.CUENTA_NUEVA);
+                case CUENTA_NUEVA:
+                    metodo_abrir(CUENTA_NUEVA);
                     break;
             }
         }
@@ -59,16 +61,16 @@ namespace BDatos_API
         {
             if (Controles.Seleccionar_control(false))
             {
-                ArrayList resultado = metodos_bd.BUSCAR(InicioSesion.TABLA_USUARIO, InicioSesion.NOMBRE, InicioSesion.USUARIOdato, 4, InicioSesion.TODO);
+                ArrayList resultado = metodos_bd.BUSCAR(NOMBRE_TABLA, NOMBRE, USUARIOdato, CANTIDAD_COLUMNAS, TODO);
                 if (resultado.Count > 0) /*si hay mas de un resultado entonces si existe el usuario*/
                 {
                     _vm.ShowInformation("Bienvenida(o): " +resultado[1].ToString());
-                    if (seleccionar == InicioSesion.ABRIR) { Navegacion.NavigarA(new Ventana_principal()); }
-                    if (seleccionar == InicioSesion.CUENTA_NUEVA)
+                    if (seleccionar == ABRIR) { Navegacion.NavigarA(new Ventana_principal()); }
+                    if (seleccionar == CUENTA_NUEVA)
                     {
-                        if (resultado[3].ToString() != InicioSesion.TIPO_ADMINISTRADOR)
+                        if (resultado[3].ToString() != TIPO_ADMINISTRADOR)
                         {
-                            await this.ShowMessageAsync(InicioSesion.TITULO_MENSAJE, "No es administrador", MessageDialogStyle.Affirmative);
+                            await this.ShowMessageAsync(TITULO_MENSAJE, "No es administrador", MessageDialogStyle.Affirmative);
                         }
                         else
                         {
@@ -79,13 +81,22 @@ namespace BDatos_API
                 }
                 else
                 {
-                    await this.ShowMessageAsync(InicioSesion.TITULO_MENSAJE, "Datos incorrectos", MessageDialogStyle.Affirmative);
-                    limpiar();
+                    ArrayList resultado2 = metodos_bd.BUSCAR(NOMBRE_TABLA, NOMBRE, TIPO_ADMINISTRADOR, CANTIDAD_COLUMNAS, TODO);
+                    if (resultado2.Count > 0)
+                    {
+                        await this.ShowMessageAsync(TITULO_MENSAJE, "Datos incorrectos", MessageDialogStyle.Affirmative);
+                        limpiar();
+                    }
+                    else
+                    {
+                        Navegacion.NavigarA(new auxiliar());
+                        _vm.ShowInformation("Creando cuenta administrador");
+                    }
                 }
             }
             else
             {
-                await this.ShowMessageAsync(InicioSesion.TITULO_MENSAJE, "Información incompleta", MessageDialogStyle.Affirmative);
+                await this.ShowMessageAsync(TITULO_MENSAJE, "Información incompleta", MessageDialogStyle.Affirmative);
             }
         }
 
@@ -95,50 +106,50 @@ namespace BDatos_API
         //Cajas de texto de usuario y contraseña con enfoque al siguiente elemento
         private void Caja_texto_usuario_KeyDown(object sender, KeyEventArgs e)
         {
-            InicioSesion.USUARIOdato = caja_texto_usuario.Text;
+            USUARIOdato = caja_texto_usuario.Text;
             Controles.Marcar_control(caja_texto_usuario, true);
             if (e.Key == Key.Enter) caja_contrasena.Focus();
         }
 
         private void Caja_contrasena_KeyDown(object sender, KeyEventArgs e)
         {
-            InicioSesion.CONTRASEÑAdato = caja_contrasena.Password;
+            CONTRASEÑAdato = caja_contrasena.Password;
             Controles.Marcar_control(caja_contrasena,true);
             if (e.Key == Key.Enter) boton_ingresar.Focus();
         }
 
         private void Caja_texto_usuario_TextChanged(object sender, TextChangedEventArgs e)
         {
-            InicioSesion.USUARIOdato = caja_texto_usuario.Text;
+            USUARIOdato = caja_texto_usuario.Text;
         }
 
         private void Caja_contrasena_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            InicioSesion.CONTRASEÑAdato = caja_contrasena.Password;
+            CONTRASEÑAdato = caja_contrasena.Password;
         }
         //Boton ingresar con Enter y con Click
         private void Boton_ingresar_Click(object sender, RoutedEventArgs e)
         {
-            ESTADO = InicioSesion.ABRIR;
+            ESTADO = ABRIR;
             maquina_estados();
         }
 
         private void Boton_ingresar_KeyDown(object sender, KeyEventArgs e)
         {
-            ESTADO = InicioSesion.ABRIR;
+            ESTADO = ABRIR;
             if (e.Key == Key.Enter) maquina_estados();
         }
 
         //Boton nueva cuenta con Enter y con Click
         private void Boton_nueva_cuenta_Click(object sender, RoutedEventArgs e)
         {
-            ESTADO = InicioSesion.CUENTA_NUEVA;
+            ESTADO = CUENTA_NUEVA;
             maquina_estados();
         }
 
         private void Boton_nueva_cuenta_KeyDown(object sender, KeyEventArgs e)
         {
-            ESTADO = InicioSesion.CUENTA_NUEVA;
+            ESTADO = CUENTA_NUEVA;
             if (e.Key == Key.Enter) { maquina_estados(); }
         }
 
@@ -147,7 +158,7 @@ namespace BDatos_API
         {
             Controles.Limpiar_controles();
             Controles.Inicial.Focus();
-            ESTADO = InicioSesion.ABRIR;
+            ESTADO = ABRIR;
         }
 
         #endregion

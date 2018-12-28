@@ -12,7 +12,8 @@
         <Label x:Name="label" Content="Contraseña" HorizontalAlignment="Left" Margin="35,44,0,0" VerticalAlignment="Top"/>
         <Label x:Name="label1" Content="Contraseña" HorizontalAlignment="Left" Margin="35,93,0,0" VerticalAlignment="Top" Width="70"/>
         <Label x:Name="label2" Content="USUARIO:  Administrador" HorizontalAlignment="Left" Margin="76,10,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="button" Content="Guardar" HorizontalAlignment="Left" Margin="111,130,0,0" VerticalAlignment="Top" Width="75" KeyDown="Button_KeyDown" Click="Button_Click"/>
+        <Button x:Name="button" Content="Guardar" HorizontalAlignment="Left" Margin="111,130,0,0" VerticalAlignment="Top" Width="75" KeyDown="Button_KeyDown" Click="Button_Click"
+         Style="{StaticResource AccentedSquareButtonStyle}"/>
 
     </Grid>
 </Window>

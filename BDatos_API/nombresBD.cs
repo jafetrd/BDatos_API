@@ -1,4 +1,6 @@
 ﻿
+using MahApps.Metro;
+using MahApps.Metro.Controls.Dialogs;
 using System.Windows.Controls;
 
 namespace BDatos_API
@@ -80,15 +82,15 @@ namespace BDatos_API
             }
         }
 
-        public static string TABLA_USUARIO { get { return "tabla_usuario"; } }
-        public static string ID_USUARIO { get { return "id_usuario"; } }
-        public static string CONTRASEÑA { get { return "contraseña_Usuario"; } }
-        public static string NOMBRE { get { return "nombre_Usuario"; } }
-        public static string TIPO_USUARIO { get { return "tipo_Usuario"; } }
-        public static string TODO { get { return "*"; } }
-        public static string TITULO_MENSAJE { get { return "Inicio de sesión"; } }
-        public static string TIPO_ADMINISTRADOR { get { return "Administrador"; } }
-        public static int numeroColumnas { get { return 4; } }
+        public const string NOMBRE_TABLA = "tabla_usuario";
+        public const string ID_USUARIO = "id_usuario";
+        public const string CONTRASEÑA = "contraseña_Usuario";
+        public const string NOMBRE = "nombre_Usuario";
+        public const string TIPO_USUARIO = "tipo_Usuario";
+        public static string TODO ="*";
+        public static string TITULO_MENSAJE = "Inicio de sesión";
+        public static string TIPO_ADMINISTRADOR = "Administrador";
+        public static int CANTIDAD_COLUMNAS = 4;
 
         public const int ABRIR = 1;
         public const int CUENTA_NUEVA = 2;
@@ -105,6 +107,32 @@ namespace BDatos_API
         public static string CONTRASEÑAcopia { get; set; }
         public static string TIPO_USUARIOcopia { get; set; }
 
+    }
+
+    public class configMetroDialog
+    {
+        public MetroDialogSettings mensajeBorrar = new MetroDialogSettings
+        {
+            AffirmativeButtonText = "Si",
+            NegativeButtonText = "No",
+            ColorScheme = MetroDialogColorScheme.Inverted
+        };
+
+        public MetroDialogSettings mensajeNormal = new MetroDialogSettings
+        {
+            AffirmativeButtonText = "Si",
+            NegativeButtonText = "No",
+            ColorScheme = MetroDialogColorScheme.Theme
+        };
+
+        public MetroDialogSettings mensajeAcentuado = new MetroDialogSettings
+        {
+            AffirmativeButtonText = "Si",
+            NegativeButtonText = "No",
+            ColorScheme = MetroDialogColorScheme.Accented
+        };
+
+     
     }
 
 }

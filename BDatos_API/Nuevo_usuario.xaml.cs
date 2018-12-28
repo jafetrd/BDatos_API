@@ -6,9 +6,11 @@ using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using static BDatos_API.TUsuario;
+
 
 namespace BDatos_API
 {
@@ -19,16 +21,17 @@ namespace BDatos_API
     {
         Metodos_comunes Controles;
         Metodos_bd metodos_bd;
+        configMetroDialog configMetro;
         public int ESTADO = 0;
-        public int INDICADOR = 0;
-        int CANTIDAD = 0;
-        bool CREAR_TEMPORAL=false;
+
         public Nuevo_usuario()
         {
             InitializeComponent();
             /*se inician constructores*/
             Controles = new Metodos_comunes();
             metodos_bd = new Metodos_bd();
+            configMetro = new configMetroDialog();
+
             /*limpiar toda la forma y variables*/
             LIMPIAR_TODO();
             /*se mandan los controles visuales a una lista para facilitar su manejo*/
@@ -39,8 +42,8 @@ namespace BDatos_API
             /*se apunta al primer control de la forma*/
             Controles.Inicial.Focus();
             /*Se carga la tabla en la cuadricula DataGrid*/
-            CANTIDAD = metodos_bd.LLENAR_DATAGRID(tabla_Principal, NOMBRE_TABLA, RUTA_ENLACE_DATAGRID, ID_USUARIO, NOMBRE, TIPO_USUARIO);
-            ACTUALIZAR_TABLA_DATAGRID();
+            DataSet fuente = metodos_bd.LLENAR_DATAGRID(tabla_Principal, NOMBRE_TABLA, RUTA_ENLACE_DATAGRID, ID_USUARIO, NOMBRE, TIPO_USUARIO);
+            tabla_Principal.DataContext = fuente;
         }
 
         private async void maquina_estados()
@@ -49,6 +52,7 @@ namespace BDatos_API
             {
 
                 case GUARDAR:
+
                     /*¿Todos los campos estan llenos?*/
                     if (Controles.Seleccionar_control(false))
                     {   /*Ambas contraseñas coinciden*/
@@ -56,63 +60,53 @@ namespace BDatos_API
                         {
                             if (caja_contrasena.Password.Length < 4)
                             {
-                                await this.ShowMessageAsync(TITULO_MENSAJE, "Minimo 4 caracteres", MessageDialogStyle.Affirmative);
+                                await this.ShowMessageAsync(TITULO_MENSAJE, "Minimo 4 caracteres", MessageDialogStyle.Affirmative,configMetro.mensajeNormal);
                                 return;
                             }
                             else
                             {
                                 /*Se busca el nombre del usuario ingresado*/
                                 ArrayList resultado = metodos_bd.BUSCAR(NOMBRE_TABLA, NOMBRE, NOMBRE_D, CANTIDAD_COLUMNAS, TODO);
-                                if (resultado.Count > 0) /*¿ya existe ese usuario?*/
+                                if (resultado.Count > 0 ) /*¿ya existe ese usuario?*/
                                 {   /*Mensaje para cambiar nombre*/
-                                    await this.ShowMessageAsync(TITULO_MENSAJE, "Nombre no disponible", MessageDialogStyle.Affirmative);
+                                    await this.ShowMessageAsync(TITULO_MENSAJE, "Nombre no disponible", MessageDialogStyle.Affirmative,configMetro.mensajeNormal);
                                     return;
                                 }
                                 else
-                                {   /*¿Crear nuevo usuari?*/
-                                    var a = await this.ShowMessageAsync(TITULO_MENSAJE, "¿Crear nuevo usuario?", MessageDialogStyle.AffirmativeAndNegative);
+                                {   /*¿Crear nuevo usuario?*/
+                                    var a = await this.ShowMessageAsync(TITULO_MENSAJE, "¿Crear nuevo usuario?", MessageDialogStyle.AffirmativeAndNegative,configMetro.mensajeAcentuado);
                                     if (a == MessageDialogResult.Affirmative)/*Se guarda el nuevo usuario*/
                                     {
                                         metodos_bd.GUARDAR(NOMBRE_TABLA, (NOMBRE, NOMBRE_D), (CONTRASEÑA, CONTRASEÑA_D), (TIPO_USUARIO, TIPO_USUARIO_D));
-                                        await this.ShowMessageAsync(TITULO_MENSAJE, "Usuario creado", MessageDialogStyle.Affirmative);
+                                        await this.ShowMessageAsync(TITULO_MENSAJE, "Usuario creado", MessageDialogStyle.Affirmative,configMetro.mensajeNormal);
                                         LIMPIAR_TODO();
-                                        ACTUALIZAR_TABLA_DATAGRID();
+                                        tabla_Principal.Items.Refresh();
                                     }
                                     else
                                     {
                                         return;
                                     }
-                                    
                                 }
                             }
                         }
                         else
                         {
-                            await this.ShowMessageAsync(TITULO_MENSAJE, "Las contraseñas no coinciden", MessageDialogStyle.Affirmative);
+                            await this.ShowMessageAsync(TITULO_MENSAJE, "Las contraseñas no coinciden", MessageDialogStyle.Affirmative,configMetro.mensajeNormal);
                         }
                     }
                     ESTADO = GUARDAR;
                     break;
 
                 case APUNTAR:
-                    /*se busca el usaurio con el Id que se selecciono al hacer clic sobre el DataGrid*/
-                    if (INDICADOR != ULTIMO_USUARIO)
-                    {
                         ArrayList resultado2 = metodos_bd.BUSCAR(NOMBRE_TABLA, ID_USUARIO, ID_USUARIO_C, CANTIDAD_COLUMNAS, TODO);
                         /*los datos se respaldan en unas variables auxiliares y se muestran en los componentes correspondientes*/
                         ID_USUARIO_C = resultado2[0].ToString();
                         caja_texto_usuario.Text = NOMBRE_C = resultado2[1].ToString();
                         caja_contrasena.Password = caja_contrasena1.Password = CONTRASEÑA_C = resultado2[2].ToString();
                         Combobox_tipo.Text = TIPO_USUARIO_C = resultado2[3].ToString();
-
+                        boton_borrar.Visibility = Visibility.Visible;
                         boton_guardar.Content = BTN_EDITAR;
                         ESTADO = ACTUALIZAR;
-                    }
-                    else
-                    {
-                        ESTADO = ULTIMO_USUARIO;
-                        maquina_estados();
-                    }
                     break;
 
 
@@ -124,7 +118,7 @@ namespace BDatos_API
                         {
                             if (caja_contrasena.Password.Length < 4)
                             {
-                                await this.ShowMessageAsync(TITULO_MENSAJE, "Minimo 4 caracteres", MessageDialogStyle.Affirmative);
+                                await this.ShowMessageAsync(TITULO_MENSAJE, "Minimo 4 caracteres", MessageDialogStyle.Affirmative,configMetro.mensajeNormal);
                                 return;
                             }
                             else
@@ -135,115 +129,90 @@ namespace BDatos_API
                                 ArrayList resultado3 = metodos_bd.BUSCAR(NOMBRE_TABLA, NOMBRE, NOMBRE_D, CANTIDAD_COLUMNAS, TODO);
                                 if (resultado3.Count > 0)
                                 {
-                                    if (resultado3[0].ToString() == ID_USUARIO_C)
-                                    {/*si resultado3 me regreso a mi mismo puedo modificar el dato*/
-                                        var a2 = await this.ShowMessageAsync(TITULO_MENSAJE, "¿Guardar cambios?", MessageDialogStyle.AffirmativeAndNegative);
+                                    if (resultado3[1].ToString() == TIPO_ADMINISTRADOR)
+                                    {
+                                        var a2 = await this.ShowMessageAsync(TITULO_MENSAJE, "¿Guardar cambios?", MessageDialogStyle.AffirmativeAndNegative,configMetro.mensajeAcentuado);
                                         if (a2 == MessageDialogResult.Affirmative) LLAMAR_ACTUALIZAR();
                                         else LIMPIAR_TODO();
-                                        ACTUALIZAR_TABLA_DATAGRID();
                                     }
                                     else
-                                    {/*sino esto quiere decir que es otro usuario y por lo tanto no puedo usar ese nombre*/
-                                        await this.ShowMessageAsync(TITULO_MENSAJE, "Nombre no disponible", MessageDialogStyle.Affirmative);
-                                        return;
+                                    {
+                                        if (resultado3[0].ToString() == ID_USUARIO_C)
+                                        {/*si resultado3 me regreso a mi mismo puedo modificar el dato*/
+                                            var a2 = await this.ShowMessageAsync(TITULO_MENSAJE, "¿Guardar cambios?", MessageDialogStyle.AffirmativeAndNegative,configMetro.mensajeAcentuado);
+                                            if (a2 == MessageDialogResult.Affirmative) LLAMAR_ACTUALIZAR();
+                                            else LIMPIAR_TODO();
+                                        }
+                                        else
+                                        {/*sino esto quiere decir que es otro usuario y por lo tanto no puedo usar ese nombre*/
+                                            await this.ShowMessageAsync(TITULO_MENSAJE, "Nombre no disponible", MessageDialogStyle.Affirmative,configMetro.mensajeNormal);
+                                            return;
+                                        }
                                     }
                                 }
                                 else
                                 {/*si no se regreso ningun dato de la busque significa que el dato esta disponilbe*/
-                                    var a2 = await this.ShowMessageAsync(TITULO_MENSAJE, "¿Guardar cambios?", MessageDialogStyle.AffirmativeAndNegative);
-                                    if (a2 == MessageDialogResult.Affirmative) { LLAMAR_ACTUALIZAR(); ACTUALIZAR_TABLA_DATAGRID(); }
+                                    var a2 = await this.ShowMessageAsync(TITULO_MENSAJE, "¿Guardar cambios?", MessageDialogStyle.AffirmativeAndNegative,configMetro.mensajeAcentuado);
+                                    if (a2 == MessageDialogResult.Affirmative) { LLAMAR_ACTUALIZAR(); }
                                 }
                             }
                         }
                         else
                         {
-                            await this.ShowMessageAsync(TITULO_MENSAJE, "Las contraseñas no coinciden", MessageDialogStyle.Affirmative);
+                            await this.ShowMessageAsync(TITULO_MENSAJE, "Las contraseñas no coinciden", MessageDialogStyle.Affirmative,configMetro.mensajeNormal);
                         }
                     }
+                    tabla_Principal.Items.Refresh();
                     ESTADO = GUARDAR;
                     break;
 
                 case ELIMINAR:
-                    var mySettings = new MetroDialogSettings
-                    {
-                        AffirmativeButtonText = "Yes",
-                        ColorScheme = MetroDialogColorScheme.Inverted
-                    };
-                    var a3 = await this.ShowMessageAsync(TITULO_MENSAJE, "¿Eliminar usuario?", MessageDialogStyle.AffirmativeAndNegative, mySettings);
+                   
+                    var a3 = await this.ShowMessageAsync(TITULO_MENSAJE, "¿Eliminar usuario?", MessageDialogStyle.AffirmativeAndNegative, configMetro.mensajeBorrar);
                     if (a3 == MessageDialogResult.Affirmative)
                     {
                         metodos_bd.ELIMINAR(NOMBRE_TABLA, ID_USUARIO, ID_USUARIO_C);
-                        LIMPIAR_TODO();
-                        
-                        CANTIDAD = metodos_bd.LLENAR_DATAGRID(tabla_Principal, NOMBRE_TABLA, RUTA_ENLACE_DATAGRID, ID_USUARIO, NOMBRE, TIPO_USUARIO);
-                        ACTUALIZAR_TABLA_DATAGRID();
+                        tabla_Principal.Items.Refresh();
                     }
-                    
-                    ESTADO = GUARDAR;
-                    break;
-
-                case ULTIMO_USUARIO:
-                    ArrayList resultado4 = metodos_bd.BUSCAR(NOMBRE_TABLA, ID_USUARIO, ID_USUARIO_C, CANTIDAD_COLUMNAS, TODO);
-                    /*los datos se respaldan en unas variables auxiliares y se muestran en los componentes correspondientes*/
-                    metodos_bd.ACTUALIZAR(NOMBRE_TABLA, ID_USUARIO, resultado4[0].ToString(),(NOMBRE, resultado4[1].ToString()),(CONTRASEÑA, resultado4[2].ToString()),(TIPO_USUARIO, TIPO_ADMINISTRADOR));
-                    await this.ShowMessageAsync(TITULO_MENSAJE, "Ultimo usuario se volvio administrador", MessageDialogStyle.Affirmative);
-                    ESTADO = GUARDAR;
-                    ACTUALIZAR_TABLA_DATAGRID();
                     LIMPIAR_TODO();
+                    ESTADO = GUARDAR;
                     break;
             }
         }
 
         #region datagrid
-        private void ACTUALIZAR_TABLA_DATAGRID()
-        {
-            if (CANTIDAD == 1)
-            {
-                DataRowView row=null;
-                try
-                {
-                    row = (DataRowView)tabla_Principal.Items[0];
-                    ID_USUARIO_C = (row[0]).ToString();
-                }
-                catch (Exception) { }
-                Navegacion.NavigarA(new auxiliar());
-              
-            }
-            else
-            {
-                if (tabla_Principal.SelectedItems.Count>0)
-                {
-                    boton_borrar.Visibility = Visibility.Visible;
-                    try
-                    {
-                        DataRowView row = (DataRowView)tabla_Principal.SelectedItems[0];
-                        ID_USUARIO_C = (row[0]).ToString();
-                    }
-                    catch (Exception) { }
-                    ESTADO = APUNTAR;
-                }
-                else
-                {
-                    ESTADO = GUARDAR;
-                }
-            }
-            maquina_estados();
-            CANTIDAD = metodos_bd.LLENAR_DATAGRID(tabla_Principal, NOMBRE_TABLA, RUTA_ENLACE_DATAGRID, ID_USUARIO, NOMBRE, TIPO_USUARIO);
-        }
 
         private async void LLAMAR_ACTUALIZAR()
         {
             metodos_bd.ACTUALIZAR(NOMBRE_TABLA, ID_USUARIO, ID_USUARIO_C,(NOMBRE, NOMBRE_D),(CONTRASEÑA, CONTRASEÑA_D),(TIPO_USUARIO, TIPO_USUARIO_D));
-            await this.ShowMessageAsync(TITULO_MENSAJE, "Usuario actualizado", MessageDialogStyle.AffirmativeAndNegative);
+            await this.ShowMessageAsync(TITULO_MENSAJE, "Usuario actualizado", MessageDialogStyle.Affirmative,configMetro.mensajeNormal);
             LIMPIAR_TODO();
-            ACTUALIZAR_TABLA_DATAGRID();
-            ESTADO = GUARDAR;
         }
 
-        private void DataGridCell_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void dataGridMetodo()
         {
-            ACTUALIZAR_TABLA_DATAGRID();
+            if (tabla_Principal.SelectedItems.Count == 1)
+            {
+                DataRowView row = null;
+                try
+                {
+                    row = (DataRowView)tabla_Principal.SelectedItems[0];
+                    ID_USUARIO_C = (row[0]).ToString();
+                }
+                catch (Exception) { }
+
+                if (row[1].ToString() != TIPO_ADMINISTRADOR)
+                {
+                    ESTADO = APUNTAR;
+                }
+                else
+                {
+                    LIMPIAR_TODO();
+                }
+            }
+            maquina_estados();
         }
+        
         #endregion
 
         #region eventos_controles
@@ -252,6 +221,16 @@ namespace BDatos_API
         {
             Navegacion.NavegarAtras();
             Controles.Limpiar_lista();
+        }
+
+        private void DataGridCell_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) dataGridMetodo();
+        }
+
+        private void DataGridCell_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            dataGridMetodo();
         }
 
         private void Caja_texto_usuario_KeyDown(object sender, KeyEventArgs e)
@@ -357,16 +336,19 @@ namespace BDatos_API
             maquina_estados();
         }
         #endregion
+
+        
         private void LIMPIAR_TODO()
         {
-            CANTIDAD = 0;
-            ESTADO = GUARDAR;
+            caja_texto_usuario.IsEnabled = true;
             boton_borrar.Visibility = Visibility.Hidden;
             boton_guardar.Content = BTN_GUARDAR;
-            Combobox_tipo.IsEnabled = true;
+            ESTADO = GUARDAR;
             LimpiarDatos();
             LimpiarCopias();
             Controles.Limpiar_controles();
         }
+
+
     }
 }

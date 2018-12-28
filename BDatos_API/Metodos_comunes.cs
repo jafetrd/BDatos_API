@@ -17,31 +17,38 @@ namespace BDatos_API
 
         public  bool Seleccionar_control(bool apuntar)
         {
+            TextBox textBox=null;
+            PasswordBox passwordBox = null;
+            ComboBox comboBox = null;
+
             foreach (Control a in campos)
             {
                 switch (a.GetType().Name)
                 {
                     case "TextBox":
-                        if (string.IsNullOrEmpty((a as TextBox).Text))
+                        textBox = (a as TextBox);
+                        if (string.IsNullOrEmpty(textBox.Text))
                         {
-                            Marcar_control(a, apuntar);
+                            Marcar_control(textBox, apuntar);
                             a.Focus();
                             return false;
                         }
                         break;
 
                     case "PasswordBox":
-                        if (string.IsNullOrEmpty((a as PasswordBox).Password.ToString()))
+                        passwordBox = (a as PasswordBox);
+                        if (string.IsNullOrEmpty(passwordBox.Password))
                         {
-                            Marcar_control(a, apuntar);
+                            Marcar_control(passwordBox, apuntar);
                             a.Focus();
                             return false;
                         }
                         break;
                     case "ComboBox":
-                        if ((a as ComboBox).SelectedItem==null)
+                        comboBox = (a as ComboBox);
+                        if (comboBox.SelectedItem==null)
                         {
-                            Marcar_control(a, apuntar);
+                            Marcar_control(comboBox, apuntar);
                             a.Focus();
                             return false;
                         }

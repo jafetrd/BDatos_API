@@ -18,19 +18,18 @@ namespace BDatos_API
         /// <param name="NombreTabla"> Nombre de la tabla SQL </param>
         /// <param name="RutaEnlaceDataGrid"> nombre de la ruta de enlace con DataGrid </param>
         /// <param name="Columnas"> Columnas de la tabla SQL </param>
-        public int LLENAR_DATAGRID(MultiSelector DataGrid,string NombreTabla,string RutaEnlaceDataGrid, params string[] Columnas)
+        public DataSet LLENAR_DATAGRID(MultiSelector DataGrid,string NombreTabla,string RutaEnlaceDataGrid, params string[] Columnas)
         {
-            int cantidad = 0;
             string campos_local = String.Join(",", Columnas);
             ConectorDB.AbrirConexion();
             string SQL = "SELECT "+ campos_local +" FROM "+NombreTabla;
             MySqlCommand mySqlCommand = new MySqlCommand(SQL, ConectorDB.conectar);
             MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
             DataSet dataSet = new DataSet();
-            cantidad = mySqlDataAdapter.Fill(dataSet, RutaEnlaceDataGrid);
-            DataGrid.DataContext = dataSet;
+            mySqlDataAdapter.Fill(dataSet,RutaEnlaceDataGrid);
+            //DataGrid.DataContext = dataSet;
             ConectorDB.CerrarConexion();
-            return cantidad;
+            return dataSet;
         }
 
         /// <summary>
@@ -144,6 +143,12 @@ namespace BDatos_API
             ConectorDB.CerrarConexion();
         }
 
+        /// <summary>
+        /// Metodo para eliminar datos de la Base SQL
+        /// </summary>
+        /// <param name="tabla">Agregar el nombre de la tabla</param>
+        /// <param name="selector">Dato que especifica que fila se va a actualizar</param>
+        /// <param name="filas">Indica sobre que registro se hara la actualizacion</param>
         public void ELIMINAR(string tabla,string selector,params string[] filas)
         {
             int longitud = filas.Length;
