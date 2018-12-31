@@ -82,6 +82,9 @@
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
     </Reference>
+    <Reference Include="MahApps.Metro.IconPacks, Version=2.3.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.IconPacks.2.3.0\lib\net46\MahApps.Metro.IconPacks.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=8.0.13.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -130,6 +133,11 @@
     <Compile Include="ConectorDB.cs" />
     <Compile Include="Metodos_bd.cs" />
     <Compile Include="Metodos_comunes.cs" />
+    <Compile Include="MODELO_VISTAS\MenuItem.cs" />
+    <Compile Include="MODELO_VISTAS\ShellViewModel.cs" />
+    <Compile Include="MODELO_VISTAS\ViewModelBase.cs" />
+    <Compile Include="MVVM\BindableBase.cs" />
+    <Compile Include="MVVM\DelegateCommand.cs" />
     <Compile Include="Navegacion.cs" />
     <Compile Include="nombresBD.cs" />
     <Compile Include="ToastViewModel.cs" />
@@ -138,6 +146,15 @@
     </Compile>
     <Compile Include="Nuevo_usuario.xaml.cs">
       <DependentUpon>Nuevo_usuario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VISTAS\Bodega.xaml.cs">
+      <DependentUpon>Bodega.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VISTAS\Patio_Contenedor.xaml.cs">
+      <DependentUpon>Patio_Contenedor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VISTAS\Patio_Ferrocarril.xaml.cs">
+      <DependentUpon>Patio_Ferrocarril.xaml</DependentUpon>
     </Compile>
     <Page Include="auxiliar.xaml">
       <SubType>Designer</SubType>
@@ -160,6 +177,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Nuevo_usuario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VISTAS\Bodega.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VISTAS\Patio_Contenedor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VISTAS\Patio_Ferrocarril.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -193,9 +222,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="toastImageAndText.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.6.1 %28x86 y x64%29</ProductName>
@@ -207,5 +233,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

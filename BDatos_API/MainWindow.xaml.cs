@@ -27,7 +27,8 @@ namespace BDatos_API
         Metodos_comunes Controles;
         Metodos_bd metodos_bd;
         public int ESTADO = 0;
-
+        Ventana_principal ventana_Principal = null;
+        Nuevo_usuario nuevo_Usuario = null;
         public MainWindow()
         {
             ConectorDB.Initialize();
@@ -41,6 +42,14 @@ namespace BDatos_API
             Controles.Limpiar_controles();
             //Verificacion de conexion a servidor
             _vm = new ToastViewModel();
+            ArrayList resultado2 = metodos_bd.BUSCAR(NOMBRE_TABLA, NOMBRE, TIPO_ADMINISTRADOR, CANTIDAD_COLUMNAS, TODO);
+            if (resultado2.Count == 0)
+            {
+                Navegacion.NavegarA(new auxiliar());
+                //Navegacion.Navigate("Nuevo_usuario.xaml");
+                _vm.ShowInformation("Creando cuenta administrador");
+            }
+
         }
 
 
@@ -67,7 +76,11 @@ namespace BDatos_API
                     if (resultado[2].ToString() == caja_contrasena.Password)
                     {
                         _vm.ShowInformation("Bienvenida(o): " + resultado[1].ToString());
-                        if (seleccionar == ABRIR) { Navegacion.NavigarA(new Ventana_principal()); }
+                        if (seleccionar == ABRIR) {
+                            if (ventana_Principal == null) ventana_Principal = new Ventana_principal();
+                                Navegacion.NavegarA(ventana_Principal);
+                           // Navegacion.Navigate(new Uri("Ventana_principal.xaml",UriKind.RelativeOrAbsolute));
+                        }
                         if (seleccionar == CUENTA_NUEVA)
                         {
                             if (resultado[3].ToString() != TIPO_ADMINISTRADOR)
@@ -76,7 +89,9 @@ namespace BDatos_API
                             }
                             else
                             {
-                                Navegacion.NavigarA(new Nuevo_usuario());
+                                if (nuevo_Usuario == null) nuevo_Usuario = new Nuevo_usuario();
+                                Navegacion.NavegarA(nuevo_Usuario);
+                                //Navegacion.Navigate(new Uri("Nuevo_usuario.xaml",UriKind.RelativeOrAbsolute));
                                 _vm.ShowInformation("Ajustes de administrador");
                             }
                         }
@@ -97,7 +112,8 @@ namespace BDatos_API
                     }
                     else
                     {
-                        Navegacion.NavigarA(new auxiliar());
+                        Navegacion.NavegarA(new auxiliar());
+                        //Navegacion.Navigate("auxiliar.xaml");
                         _vm.ShowInformation("Creando cuenta administrador");
                     }
                 }
@@ -173,7 +189,7 @@ namespace BDatos_API
 
         private void MetroWindow_Closed(object sender, EventArgs e)
         {
-            this.Close();
+            System.Windows.Application.Current.Shutdown();
         }
     } //termina clase
 }//termina namespace

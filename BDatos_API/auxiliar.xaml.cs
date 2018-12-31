@@ -51,10 +51,7 @@ namespace BDatos_API
         {
             if (verificar_contrasena())
             {
-                CONTRASEÑA_D = caja_contrasena.Password.Trim();
-                NOMBRE_D = TIPO_ADMINISTRADOR;
-                TIPO_USUARIO_D = TIPO_ADMINISTRADOR;
-                metodos_bd.GUARDAR(NOMBRE_TABLA, (NOMBRE, NOMBRE_D), (CONTRASEÑA, CONTRASEÑA_D), (TIPO_USUARIO, TIPO_USUARIO_D));
+                guardar();
             }
         }
 
@@ -62,12 +59,17 @@ namespace BDatos_API
         {
             if (verificar_contrasena())
             {
-                CONTRASEÑA_D = caja_contrasena.Password.Trim();
-                NOMBRE_D = TIPO_ADMINISTRADOR;
-                TIPO_USUARIO_D = TIPO_ADMINISTRADOR;
-                metodos_bd.GUARDAR(NOMBRE_TABLA, (NOMBRE, NOMBRE_D), (CONTRASEÑA, CONTRASEÑA_D), (TIPO_USUARIO, TIPO_USUARIO_D));
-                Navegacion.NavegarAtras();
+                guardar();
             }
+        }
+
+        private void guardar()
+        {
+            CONTRASEÑA_D = caja_contrasena.Password.Trim();
+            NOMBRE_D = TIPO_ADMINISTRADOR;
+            TIPO_USUARIO_D = TIPO_ADMINISTRADOR;
+            metodos_bd.GUARDAR(NOMBRE_TABLA, (NOMBRE, NOMBRE_D), (CONTRASEÑA, CONTRASEÑA_D), (TIPO_USUARIO, TIPO_USUARIO_D));
+            Navegacion.NavegarAtras();
         }
 
         private void Caja_contrasena_KeyDown(object sender, KeyEventArgs e)

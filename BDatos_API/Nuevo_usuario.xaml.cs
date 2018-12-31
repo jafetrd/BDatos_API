@@ -9,6 +9,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using static BDatos_API.TUsuario;
 
 
@@ -22,7 +23,7 @@ namespace BDatos_API
         Metodos_comunes Controles;
         Metodos_bd metodos_bd;
         configMetroDialog configMetro;
-        DataSet dataSetTabla = null;
+        DataSet dataSet = null;
         public int ESTADO = 0;
 
         public Nuevo_usuario()
@@ -43,8 +44,8 @@ namespace BDatos_API
             /*se apunta al primer control de la forma*/
             Controles.Inicial.Focus();
             /*Se carga la tabla en la cuadricula DataGrid*/
-            dataSetTabla = metodos_bd.LLENAR_DATAGRID(tabla_Principal, NOMBRE_TABLA, RUTA_ENLACE_DATAGRID, ID_USUARIO, NOMBRE, TIPO_USUARIO);
-            tabla_Principal.DataContext = dataSetTabla;
+            dataSet = metodos_bd.LLENAR_DATAGRID(tabla_Principal, NOMBRE_TABLA, RUTA_ENLACE_DATAGRID, ID_USUARIO, NOMBRE, TIPO_USUARIO);
+            tabla_Principal.DataContext = dataSet;
         }
 
         public struct ultimoDato
@@ -91,8 +92,7 @@ namespace BDatos_API
                                         await this.ShowMessageAsync(TITULO_MENSAJE, "Usuario creado", MessageDialogStyle.Affirmative, configMetro.mensajeNormal);
                                         LIMPIAR_TODO();
                                         int ultimooID = metodos_bd.ULTIMO_REGISTRO(NOMBRE_TABLA, ID_USUARIO);
-                                        ArrayList userLocal = metodos_bd.BUSCAR(NOMBRE_TABLA, ID_USUARIO, ultimooID.ToString(), CANTIDAD_COLUMNAS, TODO);
-    /////////////////////////////////////////////////////////////AQUI ///////////////////////////////                                   
+                                        ArrayList userLocal = metodos_bd.BUSCAR(NOMBRE_TABLA, ID_USUARIO, ultimooID.ToString(), CANTIDAD_COLUMNAS, TODO);                                 
                                     }
                                     else
                                     {
@@ -231,8 +231,15 @@ namespace BDatos_API
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Navegacion.NavegarAtras();
+           // Navegacion.GoBack();
             Controles.Limpiar_lista();
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, (DispatcherOperationCallback)delegate (object o)
+            {
+                Navegacion.NavegarAtras();
+                return null;
+            }, null);
+
+            e.Cancel = true;
         }
 
         private void DataGridCell_KeyDown(object sender, KeyEventArgs e)
@@ -279,15 +286,15 @@ namespace BDatos_API
         {
             if (caja_contrasena.Password != caja_contrasena1.Password)
             {
-                caja_contrasena1.Background = Brushes.LightSalmon;
-                caja_contrasena.Background = Brushes.LightSalmon;
+                caja_contrasena.Background = Brushes.LightSkyBlue;
+                caja_contrasena1.Background = Brushes.LightSkyBlue;
                 return false;
             }
             else
             {
                 CONTRASEÑA_D = caja_contrasena.Password.Trim();
-                caja_contrasena1.Background = Brushes.LightGreen;
-                caja_contrasena.Background = Brushes.LightGreen;
+                caja_contrasena1.ClearValue(Control.BackgroundProperty);
+                caja_contrasena.ClearValue(Control.BackgroundProperty);
                 return true;
             }
         }
@@ -347,9 +354,19 @@ namespace BDatos_API
             ESTADO = ELIMINAR;
             maquina_estados();
         }
+
+        private void Boton_limpiar_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) LIMPIAR_TODO();
+        }
+
+        private void Boton_limpiar_Click(object sender, RoutedEventArgs e)
+        {
+            LIMPIAR_TODO();
+        }
         #endregion
 
-        
+
         private void LIMPIAR_TODO()
         {
             boton_borrar.Visibility = Visibility.Hidden;
@@ -359,7 +376,6 @@ namespace BDatos_API
             LimpiarCopias();
             Controles.Limpiar_controles();
         }
-
 
     }
 }

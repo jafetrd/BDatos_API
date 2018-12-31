@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace BDatos_API
 {
@@ -16,13 +17,48 @@ namespace BDatos_API
 
         private static readonly Stack<Window> pilaNavegacion = new Stack<Window>();
 
-        public static void NavigarA(Window win)
+        private static Frame _frame;
+
+        public static Frame Frame
+        {
+            get { return _frame; }
+            set { _frame = value; }
+        }
+
+        public static bool NavegarA(Uri sourcePageUri, object extraData = null)
+        {
+            if (_frame.CurrentSource != sourcePageUri)
+            {
+                return _frame.Navigate(sourcePageUri, extraData);
+            }
+            return true;
+        }
+
+        public static void NavegarA(Window win)
         {
             if (pilaNavegacion.Count > 0)
                 pilaNavegacion.Peek().Hide();
             pilaNavegacion.Push(win);
             win.Show();
         }
+
+        public static bool NavegarA(object content)
+        {
+            if (_frame.NavigationService.Content != content)
+            {
+                return _frame.Navigate(content);
+            }
+            return true;
+        }
+
+        public static void Regresar_frame()
+        {
+            if (_frame.CanGoBack)
+            {
+                _frame.GoBack();
+            }
+        }
+
         public static bool NavegarAtras()
         {
             if (pilaNavegacion.Count <= 1)
