@@ -3,48 +3,104 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
       xmlns:local="clr-namespace:BDatos_API.VISTAS"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Patio_Contenedor">
+      d:DesignHeight="450" d:DesignWidth="800" 
+      Title="Patio_Contenedor" Background="White">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <!-- This style applies to all auto-complete comboboxes in the window by default. -->
+            <Style TargetType="dotNetKitControls:AutoCompleteComboBox">
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
 
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Visible">
-            <Grid ScrollViewer.CanContentScroll="True">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions >
-                <RowDefinition Height="40"></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Patio de contenedores " FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
-         FontWeight="Light" Foreground="DeepSkyBlue" Grid.Column="1" Grid.Row="0" ></TextBlock>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto">
 
-            <Separator  Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2"></Separator>
-<!--Columna Izquierda-->
-
-            <Grid Grid.Row="1" Grid.Column="0">
-                <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40"></RowDefinition>
-                    <RowDefinition Height="40"></RowDefinition>
-                    <RowDefinition Height="40"></RowDefinition>
-                </Grid.RowDefinitions>
-            </Grid>
-
-            <!--Columna derecha-->
-            <Grid Grid.Row="1" Grid.Column="1">
+            <Grid ScrollViewer.CanContentScroll="True" Margin="10 0 10 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="400"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Patio de contenedores " FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
+         FontWeight="Light" Foreground="DeepSkyBlue" Grid.Column="1" Grid.Row="0" ></TextBlock>
+
+                <Separator  Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2"></Separator>
+                <!--Columna Izquierda-->
+
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Buque" FontSize="30" TextAlignment="Center" Grid.Column="0" Grid.Row="0" 
+                           VerticalAlignment="Center"></TextBlock>
+                    <dotNetKitControls:AutoCompleteComboBox SelectedValuePath="Id" TextSearch.TextPath="Name"
+                ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" SelectedValue="{Binding SelectedValue}"
+                 Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Row="0"
+                x:Name="buque_Combobox" />
+
+                    <TextBlock Text="Viaje" FontSize="30" TextAlignment="Center" Grid.Column="0" Grid.Row="1" 
+                           VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="viaje_textbox" Grid.Row="1" Grid.Column="1" FontSize="25" VerticalAlignment="Center"
+                 HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"></TextBox>
+
+                    <TextBlock Text="Altura" FontSize="30" TextAlignment="Center" Grid.Column="0" Grid.Row="2" 
+                           VerticalAlignment="Center"></TextBlock>
+                    <ComboBox  Grid.Row="2" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
+                        <ComboBoxItem Content="Importacion"></ComboBoxItem>
+                        <ComboBoxItem Content="Exportacion"></ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBlock Text="Cantidad" FontSize="30" TextAlignment="Center" Grid.Column="0" Grid.Row="3" 
+                           VerticalAlignment="Center"></TextBlock>
+                    <TextBox  Grid.Row="3" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                          HorizontalContentAlignment="Right" VerticalContentAlignment="Center" KeyDown="TextBox_KeyDown"></TextBox>
+
+                    <TextBlock Text="Presentacion" FontSize="30" TextAlignment="Center" Grid.Column="0" Grid.Row="4" 
+                           VerticalAlignment="Center"></TextBlock>
+                    <ComboBox  Grid.Row="4" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
+                        <ComboBoxItem Content="Contenedor 20''"></ComboBoxItem>
+                        <ComboBoxItem Content="Contenedor 40''"></ComboBoxItem>
+                    </ComboBox>
+
+                </Grid>
+
+                <!--Columna derecha-->
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+
             </Grid>
-        </Grid>
-            </ScrollViewer>
+        </ScrollViewer>
     </Grid>
 </Page>

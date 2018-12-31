@@ -79,6 +79,9 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetKit.Wpf.AutoCompleteComboBox, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetKit.Wpf.AutoCompleteComboBox.1.2.0\lib\net45\DotNetKit.Wpf.AutoCompleteComboBox.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net46\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -147,6 +150,7 @@
     <Compile Include="Nuevo_usuario.xaml.cs">
       <DependentUpon>Nuevo_usuario.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VISTAS\AutoCompleteComboBoxSettings.cs" />
     <Compile Include="VISTAS\Bodega.xaml.cs">
       <DependentUpon>Bodega.xaml</DependentUpon>
     </Compile>
