@@ -4,9 +4,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
+      xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit" 
       xmlns:local="clr-namespace:BDatos_API.VISTAS"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800" 
+      d:DesignHeight="900" d:DesignWidth="800" 
       Title="Patio_Contenedor" Background="White">
 
     <Page.Resources>
@@ -21,6 +22,11 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="FontWeight" Value="Light"></Setter>
+                <Setter Property="Margin" Value="5 0 5 0"></Setter>
+                <Setter Property="TextAlignment" Value="Left"></Setter>
+             </Style>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -34,7 +40,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions >
                     <RowDefinition Height="40"></RowDefinition>
-                    <RowDefinition Height="400"></RowDefinition>
+                    <RowDefinition Height="600"></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Patio de contenedores " FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
          FontWeight="Light" Foreground="DeepSkyBlue" Grid.Column="1" Grid.Row="0" ></TextBlock>
@@ -42,10 +48,10 @@
                 <Separator  Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2"></Separator>
                 <!--Columna Izquierda-->
 
-                <Grid Grid.Row="1" Grid.Column="0">
+                <Grid Grid.Row="1" Grid.Column="0" Width="500">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.2*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -54,50 +60,124 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="1.3*"></RowDefinition>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="Buque" FontSize="30" TextAlignment="Center" Grid.Column="0" Grid.Row="0" 
-                           VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Text="Buque" FontSize="30" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"></TextBlock>
                     <dotNetKitControls:AutoCompleteComboBox SelectedValuePath="Id" TextSearch.TextPath="Name"
                 ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" SelectedValue="{Binding SelectedValue}"
                  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
                 FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Row="0"
                 x:Name="buque_Combobox" />
 
-                    <TextBlock Text="Viaje" FontSize="30" TextAlignment="Center" Grid.Column="0" Grid.Row="1" 
-                           VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Text="Viaje" FontSize="30" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"></TextBlock>
                     <TextBox x:Name="viaje_textbox" Grid.Row="1" Grid.Column="1" FontSize="25" VerticalAlignment="Center"
                  HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"></TextBox>
 
-                    <TextBlock Text="Altura" FontSize="30" TextAlignment="Center" Grid.Column="0" Grid.Row="2" 
-                           VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Text="Altura" FontSize="30" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></TextBlock>
                     <ComboBox  Grid.Row="2" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
                            VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
                         <ComboBoxItem Content="Importacion"></ComboBoxItem>
                         <ComboBoxItem Content="Exportacion"></ComboBoxItem>
                     </ComboBox>
 
-                    <TextBlock Text="Cantidad" FontSize="30" TextAlignment="Center" Grid.Column="0" Grid.Row="3" 
-                           VerticalAlignment="Center"></TextBlock>
-                    <TextBox  Grid.Row="3" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
-                          HorizontalContentAlignment="Right" VerticalContentAlignment="Center" KeyDown="TextBox_KeyDown"></TextBox>
+                    <TextBlock Text="Cantidad" FontSize="30" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"></TextBlock>
+                    <xctk:IntegerUpDown Name="cantidad_TextBox" Grid.Row="3" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                                        HorizontalContentAlignment="Right" VerticalContentAlignment="Center" KeyDown="Cantidad_TextBox_KeyDown" Value="0"
+                                        Minimum="0" FormatString="N0"></xctk:IntegerUpDown>
 
-                    <TextBlock Text="Presentacion" FontSize="30" TextAlignment="Center" Grid.Column="0" Grid.Row="4" 
-                           VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Text="Presentacion" FontSize="30" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center"></TextBlock>
                     <ComboBox  Grid.Row="4" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
                            VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
                         <ComboBoxItem Content="Contenedor 20''"></ComboBoxItem>
                         <ComboBoxItem Content="Contenedor 40''"></ComboBoxItem>
                     </ComboBox>
 
+                    <TextBlock Text="Sigla" FontSize="30" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center"></TextBlock>
+                    <TextBox  Grid.Row="5" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right"></TextBox>
+
+                    <TextBlock Text="Numero" FontSize="30" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center"></TextBlock>
+                    <xctk:IntegerUpDown  Grid.Row="6" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Value="0" Minimum="0"></xctk:IntegerUpDown>
+
+                    <TextBlock Text="Fecha de entrada" FontSize="30" Grid.Column="0" Grid.Row="7" VerticalAlignment="Center"></TextBlock>
+                    <DatePicker  Grid.Row="7" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right"></DatePicker>
+
+                    <TextBlock Text="Peso" FontSize="30" Grid.Column="0" Grid.Row="8" VerticalAlignment="Center"></TextBlock>
+                    <xctk:IntegerUpDown  Grid.Row="8" Grid.Column="1" FontSize="25" VerticalAlignment="top" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 15 0 0"></xctk:IntegerUpDown>
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="8">
+                        <RadioButton GroupName="unidades" Content="Kg" Margin="10 55 10 0" FontSize="20" FontWeight="Light"
+                                     ToolTip="Kilogramos"></RadioButton>
+                        <RadioButton GroupName="unidades" Content="TN" Margin="0 55 0 0" FontSize="20" FontWeight="Light"
+                                     ToolTip="Toneladas"></RadioButton>
+                    </StackPanel>
                 </Grid>
 
                 <!--Columna derecha-->
-                <Grid Grid.Row="1" Grid.Column="1">
+                <Grid Grid.Row="1" Grid.Column="1" Width="500">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.2*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Text="Producto" FontSize="30" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"></TextBlock>
+                    <TextBox  Grid.Row="0" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right"></TextBox>
+                   
+                    <TextBlock Text="Cliente" FontSize="30" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"></TextBlock>
+                    <dotNetKitControls:AutoCompleteComboBox SelectedValuePath="Id" TextSearch.TextPath="Name"
+                ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" SelectedValue="{Binding SelectedValue}"
+                 Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Row="1"
+                x:Name="cliente_Combobox" />
+
+                <TextBlock Text="Pedimento" FontSize="30" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></TextBlock>
+                    <TextBox  Grid.Row="2" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Right"></TextBox>
+
+                <TextBlock Text="Valor comercial" FontSize="30" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"></TextBlock>
+                <xctk:IntegerUpDown  Grid.Row="3" Grid.Column="1" FontSize="25" VerticalAlignment="top" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 15 0 0"></xctk:IntegerUpDown>
+
+                    <TextBlock FontSize="30" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center">
+                        Fecha de 
+                        <LineBreak/>
+                        autorizacion
+                    </TextBlock>
+                    <DatePicker  Grid.Row="4" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right"></DatePicker>
+
+                    <TextBlock Text="Fecha de salida" FontSize="30" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center"></TextBlock>
+                    <DatePicker  Grid.Row="5" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right"></DatePicker>
+
+                    <TextBlock FontSize="30" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center">
+                        Periodo de 
+                        <LineBreak/>
+                        almacenaje
+                    </TextBlock>
+                    <xctk:IntegerUpDown  Grid.Row="6" Grid.Column="1" FontSize="25" VerticalAlignment="top" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 15 0 0"></xctk:IntegerUpDown>
+
+                    <TextBlock Text="Existencias" FontSize="30" Grid.Column="0" Grid.Row="7" VerticalAlignment="Center"></TextBlock>
+                    <xctk:IntegerUpDown  Grid.Row="7" Grid.Column="1" FontSize="25" VerticalAlignment="top" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 15 0 0"></xctk:IntegerUpDown>
+
                 </Grid>
 
             </Grid>

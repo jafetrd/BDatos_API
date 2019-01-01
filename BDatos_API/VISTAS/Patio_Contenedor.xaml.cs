@@ -25,10 +25,10 @@ namespace BDatos_API.VISTAS
             InitializeComponent();
         }
 
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        private void Cantidad_TextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (!char.IsDigit((char)e.Key))
-                e.Handled = true;
+          
+           
         }
     }
 }
