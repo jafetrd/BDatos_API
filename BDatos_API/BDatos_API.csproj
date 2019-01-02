@@ -172,11 +172,17 @@
     <Compile Include="VISTAS\Bodega.xaml.cs">
       <DependentUpon>Bodega.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VISTAS\Busquedayreportes.xaml.cs">
+      <DependentUpon>Busquedayreportes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VISTAS\Patio_Contenedor.xaml.cs">
       <DependentUpon>Patio_Contenedor.xaml</DependentUpon>
     </Compile>
     <Compile Include="VISTAS\Patio_Ferrocarril.xaml.cs">
       <DependentUpon>Patio_Ferrocarril.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VISTAS\Principal.xaml.cs">
+      <DependentUpon>Principal.xaml</DependentUpon>
     </Compile>
     <Page Include="auxiliar.xaml">
       <SubType>Designer</SubType>
@@ -206,11 +212,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="VISTAS\Busquedayreportes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="VISTAS\Patio_Contenedor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="VISTAS\Patio_Ferrocarril.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VISTAS\Principal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

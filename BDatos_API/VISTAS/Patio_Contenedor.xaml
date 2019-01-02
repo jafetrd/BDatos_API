@@ -7,7 +7,7 @@
       xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit" 
       xmlns:local="clr-namespace:BDatos_API.VISTAS"
       mc:Ignorable="d" 
-      d:DesignHeight="900" d:DesignWidth="800" 
+      d:DesignHeight="866.4" d:DesignWidth="1053.2" 
       Title="Patio_Contenedor" Background="White">
 
     <Page.Resources>
@@ -26,7 +26,7 @@
                 <Setter Property="FontWeight" Value="Light"></Setter>
                 <Setter Property="Margin" Value="5 0 5 0"></Setter>
                 <Setter Property="TextAlignment" Value="Left"></Setter>
-             </Style>
+            </Style>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -41,9 +41,10 @@
                 <Grid.RowDefinitions >
                     <RowDefinition Height="40"></RowDefinition>
                     <RowDefinition Height="600"></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Patio de contenedores " FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
-         FontWeight="Light" Foreground="DeepSkyBlue" Grid.Column="1" Grid.Row="0" ></TextBlock>
+         FontWeight="Heavy" Foreground="DeepSkyBlue" Grid.Column="1" Grid.Row="0" ></TextBlock>
 
                 <Separator  Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2"></Separator>
                 <!--Columna Izquierda-->
@@ -134,11 +135,15 @@
                         <RowDefinition ></RowDefinition>
                         <RowDefinition ></RowDefinition>
                     </Grid.RowDefinitions>
-                    
-                    <TextBlock Text="Producto" FontSize="30" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"></TextBlock>
-                    <TextBox  Grid.Row="0" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
-                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right"></TextBox>
-                   
+
+                    <TextBlock Text="Producto" FontSize="30" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" Margin="0 10 0 0"></TextBlock>
+                    <TextBox  Grid.Row="0" Grid.Column="1" FontSize="25" VerticalAlignment="Top" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 10 0 0"></TextBox>
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
+                        <CheckBox Content="¿Es mineral?" Margin="10 50 10 0" FontSize="20" FontWeight="Light"
+                                     ToolTip="Kilogramos"></CheckBox>
+                    </StackPanel>
+
                     <TextBlock Text="Cliente" FontSize="30" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"></TextBlock>
                     <dotNetKitControls:AutoCompleteComboBox SelectedValuePath="Id" TextSearch.TextPath="Name"
                 ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" SelectedValue="{Binding SelectedValue}"
@@ -146,12 +151,12 @@
                 FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Row="1"
                 x:Name="cliente_Combobox" />
 
-                <TextBlock Text="Pedimento" FontSize="30" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Text="Pedimento" FontSize="30" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></TextBlock>
                     <TextBox  Grid.Row="2" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
                         VerticalContentAlignment="Center" HorizontalContentAlignment="Right"></TextBox>
 
-                <TextBlock Text="Valor comercial" FontSize="30" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"></TextBlock>
-                <xctk:IntegerUpDown  Grid.Row="3" Grid.Column="1" FontSize="25" VerticalAlignment="top" HorizontalAlignment="Stretch" 
+                    <TextBlock Text="Valor comercial" FontSize="30" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"></TextBlock>
+                    <xctk:IntegerUpDown  Grid.Row="3" Grid.Column="1" FontSize="25" VerticalAlignment="top" HorizontalAlignment="Stretch" 
                            VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 15 0 0"></xctk:IntegerUpDown>
 
                     <TextBlock FontSize="30" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center">
@@ -174,12 +179,28 @@
                     <xctk:IntegerUpDown  Grid.Row="6" Grid.Column="1" FontSize="25" VerticalAlignment="top" HorizontalAlignment="Stretch" 
                            VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 15 0 0"></xctk:IntegerUpDown>
 
-                    <TextBlock Text="Existencias" FontSize="30" Grid.Column="0" Grid.Row="7" VerticalAlignment="Center"></TextBlock>
-                    <xctk:IntegerUpDown  Grid.Row="7" Grid.Column="1" FontSize="25" VerticalAlignment="top" HorizontalAlignment="Stretch" 
-                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 15 0 0"></xctk:IntegerUpDown>
-
+                </Grid>
+                <Grid Grid.Column="0" Grid.Row="2" Height="80">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Name="boton_guardar"  Grid.Column="0" Content="Guardar" FontWeight="Light"  FontSize="20" 
+                        Style="{StaticResource AccentedSquareButtonStyle}" Margin="10 10 10 10"></Button>
+                    <Button Name="boton_actualizar"  Grid.Column="1" Content="Actualizar" FontWeight="Light"  FontSize="20" 
+                        Style="{StaticResource AccentedSquareButtonStyle}" Margin="10 10 10 10"></Button>
                 </Grid>
 
+                <Grid Grid.Column="1" Grid.Row="2" Height="80">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Name="boton_eliminar"  Grid.Column="0" Content="Eliminar" FontWeight="Light"  FontSize="20" 
+                        Style="{StaticResource AccentedSquareButtonStyle}" Margin="10 10 10 10"></Button>
+                    <Button Name="boton_limpiar"  Grid.Column="1" Content="Limpiar" FontWeight="Light"  FontSize="20" 
+                        Style="{StaticResource AccentedSquareButtonStyle}" Margin="10 10 10 10"></Button>
+                </Grid>
             </Grid>
         </ScrollViewer>
     </Grid>
