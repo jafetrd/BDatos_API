@@ -3,13 +3,254 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
+      xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit" 
       xmlns:local="clr-namespace:BDatos_API.VISTAS"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Bodega">
+      d:DesignHeight="866" d:DesignWidth="1053"
+      Title="Bodega" Background="White">
+
+    <Page.Resources>
+        <ResourceDictionary >
+        <!-- This style applies to all auto-complete comboboxes in the window by default. -->
+        <Style TargetType="dotNetKitControls:AutoCompleteComboBox">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Light"></Setter>
+            <Setter Property="Margin" Value="5 0 5 0"></Setter>
+            <Setter Property="TextAlignment" Value="Left"></Setter>
+        </Style>
+        <Style TargetType="ToolTip">
+            <!--<Setter Property = "HorizontalOffset" Value="10"/>
+                <Setter Property = "VerticalOffset" Value="10"/>-->
+            <Setter Property = "Background" Value="LightBlue"/>
+            <Setter Property = "Foreground" Value="Black"/>
+            <Setter Property = "FontSize" Value="16"/>
+            <Setter Property = "FontWeight" Value="Light"/>
+        </Style>
+
+    </ResourceDictionary>
+
+    </Page.Resources>
 
     <Grid>
-        <TextBlock Text="Bodega " FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
-         FontWeight="Light" Foreground="DeepSkyBlue" ></TextBlock>
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto">
+
+            <Grid ScrollViewer.CanContentScroll="True" Margin="10 0 10 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="600"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Bodega C " FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
+         FontWeight="Heavy" Foreground="DeepSkyBlue" Grid.Column="1" Grid.Row="0" ></TextBlock>
+
+                <Separator  Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2"></Separator>
+                <!--Columna Izquierda-->
+
+                <Grid Grid.Row="1" Grid.Column="0" Width="500" Margin="0 0 30 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.2*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="1.3*"></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Buque" FontSize="30" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"></TextBlock>
+                    <dotNetKitControls:AutoCompleteComboBox SelectedValuePath="Id" TextSearch.TextPath="Name"
+                ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" SelectedValue="{Binding SelectedValue}"
+                 Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Row="0"
+                x:Name="buque_Combobox" KeyDown="Buque_Combobox_KeyDown"/>
+
+                    <TextBlock Text="Viaje" FontSize="30" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="viaje_textbox" Grid.Row="1" Grid.Column="1" FontSize="25" VerticalAlignment="Center"
+                 HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"
+                     KeyDown="Viaje_textbox_KeyDown"></TextBox>
+
+                    <TextBlock Text="Altura" FontSize="30" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></TextBlock>
+                    <ComboBox Name="Altura_combobox" Grid.Row="2" Grid.Column="1" FontSize="25" VerticalAlignment="Center" 
+                              HorizontalAlignment="Stretch" KeyDown="Altura_combobox_KeyDown"
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
+                        <ComboBoxItem Content="Importacion"></ComboBoxItem>
+                        <ComboBoxItem Content="Exportacion"></ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBlock Name="Etiqueta_presentacion" Text="Presentacion" FontSize="30" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center"></TextBlock>
+                    <ComboBox Name="Presentacion_combobox" Grid.Row="4" Grid.Column="1" FontSize="25" VerticalAlignment="Center"
+                              HorizontalAlignment="Stretch" KeyDown="Presentacion_combobox_KeyDown"
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
+                        <ComboBoxItem Content="Contenedor 20''"></ComboBoxItem>
+                        <ComboBoxItem Content="Contenedor 40''"></ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBlock Name="Etiqueta_contenedor" Text="Num. contenedor" TextAlignment="Left"  FontSize="28" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center"></TextBlock>
+                    <TextBox Name="numContenedor_textbox" Grid.Row="5" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" KeyDown="Sigla_textbox_KeyDown"></TextBox>
+
+
+                    <TextBlock Text="Fecha de entrada" FontSize="30" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"></TextBlock>
+                    <xctk:DateTimePicker  Name="Fechaentrada_textbox" Grid.Row="3" Grid.Column="1" FontSize="25" VerticalAlignment="Center" 
+                                 HorizontalAlignment="Stretch" KeyDown="Fechaentrada_textbox_KeyDown"
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" ></xctk:DateTimePicker>
+
+                    <DataGrid x:Name="tabla_Principal" AutoGenerateColumns="False"  FontWeight="Light" 
+                      FontSize="15" SelectionMode="Single"  ScrollViewer.CanContentScroll="True" Grid.Row="4"
+                       CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" Grid.ColumnSpan="2"
+                              VerticalAlignment="Stretch" Grid.RowSpan="4" CanUserAddRows="True"
+                              Background="Transparent">
+
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Num. contenedor" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding numero}" FontSize="30" Height="45"></TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <TextBox Height="45 " FontWeight="Light" FontSize="30" Text="{Binding numero}"></TextBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Presentacion" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding presentacion}" FontSize="30" Height="45"></TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                                <DataGridTemplateColumn.CellEditingTemplate>
+                                    <DataTemplate>
+                                        <ComboBox Height="45" FontWeight="Light" FontSize="30"
+                                                  SelectedItem="{Binding presentacion}" ItemsSource="{Binding  listaPresentaciones}"></ComboBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellEditingTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+
+                <!--Columna derecha-->
+                <Grid Grid.Row="1" Grid.Column="1" Width="500">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.2*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition ></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Peso" FontSize="30" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"></TextBlock>
+                    <xctk:DecimalUpDown  Name="Peso_integer" Grid.Row="0" Grid.Column="1" FontSize="25" VerticalAlignment="top" 
+                                         HorizontalAlignment="Stretch" KeyDown="Peso_integer_KeyDown"
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 10 0 0"></xctk:DecimalUpDown>
+                    <StackPanel Name="unidades_panel" Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
+                        <RadioButton GroupName="unidades" Name="kg_rbutton" Content="Kg" Margin="10 45 10 0" FontSize="20" FontWeight="Light"
+                                     ToolTip="Kilogramos" KeyDown="Kg_rbutton_KeyDown"></RadioButton>
+                        <RadioButton GroupName="unidades" Name="Tn_rbutton" Content="TN" Margin="0 45 0 0" FontSize="20" FontWeight="Light"
+                                     ToolTip="Toneladas" KeyDown="Tn_rbutton_KeyDown"></RadioButton>
+                    </StackPanel>
+
+                    <TextBlock Text="Producto" FontSize="30" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Margin="0 10 0 0"></TextBlock>
+                    <TextBox Name="producto_textbox" Grid.Row="1" Grid.Column="1" FontSize="25" VerticalAlignment="Top" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 10 0 0" KeyDown="Producto_textbox_KeyDown"></TextBox>
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
+                        <CheckBox Name="mineral_checkbox" Content="¿Es mineral?" Margin="10 50 10 0" FontSize="20" FontWeight="Light"
+                                    ToolTip="s = seleccionar" KeyDown="Mineral_checkbox_KeyDown"></CheckBox>
+                    </StackPanel>
+
+                    <TextBlock Text="Cliente" FontSize="30" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></TextBlock>
+                    <dotNetKitControls:AutoCompleteComboBox SelectedValuePath="Id" TextSearch.TextPath="Name"
+                ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" SelectedValue="{Binding SelectedValue}"
+                 Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Row="2"
+                x:Name="cliente_Combobox" KeyDown="Cliente_Combobox_KeyDown"/>
+
+                    <TextBlock Text="Pedimento" FontSize="30" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"></TextBlock>
+                    <TextBox x:Name="pedimento_textbox"  Grid.Row="3" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                        VerticalContentAlignment="Center" HorizontalContentAlignment="Right" KeyDown="Pedimento_textbox_KeyDown"></TextBox>
+
+                    <TextBlock Text="Valor comercial" FontSize="30" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center"></TextBlock>
+                    <xctk:DecimalUpDown Name="valorcomercial_updown" Grid.Row="4" Grid.Column="1" FontSize="25" VerticalAlignment="top" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 15 0 0"
+                                        KeyDown="Valorcomercial_updown_KeyDown"></xctk:DecimalUpDown>
+
+                    <Button Name="boton_autorizacion"  Grid.Column="0" Grid.Row="5" Content="autorización" FontWeight="Light"  FontSize="20" 
+                        Style="{StaticResource AccentedSquareButtonStyle}" Margin="10 10 10 10" Click="Boton_autorizacion_Click"></Button>
+
+                    <TextBlock FontSize="15" Grid.Column="1" Grid.Row="5" VerticalAlignment="Top">
+                        Fecha de autorizacion de salida
+                    </TextBlock>
+                    <xctk:DateTimePicker Name="fecha_autorizacion" Grid.Row="5" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" KeyDown="Fecha_autorizacion_KeyDown"></xctk:DateTimePicker>
+
+
+                    <Button Name="boton_salida_fisica"  Grid.Column="0" Grid.Row="6" Content="salida física" FontWeight="Light"  FontSize="20" 
+                        Style="{StaticResource AccentedSquareButtonStyle}" Margin="10 10 10 10" Click="Boton_salida_Click"></Button>
+
+                    <TextBlock Text="Fecha de salida física" FontSize="15" Grid.Column="1" Grid.Row="6" VerticalAlignment="Top"></TextBlock>
+                    <xctk:DateTimePicker Name="fecha_salida_fisica" Grid.Row="6" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" KeyDown="Fecha_salida_fisica_KeyDown"></xctk:DateTimePicker>
+
+                    <TextBlock FontSize="30" Grid.Column="0" Grid.Row="7" VerticalAlignment="Center">
+                        Periodo de 
+                        <LineBreak/>
+                        almacenaje
+                    </TextBlock>
+                    <TextBox Name="periodo_almacenaje_updown" Grid.Row="7" Grid.Column="1" FontSize="25" VerticalAlignment="top" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 15 0 0" IsReadOnly="True"></TextBox>
+
+                </Grid>
+                <Grid Grid.Column="0" Grid.Row="2" Height="80">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Name="boton_guardar"  Grid.Column="0" Content="Guardar" FontWeight="Light"  FontSize="20" 
+                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10"></Button>
+                    <Button Name="boton_actualizar"  Grid.Column="1" Content="Actualizar" FontWeight="Light"  FontSize="20" 
+                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10"></Button>
+                </Grid>
+
+                <Grid Grid.Column="1" Grid.Row="2" Height="80">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Name="boton_eliminar"  Grid.Column="0" Content="Eliminar" FontWeight="Light"  FontSize="20" 
+                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10"></Button>
+                    <Button Name="boton_limpiar"  Grid.Column="1" Content="Limpiar" FontWeight="Light"  FontSize="20" 
+                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10"></Button>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Page>

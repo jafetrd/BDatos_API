@@ -24,10 +24,12 @@ namespace BDatos_API
             TextBox textBox=null;
             PasswordBox passwordBox = null;
             ComboBox comboBox = null;
+            Xceed.Wpf.Toolkit.IntegerUpDown integerUpDown = null;
+            Xceed.Wpf.Toolkit.DateTimePicker dateTimePicker = null;
+            DotNetKit.Windows.Controls.AutoCompleteComboBox autoCompleteComboBox = null;
 
             foreach (Control a in campos)
             {
-
                 switch (a.GetType().Name)
                 {
                     case "TextBox":
@@ -54,6 +56,35 @@ namespace BDatos_API
                         if (comboBox.SelectedItem==null)
                         {
                             Marcar_control(comboBox, apuntar);
+                            a.Focus();
+                            return false;
+                        }
+                        break;
+
+                    case "IntegerUpDown":
+                        integerUpDown = (a as Xceed.Wpf.Toolkit.IntegerUpDown);
+                        if (string.IsNullOrEmpty(integerUpDown.Text))
+                        {
+                            Marcar_control(integerUpDown, apuntar);
+                            a.Focus();
+                            return false;
+                        }
+                        break;
+                    case "DateTimePicker":
+                        dateTimePicker = (a as Xceed.Wpf.Toolkit.DateTimePicker);
+                        if (string.IsNullOrEmpty(dateTimePicker.Text))
+                        {
+                            Marcar_control(dateTimePicker, apuntar);
+                            a.Focus();
+                            return false;
+                        }
+                        break; 
+
+                    case "AutoCompleteComboBox":
+                        autoCompleteComboBox = (a as DotNetKit.Windows.Controls.AutoCompleteComboBox);
+                        if (string.IsNullOrEmpty(autoCompleteComboBox.Text))
+                        {
+                            Marcar_control(autoCompleteComboBox, apuntar);
                             a.Focus();
                             return false;
                         }
@@ -96,7 +127,63 @@ namespace BDatos_API
                         (a as ComboBox).SelectedItem = null;
                         (a as ComboBox).ClearValue(Control.BackgroundProperty);
                         break;
+                    case "IntegerUpDown":
+                        (a as Xceed.Wpf.Toolkit.IntegerUpDown).Value = null;
+                        (a as Xceed.Wpf.Toolkit.IntegerUpDown).ClearValue(Control.BackgroundProperty);
+                        break;
+                    case "DateTimePicker":
+                        (a as Xceed.Wpf.Toolkit.DateTimePicker).Value = null;
+                        (a as Xceed.Wpf.Toolkit.DateTimePicker).ClearValue(Control.BackgroundProperty);
+                        break;
+                    case "AutoCompleteComboBox":
+                        (a as DotNetKit.Windows.Controls.AutoCompleteComboBox).Text = null;
+                        (a as DotNetKit.Windows.Controls.AutoCompleteComboBox).ClearValue(Control.BackgroundProperty);
+                        break;
                 }
+            }
+        }
+
+        public void vacio(object sender)
+        {
+            switch (sender.GetType().Name)
+            {
+                case "TextBox":
+                    if (String.IsNullOrEmpty((sender as TextBox).Text))
+                    {
+                        (sender as TextBox).Focus();
+                    }
+                    break;
+
+                case "PasswordBox":
+                    if(String.IsNullOrEmpty((sender as PasswordBox).Password))
+                    {
+                        (sender as PasswordBox).Focus();
+                    }
+                    break;
+                case "ComboBox":
+                    if((sender as ComboBox).SelectedItem == null)
+                    {
+                        (sender as ComboBox).Focus();
+                    }
+                    break;
+                case "IntegerUpDown":
+                    if (String.IsNullOrEmpty((sender as Xceed.Wpf.Toolkit.IntegerUpDown).Text))
+                    {
+                        (sender as Xceed.Wpf.Toolkit.IntegerUpDown).Focus();
+                    }
+                    break;
+                case "DateTimePicker":
+                    if (String.IsNullOrEmpty((sender as Xceed.Wpf.Toolkit.DateTimePicker).Text))
+                    {
+                        (sender as Xceed.Wpf.Toolkit.DateTimePicker).Focus();
+                    }
+                    break;
+                case "AutoCompleteComboBox":
+                    if (String.IsNullOrEmpty((sender as DotNetKit.Windows.Controls.AutoCompleteComboBox).Text))
+                    {
+                        (sender as DotNetKit.Windows.Controls.AutoCompleteComboBox).Focus();
+                    }
+                    break;
             }
         }
 

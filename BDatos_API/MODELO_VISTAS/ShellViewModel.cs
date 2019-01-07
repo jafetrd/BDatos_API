@@ -13,7 +13,7 @@ namespace BDatos_API.MODELO_VISTAS
             this.Menu.Add(new ElementoMenu() { Icon = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.SearchSolid }, Text = "Busqueda y reportes", NavigationDestination = new Uri("VISTAS/Busquedayreportes.xaml", UriKind.RelativeOrAbsolute) });
             this.Menu.Add(new ElementoMenu() { Icon = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.ShipSolid}, Text = "Patio de contenedores", NavigationDestination = new Uri("VISTAS/Patio_Contenedor.xaml", UriKind.RelativeOrAbsolute) });
             this.Menu.Add(new ElementoMenu() { Icon = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.TrainSolid }, Text = "Patio de ferrocarriles", NavigationDestination = new Uri("VISTAS/Patio_Ferrocarril.xaml", UriKind.RelativeOrAbsolute) });
-            this.Menu.Add(new ElementoMenu() { Icon = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.WarehouseSolid}, Text = "Bodega 1", NavigationDestination = new Uri("VISTAS/Bodega.xaml", UriKind.RelativeOrAbsolute) });
+            this.Menu.Add(new ElementoMenu() { Icon = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.WarehouseSolid}, Text = "Bodega C", NavigationDestination = new Uri("VISTAS/Bodega.xaml", UriKind.RelativeOrAbsolute) });
             this.Menu.Add(new ElementoMenu() { Icon = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.WarehouseSolid }, Text = "Bodega 2", NavigationDestination = new Uri("VISTAS/Bodega.xaml", UriKind.RelativeOrAbsolute) });
 
             this.OptionsMenu.Add(new ElementoMenu() { Icon = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.CogsSolid }, Text = "Configuracion", NavigationDestination = new Uri("Views/SettingsPage.xaml", UriKind.RelativeOrAbsolute) });

@@ -109,6 +109,16 @@ namespace BDatos_API
 
     }
 
+    public static class nombresPatioContenedor
+    {
+        
+        public const string NOMBRE_TABLA_2 = "dform_patiocontenedor";
+        public const string TABLA2_ID = "ID";
+        public const string TABLA2_PRESENTACIONES = "Presentaciones";
+        public static int CANTIDAD_COLUMNAS_2 = 2;
+        public static string TODO = "*";
+    }
+
     public class configMetroDialog
     {
         public MetroDialogSettings mensajeBorrar = new MetroDialogSettings

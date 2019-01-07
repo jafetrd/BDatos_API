@@ -69,6 +69,6 @@ namespace BDatos_API.VISTAS
                 @default = value;
             }
         }
-
     }
+    
 }

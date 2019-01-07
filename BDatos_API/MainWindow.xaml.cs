@@ -50,6 +50,9 @@ namespace BDatos_API
                 _vm.ShowInformation("Creando cuenta administrador");
             }
 
+            //caja_texto_usuario.Text = "jafet";
+            //caja_contrasena.Password = "0000";
+            //Boton_ingresar_Click(null, null);
         }
 
 

@@ -51,6 +51,26 @@ namespace BDatos_API
         }
 
         /// <summary>
+        /// Regresa las columnas que se le indiquen
+        /// </summary>
+        /// <param name="NombreTabla">Nombre de la tabla</param>
+        /// <param name="Columnas">Nombre de las columnas a retornar</param>
+        /// <returns></returns>
+        public DataTable REGRESAR_TODO(string NombreTabla, params string[] Columnas)
+        {
+            string campos_local = String.Join(",", Columnas);
+            ConectorDB.AbrirConexion();
+            string SQL = "SELECT " + campos_local + " FROM " + NombreTabla;
+            MySqlCommand mySqlCommand = new MySqlCommand(SQL, ConectorDB.conectar);
+            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            DataSet dataSet = new DataSet();
+            mySqlDataAdapter.Fill(dataSet);
+            ConectorDB.CerrarConexion();
+            return dataSet.Tables[0];
+
+        }
+
+        /// <summary>
         /// Metodo para seleccionar (buscar) datos en la tabla SQL
         /// </summary>
         /// <param name="NombreTabla">Nombre de la tabla SQL</param>
@@ -82,6 +102,8 @@ namespace BDatos_API
                 ConectorDB.CerrarConexion(); 
                 return temporal.Lista;
         }
+
+
         /// <summary>
         /// Metodo para guardar datos en la base SQL
         /// </summary>
