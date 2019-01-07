@@ -11,6 +11,7 @@ namespace BDatos_API.MODELO_VISTAS
         private bool _estaActivado = true;
         private DelegateCommand _comando;
         private Uri _Destino;
+        private object _tooltip;
 
         public object Icon
         {
@@ -40,6 +41,12 @@ namespace BDatos_API.MODELO_VISTAS
         {
             get { return this._Destino; }
             set { this.SetProperty(ref this._Destino, value); }
+        }
+
+        public object Tooltip
+        {
+            get { return this._tooltip; }
+            set { this.SetProperty(ref this._tooltip, value); }
         }
 
         public bool IsNavigation => this._Destino != null;

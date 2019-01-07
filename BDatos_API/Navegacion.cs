@@ -25,14 +25,14 @@ namespace BDatos_API
             set { _frame = value; }
         }
 
-        public static bool NavegarA(Uri sourcePageUri, object extraData = null)
-        {
-            if (_frame.CurrentSource != sourcePageUri)
-            {
-                return _frame.Navigate(sourcePageUri, extraData);
-            }
-            return true;
-        }
+        //public static bool NavegarA(Uri sourcePageUri, object extraData = null)
+        //{
+        //    if (_frame.NavigationService.CurrentSource != sourcePageUri)
+        //    {
+        //        return _frame.NavigationService.Navigate(sourcePageUri, extraData);
+        //    }
+        //    return true;
+        //}
 
         public static void NavegarA(Window win)
         {
@@ -46,18 +46,18 @@ namespace BDatos_API
         {
             if (_frame.NavigationService.Content != content)
             {
-                return _frame.Navigate(content);
+                return _frame.NavigationService.Navigate(content);
             }
             return true;
         }
 
-        public static void Regresar_frame()
-        {
-            if (_frame.CanGoBack)
-            {
-                _frame.GoBack();
-            }
-        }
+        //public static void Regresar_frame()
+        //{
+        //    if (_frame.CanGoBack)
+        //    {
+        //        _frame.GoBack();
+        //    }
+        //}
 
         public static bool NavegarAtras()
         {

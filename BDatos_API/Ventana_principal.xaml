@@ -14,7 +14,7 @@
         <viewModels:ShellViewModel></viewModels:ShellViewModel>
     </controls:MetroWindow.DataContext>
 
-    <controls:MetroWindow.LeftWindowCommands>
+    <!--<controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands ShowSeparators="False">
             <Button x:Name="GoBackButton"
                     Width="{Binding ElementName=HamburgerMenuControl, Path=CompactPaneLength}"
@@ -22,7 +22,7 @@
                 <iconPacks:PackIconMaterial Kind="ArrowLeft" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Button>
         </controls:WindowCommands>
-    </controls:MetroWindow.LeftWindowCommands>
+    </controls:MetroWindow.LeftWindowCommands>-->
 
     <Grid>
 

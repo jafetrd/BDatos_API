@@ -6,6 +6,8 @@ using System.Windows.Navigation;
 using MahApps.Metro.Controls;
 using ElementoMenu = BDatos_API.MODELO_VISTAS.ElementoMenu;
 using System.Windows.Threading;
+using BDatos_API.VISTAS;
+using static BDatos_API.nombresVentanas;
 
 namespace BDatos_API
 {
@@ -14,9 +16,18 @@ namespace BDatos_API
     /// </summary>
     public partial class Ventana_principal : MetroWindow
     {
+        Bodega bodega;
+        Bodega2 bodega2;
+        Patio_Ferrocarril ferrocarril;
+        Patio_Contenedor contenedor;
+        Principal principal;
+        Busquedayreportes busquedayreportes;
+
+        public static string nombreVentana;
         public Ventana_principal()
         {
             InitializeComponent();
+
             Navegacion.Frame = new Frame()
             {
                 NavigationUIVisibility = NavigationUIVisibility.Hidden
@@ -26,26 +37,54 @@ namespace BDatos_API
 
         private void SplitViewFrame_OnNavigated(object sender, NavigationEventArgs e)
         {
+
             this.HamburgerMenuControl.Content = e.Content;
-            this.HamburgerMenuControl.SelectedItem = e.ExtraData ?? ((ShellViewModel)this.DataContext).GetItem(e.Uri);
-            this.HamburgerMenuControl.SelectedOptionsItem = e.ExtraData ?? ((ShellViewModel)this.DataContext).GetOptionsItem(e.Uri);
-            GoBackButton.Visibility = Navegacion.Frame.CanGoBack ? Visibility.Visible : Visibility.Collapsed;
+            //this.HamburgerMenuControl.SelectedItem = e.ExtraData ?? ((ShellViewModel)this.DataContext).GetItem(e.Uri);
+            //this.HamburgerMenuControl.SelectedOptionsItem = e.ExtraData ?? ((ShellViewModel)this.DataContext).GetOptionsItem(e.Uri);
+           // GoBackButton.Visibility = Navegacion.Frame.CanGoBack ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void GoBack_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (Navegacion.Frame.CanGoBack == false)
-                Navegacion.NavegarAtras();
-            else
-                Navegacion.Regresar_frame();
-        }
+        //private void GoBack_OnClick(object sender, RoutedEventArgs e)
+        //{
+        //    if (Navegacion.Frame.CanGoBack == false)
+        //        Navegacion.NavegarAtras();
+        //    else
+        //        Navegacion.Regresar_frame();
+        //}
 
         private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
         {
             var menuItem = e.InvokedItem as ElementoMenu;
             if (menuItem != null && menuItem.IsNavigation)
             {
-                Navegacion.NavegarA(menuItem.NavigationDestination, menuItem);
+                nombreVentana = menuItem.Text;
+                switch (nombreVentana)
+                {
+                    case nombresVentanas.PatioContenedores:
+                        if (contenedor == null) contenedor = new Patio_Contenedor();
+                        Navegacion.NavegarA(contenedor);
+                        break;
+                    case nombresVentanas.PatioFerrocarriles:
+                        if (ferrocarril == null) ferrocarril = new Patio_Ferrocarril();
+                        Navegacion.NavegarA(ferrocarril);
+                        break;
+                    case nombresVentanas.Bodega2:
+                        if (bodega2 == null) bodega2 = new Bodega2();
+                        Navegacion.NavegarA(bodega2);
+                        break;
+                    case nombresVentanas.BodegaC:
+                        if (bodega == null) bodega = new Bodega();
+                        Navegacion.NavegarA(bodega);
+                        break;
+                    case nombresVentanas.Principal:
+                        if (principal == null) principal = new Principal();
+                        Navegacion.NavegarA(principal);
+                        break;
+                    case nombresVentanas.BusquedayReportes:
+                        if (busquedayreportes == null) busquedayreportes = new Busquedayreportes();
+                        Navegacion.NavegarA(busquedayreportes);
+                        break;
+                }
             }
         }
 

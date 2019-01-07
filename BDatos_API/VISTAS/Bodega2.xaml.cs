@@ -14,7 +14,7 @@ namespace BDatos_API.VISTAS
     /// <summary>
     /// Lógica de interacción para Bodega.xaml
     /// </summary>
-    public partial class Bodega : Page
+    public partial class Bodega2 : Page
     {
         DateTime fechaE = DateTime.Now;
         DateTime fechaS = DateTime.Now;
@@ -36,12 +36,11 @@ namespace BDatos_API.VISTAS
         //a la lista interna de la coleccion datos 
         public List<string> presentaciones;
 
-        public Bodega()
+        public Bodega2()
         {
-            InitializeComponent();
-          
+            InitializeComponent();           
             //creacion de objetos solo si es necesario 
-            if (metodos_Bd==null) metodos_Bd = new Metodos_bd();
+            if(metodos_Bd==null) metodos_Bd = new Metodos_bd();
             if (presentaciones == null) llenarPresentaciones();
             if (String.IsNullOrEmpty(Fechaentrada_textbox.Text))
             {

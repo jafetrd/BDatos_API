@@ -21,32 +21,60 @@ namespace BDatos_API.VISTAS
         DateTime fechaE = DateTime.Now;
         DateTime fechaS = DateTime.Now;
         Metodos_comunes metodos_Comunes;
+        Metodos_bd metodos_Bd;
+        DataTable data;
 
-        public ObservableCollection<fila> datos { get; set; }
-
-        public List<string> presentaciones;
+        //Propiedades para la tabla numero es la columna 1 y presentacion es la columna 2 
+        //con combobox 
         public class fila
         {
             public string numero { get; set; }
             public List<string> presentacion { get; set; }
         }
-       
+        //La coleccion es de tipo fila por lo que cada fila lleva dos elementos 
+        //el numero y la lista de presentaciones
+        public ObservableCollection<fila> datos { get; set; }
+        //esta lista se usa para obtener los datos de la base SQL y despues los pasa
+        //a la lista interna de la coleccion datos 
+        public List<string> presentaciones;
+
         public Patio_Contenedor()
         {
             InitializeComponent();
+            //creacion de objetos solo si es necesario 
+            if (metodos_Bd == null) metodos_Bd = new Metodos_bd();
+            if (presentaciones == null) llenarPresentaciones();
+            if (String.IsNullOrEmpty(Fechaentrada_textbox.Text))
+            {
+                Fechaentrada_textbox.Text = DateTime.Now.ToString();
+            }
+            agregarControles();
+            ocultarFase2();
+        }
 
-            Metodos_bd metodos_Bd = new Metodos_bd();
+        private void llenarPresentaciones()
+        {
             presentaciones = new List<string>();
-            DataTable data = metodos_Bd.REGRESAR_TODO(NOMBRE_TABLA_2, TABLA2_PRESENTACIONES);
+            data = metodos_Bd.REGRESAR_TODO(NOMBRE_TABLA_2, TABLA2_PRESENTACIONES);
             foreach (DataRow row in data.Rows)
             {
                 presentaciones.Add(row[0].ToString());
             }
-           
-            datos = new ObservableCollection<fila>();
+            if (datos == null) datos = new ObservableCollection<fila>();
             tabla_Principal.ItemsSource = datos;
+        }
 
-            metodos_Comunes = new Metodos_comunes();
+        private void ocultarFase2()
+        {
+            Presentacion_combobox.Visibility = Visibility.Hidden;
+            Etiqueta_contenedor.Visibility = Visibility.Hidden;
+            numContenedor_textbox.Visibility = Visibility.Hidden;
+            Etiqueta_presentacion.Visibility = Visibility.Hidden;
+        }
+
+        private void agregarControles()
+        {
+            if (metodos_Comunes == null) metodos_Comunes = new Metodos_comunes();
             metodos_Comunes.campos.Add(buque_Combobox);
             metodos_Comunes.campos.Add(viaje_textbox);
             metodos_Comunes.campos.Add(Altura_combobox);
@@ -55,17 +83,6 @@ namespace BDatos_API.VISTAS
             metodos_Comunes.campos.Add(Fechaentrada_textbox);
             metodos_Comunes.campos.Add(Peso_integer);
             metodos_Comunes.campos.Add(producto_textbox);
-
-            if (String.IsNullOrEmpty(Fechaentrada_textbox.Text))
-            {
-                Fechaentrada_textbox.Text = DateTime.Now.ToString();
-            }
-            Presentacion_combobox.Visibility = Visibility.Hidden;
-            Etiqueta_contenedor.Visibility = Visibility.Hidden;
-            numContenedor_textbox.Visibility = Visibility.Hidden;
-            Etiqueta_presentacion.Visibility = Visibility.Hidden;
-
-           
         }
 
         private void Buque_Combobox_KeyDown(object sender, KeyEventArgs e)

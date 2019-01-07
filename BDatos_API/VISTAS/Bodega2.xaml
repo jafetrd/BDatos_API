@@ -1,4 +1,4 @@
-﻿<Page x:Class="BDatos_API.VISTAS.Bodega"
+﻿<Page x:Class="BDatos_API.VISTAS.Bodega2"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -54,7 +54,7 @@
                     <RowDefinition Height="600"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock Name="Titulo" Text="Bodega C " FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
+                <TextBlock Name="Titulo" Text="Bodega 2" FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
          FontWeight="Heavy" Foreground="DeepSkyBlue" Grid.Column="1" Grid.Row="0" ></TextBlock>
 
                 <Separator  Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2"></Separator>

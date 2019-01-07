@@ -119,6 +119,37 @@ namespace BDatos_API
         public static string TODO = "*";
     }
 
+    public static class nombresPatioFerrocarril
+    {
+
+        public const string NOMBRE_TABLA_2 = "dform_patioferrocarril";
+        public const string TABLA2_ID = "ID";
+        public const string TABLA2_PRESENTACIONES = "Presentaciones";
+        public static int CANTIDAD_COLUMNAS_2 = 2;
+        public static string TODO = "*";
+        public static string TITULO_MENSAJE = "Patio de ferrocarriles";
+    }
+
+    public static class nombresBodegaC
+    {
+        public const string NOMBRE_TABLA_2 = "dform_bodegac";
+        public const string TABLA2_ID = "ID";
+        public const string TABLA2_PRESENTACIONES = "Presentaciones";
+        public static int CANTIDAD_COLUMNAS_2 = 2;
+        public static string TODO = "*";
+        public const string BODEGA_C = "Bodega C";
+        public const string BODEGA_2 = "Bodega 2";
+    }
+
+    public static class nombresVentanas
+    {
+        public const string BodegaC = "Bodega C";
+        public const string Bodega2 = "Bodega 2";
+        public const string PatioContenedores = "Patio de contenedores";
+        public const string PatioFerrocarriles = "Patio de ferrocarriles";
+        public const string BusquedayReportes = "Busqueda y reportes";
+        public const string Principal = "Principal";
+    }
     public class configMetroDialog
     {
         public MetroDialogSettings mensajeBorrar = new MetroDialogSettings
