@@ -4,11 +4,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:Window="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:BDatos_API"
         mc:Ignorable="d"
+        TitleCharacterCasing="Normal"
+        TextOptions.TextFormattingMode="Display"
+    GlowBrush="{DynamicResource AccentColorBrush}"
+    
         Title="Inicio de sesión" Height="400" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closed="MetroWindow_Closed">
+
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="RECINTO FISCALIZADO - API coatzacoalcos " />
+            </StackPanel>
+            
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+
 
     <Border Padding="5">
         <!-- Panel contenedor -->
@@ -39,10 +54,20 @@
                              controls:TextBoxHelper.Watermark="****" controls:TextBoxHelper.ClearTextButton="True"></PasswordBox>
                 
                 <!--Botones con propiedades-->
-                <Button Name="boton_ingresar"  Grid.Column="1" Grid.Row="5" Content="Ingresar" FontWeight="Light"  FontSize="20" 
-                        Style="{StaticResource AccentedSquareButtonStyle}" Click="Boton_ingresar_Click" KeyDown="Boton_ingresar_KeyDown"></Button>
-                <Button Name="boton_nueva_cuenta" Content="Nueva cuenta" Grid.Column="1" Grid.Row="7" BorderThickness="0" 
-                        Background="Transparent" ToolTip="Ctrl+N" Click="Boton_nueva_cuenta_Click" KeyDown="Boton_nueva_cuenta_KeyDown"></Button>
+                <Button Name="boton_ingresar"  Grid.Column="1" Grid.Row="5" FontWeight="Light"  FontSize="20" 
+                        Style="{StaticResource AccentedSquareButtonStyle}" Click="Boton_ingresar_Click" KeyDown="Boton_ingresar_KeyDown">
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconModern Width="auto" Height="auto" Kind="User" />
+                        <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="Iniciar sesión" />
+                    </StackPanel>
+                </Button>
+                <Button Name="boton_nueva_cuenta"  Grid.Column="1" Grid.Row="7" BorderThickness="0" 
+                        Background="Transparent" ToolTip="Ctrl+N" Click="Boton_nueva_cuenta_Click" KeyDown="Boton_nueva_cuenta_KeyDown">
+                    <StackPanel Orientation="Horizontal">
+                        <iconPacks:PackIconModern Width="24" Height="24" Kind="UserAdd"/>
+                        <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="Administrar usuarios" />
+                    </StackPanel>
+                </Button>
                 
                 
             </Grid>

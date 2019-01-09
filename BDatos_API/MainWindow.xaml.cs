@@ -9,9 +9,7 @@ using MahApps.Metro.Controls;
 using static BDatos_API.InicioSesion;
 using MahApps.Metro.Controls.Dialogs;
 using MySql.Data.MySqlClient;
-
-
-
+using ToastNotifications.Core;
 
 namespace BDatos_API
 {
@@ -74,6 +72,7 @@ namespace BDatos_API
             if (Controles.Seleccionar_control(false))
             {
                 ArrayList resultado = metodos_bd.BUSCAR(NOMBRE_TABLA, NOMBRE, USUARIOdato, CANTIDAD_COLUMNAS, TODO);
+                TIPO_USUARIOdato = resultado[3].ToString();
                 if (resultado.Count > 0) /*si hay mas de un resultado entonces si existe el usuario*/
                 {
                     if (resultado[2].ToString() == caja_contrasena.Password)

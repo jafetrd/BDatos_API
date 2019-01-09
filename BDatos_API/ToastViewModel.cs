@@ -24,8 +24,8 @@ namespace BDatos_API
                     offsetX: 25,
                     offsetY: 100);
                 cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
-                    notificationLifetime: TimeSpan.FromSeconds(3),
-                    maximumNotificationCount: MaximumNotificationCount.FromCount(3));
+                    notificationLifetime: TimeSpan.FromSeconds(5),
+                    maximumNotificationCount: MaximumNotificationCount.FromCount(5));
                 cfg.Dispatcher = Application.Current.Dispatcher;
                 cfg.DisplayOptions.TopMost = true;
                 cfg.DisplayOptions.Width = 250;

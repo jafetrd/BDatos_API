@@ -5,7 +5,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
       xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit" 
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:local="clr-namespace:BDatos_API.VISTAS"
+       
+      xmlns:s="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
       d:DesignHeight="726.406" d:DesignWidth="1481.459"
       Title="Patio de ferrocarriles" Background="White">
@@ -42,9 +46,9 @@
 
 
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
 
-            <Grid ScrollViewer.CanContentScroll="True" Margin="10 0 10 0">
+            <Grid ScrollViewer.CanContentScroll="True" Margin="10 0 10 0" Width="auto">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -55,12 +59,12 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Patio de Ferrocarriles " FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
-         FontWeight="Heavy" Foreground="DeepSkyBlue" Grid.Column="1" Grid.Row="0" ></TextBlock>
+         FontWeight="Heavy" Foreground="Black" Grid.Column="1" Grid.Row="0" ></TextBlock>
 
                 <Separator  Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2"></Separator>
                 <!--Columna Izquierda-->
 
-                <Grid Grid.Row="1" Grid.Column="0" Width="500" Margin="0 0 30 0">
+                <Grid Grid.Row="1" Grid.Column="0" Width="auto" Margin="30 0 30 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="1.2*"></ColumnDefinition>
@@ -70,11 +74,12 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
+                        <RowDefinition Height="0.5*"></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
                         <RowDefinition></RowDefinition>
-                        <RowDefinition Height="1.3*"></RowDefinition>
+                        <RowDefinition Height="0.6*"></RowDefinition>
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="Buque" FontSize="30" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"></TextBlock>
@@ -82,50 +87,73 @@
                 ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" SelectedValue="{Binding SelectedValue}"
                  Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
                 FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Row="0"
-                x:Name="buque_Combobox" KeyDown="Buque_Combobox_KeyDown"/>
+                x:Name="buque_Combobox" KeyDown="Buque_Combobox_KeyDown" Text="{Binding Buque, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBlock Text="Viaje" FontSize="30" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"></TextBlock>
-                    <TextBox x:Name="viaje_textbox" Grid.Row="1" Grid.Column="1" FontSize="25" VerticalAlignment="Center"
+                    <xctk:DecimalUpDown x:Name="viaje_textbox" Grid.Row="1" Grid.Column="1" FontSize="25" VerticalAlignment="Center"
                  HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"
-                     KeyDown="Viaje_textbox_KeyDown"></TextBox>
+                     KeyDown="Viaje_textbox_KeyDown"  Text="{Binding Viaje, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                        ParsingNumberStyle="Integer" Minimum="0" ClipValueToMinMax="True" Maximum="9999999"></xctk:DecimalUpDown>
 
-                    <TextBlock Text="Altura" FontSize="30" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></TextBlock>
-                    <ComboBox Name="Altura_combobox" Grid.Row="2" Grid.Column="1" FontSize="25" VerticalAlignment="Center" 
+                    <TextBlock Text="Regimen" FontSize="30" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></TextBlock>
+                    <ComboBox Name="Regimen_combobox" Grid.Row="2" Grid.Column="1" FontSize="25" VerticalAlignment="Center" 
                               HorizontalAlignment="Stretch" KeyDown="Altura_combobox_KeyDown"
-                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
-                        <ComboBoxItem Content="Importacion"></ComboBoxItem>
-                        <ComboBoxItem Content="Exportacion"></ComboBoxItem>
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right"
+                               Text="{Binding Altura, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                        <ComboBoxItem Content="IMPORTACION"></ComboBoxItem>
+                        <ComboBoxItem Content="EXPORTACION"></ComboBoxItem>
                     </ComboBox>
 
-                    <TextBlock Name="Etiqueta_presentacion" Text="Presentacion" FontSize="30" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center"></TextBlock>
-                    <ComboBox Name="Presentacion_combobox" Grid.Row="4" Grid.Column="1" FontSize="25" VerticalAlignment="Center"
+                    <TextBlock Text="Fecha de entrada" FontSize="30" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"></TextBlock>
+                    <xctk:DateTimePicker  Name="Fechaentrada_textbox" Grid.Row="3" Grid.Column="1" FontSize="25" VerticalAlignment="Center" 
+                                 HorizontalAlignment="Stretch" KeyDown="Fechaentrada_textbox_KeyDown"
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Format="ShortDate"
+                                          Text="{Binding FechaEntrada, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></xctk:DateTimePicker>
+
+
+                    <TextBlock Name="Etiqueta_presentacion" Text="Presentacion" FontSize="30" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center"></TextBlock>
+                    <ComboBox Name="Presentacion_combobox" Grid.Row="5" Grid.Column="1" FontSize="25" VerticalAlignment="Center"
                               HorizontalAlignment="Stretch" KeyDown="Presentacion_combobox_KeyDown"
                            VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
                         <ComboBoxItem Content="Contenedor 20''"></ComboBoxItem>
                         <ComboBoxItem Content="Contenedor 40''"></ComboBoxItem>
                     </ComboBox>
 
-                    <TextBlock Name="Etiqueta_contenedor" Text="Num. contenedor" TextAlignment="Left"  FontSize="28" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center"></TextBlock>
-                    <TextBox Name="numContenedor_textbox" Grid.Row="5" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
-                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" KeyDown="Sigla_textbox_KeyDown"></TextBox>
+                    <TextBlock Name="Etiqueta_iniciales" Text="Iniciales" TextAlignment="Center"  FontSize="28" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center"></TextBlock>
+                    <TextBox Name="iniciales_textbox" Grid.Row="7" Grid.Column="0" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" KeyDown="Iniciales_textbox_KeyDown"></TextBox>
 
+                    <TextBlock Name="Etiqueta_numero" Text="Numero" TextAlignment="Center"  FontSize="28" Grid.Column="1" Grid.Row="6" VerticalAlignment="Center"></TextBlock>
+                    <TextBox Name="numero_textbox" Grid.Row="7" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" KeyDown="Numero_textbox_KeyDown"></TextBox>
 
-                    <TextBlock Text="Fecha de entrada" FontSize="30" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"></TextBlock>
-                    <xctk:DateTimePicker  Name="Fechaentrada_textbox" Grid.Row="3" Grid.Column="1" FontSize="25" VerticalAlignment="Center" 
-                                 HorizontalAlignment="Stretch" KeyDown="Fechaentrada_textbox_KeyDown"
-                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" ></xctk:DateTimePicker>
-
+                    <TextBlock Name ="FFCC" Text="FFCC" TextAlignment="Center" FontSize="28" Grid.Column="0" Grid.Row="4" 
+                               VerticalAlignment="Bottom" ></TextBlock>
                     <DataGrid x:Name="tabla_Principal" AutoGenerateColumns="False"  FontWeight="Light" 
-                      FontSize="15" SelectionMode="Extended"  ScrollViewer.CanContentScroll="True" Grid.Row="4"
+                      FontSize="15" SelectionMode="Extended"  ScrollViewer.CanContentScroll="True" Grid.Row="5"
                        CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" Grid.ColumnSpan="2"
                               VerticalAlignment="Stretch" Grid.RowSpan="4" CanUserAddRows="False"
-                              Background="Transparent" ItemsSource="{Binding datos}">
+                              ItemsSource="{Binding datos}" IsReadOnly="False"
+                              HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                              Margin="0 0 0 10" Visibility="Hidden"
+                              Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Grid}}">
 
                         <DataGrid.Columns>
-                            <DataGridTemplateColumn Header="Num. contenedor" Width="*">
+                            <DataGridTemplateColumn Header="Iniciales" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox FontSize="30" Height="45" Text="{Binding numero,Mode=OneWayToSource}"  Margin="5 0 5 0"></TextBox>
+                                        <TextBox FontSize="30" Height="45" Text="{Binding iniciales,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
+                                                 Margin="5 0 5 0" CharacterCasing="Upper" TextAlignment="Center" Name="iniciales_datagrid"></TextBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            
+                            <DataGridTemplateColumn Header="Numero" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <xctk:IntegerUpDown FontSize="30" Height="45" Text="{Binding numero,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                 Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid" ParsingNumberStyle="Integer"
+                                                            Minimum="0" ClipValueToMinMax="True" Maximum="9999999"></xctk:IntegerUpDown>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -133,29 +161,33 @@
                             <DataGridTemplateColumn Header="Presentacion" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ComboBox Margin="5 0 5 0" Height="45" FontWeight="Light" FontSize="30"
-                                                  ItemsSource="{Binding presentacion}" SelectedItem="{Binding seleccionado,Mode=TwoWay}"/>
+                                        <ComboBox Margin="5 0 5 0" Height="45" FontWeight="Light" FontSize="30" HorizontalContentAlignment="Center"
+                                                  ItemsSource="{Binding presentacion}"
+                                                  SelectedItem="{Binding seleccionado,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                  Name="presentacion_datagrid" DropDownClosed="Presentacion_datagrid_DropDownClosed"
+                                                  DropDownOpened="Presentacion_datagrid_DropDownOpened"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
+                                
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
-                        <!--<DataGrid.Resources>
+                        <DataGrid.Resources>
                             <Style TargetType="{x:Type DataGridCell}">
-                                <EventSetter Event="Control.MouseDoubleClick" Handler="DobleClick" />
+                                <EventSetter Event="KeyDown" Handler="DataGridCell_KeyDown"/>
                             </Style>
-                        </DataGrid.Resources>-->
+                        </DataGrid.Resources>
                     </DataGrid>
                     <Button x:Name="Agregarfila" Content="Agregar contenedor" HorizontalAlignment="Center"
-                         VerticalAlignment="Center" Grid.Column="1" Grid.Row="8" FontSize="20"
+                         VerticalAlignment="Center" Grid.Column="1" Grid.Row="9" FontSize="20"
                              Style="{DynamicResource SquareButtonStyle}" Click="Agregarfila_Click"></Button>
 
                     <Button x:Name="Quitarfila" Content="Quitar seleccion" HorizontalAlignment="Center"
-                         VerticalAlignment="Center" Grid.Column="0" Grid.Row="8" FontSize="20"
+                         VerticalAlignment="Center" Grid.Column="0" Grid.Row="9" FontSize="20"
                              Style="{DynamicResource SquareButtonStyle}" Click="Quitarfila_Click"></Button>
                 </Grid>
 
                 <!--Columna derecha-->
-                <Grid Grid.Row="1" Grid.Column="1" Width="500">
+                <Grid Grid.Row="1" Grid.Column="1" Width="auto" Margin="30 0 30 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="1.2*"></ColumnDefinition>
@@ -175,15 +207,16 @@
                                          HorizontalAlignment="Stretch" KeyDown="Peso_integer_KeyDown"
                            VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 10 0 0"></xctk:DecimalUpDown>
                     <StackPanel Name="unidades_panel" Orientation="Horizontal" Grid.Column="1" Grid.Row="0">
-                        <RadioButton GroupName="unidades" Name="kg_rbutton" Content="Kg" Margin="10 45 10 0" FontSize="20" FontWeight="Light"
-                                     ToolTip="Kilogramos" KeyDown="Kg_rbutton_KeyDown"></RadioButton>
                         <RadioButton GroupName="unidades" Name="Tn_rbutton" Content="TN" Margin="0 45 0 0" FontSize="20" FontWeight="Light"
                                      ToolTip="Toneladas" KeyDown="Tn_rbutton_KeyDown"></RadioButton>
+                        <RadioButton GroupName="unidades" Name="kg_rbutton" Content="Kg" Margin="10 45 10 0" FontSize="20" FontWeight="Light"
+                                     ToolTip="Kilogramos" KeyDown="Kg_rbutton_KeyDown"></RadioButton>
                     </StackPanel>
 
                     <TextBlock Text="Producto" FontSize="30" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Margin="0 10 0 0"></TextBlock>
                     <TextBox Name="producto_textbox" Grid.Row="1" Grid.Column="1" FontSize="25" VerticalAlignment="Top" HorizontalAlignment="Stretch" 
-                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 10 0 0" KeyDown="Producto_textbox_KeyDown"></TextBox>
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 10 0 0" KeyDown="Producto_textbox_KeyDown"
+                             CharacterCasing="Upper"></TextBox>
                     <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
                         <CheckBox Name="mineral_checkbox" Content="¿Es mineral?" Margin="10 50 10 0" FontSize="20" FontWeight="Light"
                                     ToolTip="s = seleccionar" KeyDown="Mineral_checkbox_KeyDown"></CheckBox>
@@ -199,12 +232,12 @@
                     <TextBlock Text="Pedimento" FontSize="30" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"></TextBlock>
                     <xctk:MaskedTextBox x:Name="pedimento_textbox"  Grid.Row="3" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
                         VerticalContentAlignment="Center" HorizontalContentAlignment="Right" KeyDown="Pedimento_textbox_KeyDown"
-                                        Mask="00 0000 0000000"></xctk:MaskedTextBox>
+                                        Mask="00 00 0000 0000000" ValueDataType="{x:Type s:Int32}"></xctk:MaskedTextBox>
 
                     <TextBlock Text="Valor comercial" FontSize="30" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center"></TextBlock>
                     <xctk:DecimalUpDown Name="valorcomercial_updown" Grid.Row="4" Grid.Column="1" FontSize="25" VerticalAlignment="top" HorizontalAlignment="Stretch" 
                            VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 15 0 0"
-                                        KeyDown="Valorcomercial_updown_KeyDown"></xctk:DecimalUpDown>
+                                        KeyDown="Valorcomercial_updown_KeyDown" FormatString="C"></xctk:DecimalUpDown>
 
                     <Button Name="boton_autorizacion"  Grid.Column="0" Grid.Row="5" Content="autorización" FontWeight="Light"  FontSize="20" 
                         Style="{StaticResource AccentedSquareButtonStyle}" Margin="10 10 10 10" Click="Boton_autorizacion_Click"></Button>
@@ -213,7 +246,8 @@
                         Fecha de autorizacion de salida
                     </TextBlock>
                     <xctk:DateTimePicker Name="fecha_autorizacion" Grid.Row="5" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
-                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" KeyDown="Fecha_autorizacion_KeyDown"></xctk:DateTimePicker>
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" KeyDown="Fecha_autorizacion_KeyDown"
+                           Format="ShortDate"></xctk:DateTimePicker>
 
 
                     <Button Name="boton_salida_fisica"  Grid.Column="0" Grid.Row="6" Content="salida física" FontWeight="Light"  FontSize="20" 
@@ -221,7 +255,8 @@
 
                     <TextBlock Text="Fecha de salida física" FontSize="15" Grid.Column="1" Grid.Row="6" VerticalAlignment="Top"></TextBlock>
                     <xctk:DateTimePicker Name="fecha_salida_fisica" Grid.Row="6" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
-                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" KeyDown="Fecha_salida_fisica_KeyDown"></xctk:DateTimePicker>
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" KeyDown="Fecha_salida_fisica_KeyDown"
+                                         Format="ShortDate"></xctk:DateTimePicker>
 
                     <TextBlock FontSize="30" Grid.Column="0" Grid.Row="7" VerticalAlignment="Center">
                         Periodo de 
@@ -237,10 +272,20 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button Name="boton_guardar"  Grid.Column="0" Content="Guardar" FontWeight="Light"  FontSize="20" 
-                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10" Click="Boton_guardar_Click"></Button>
-                    <Button Name="boton_actualizar"  Grid.Column="1" Content="Actualizar" FontWeight="Light"  FontSize="20" 
-                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10"></Button>
+                    <Button Name="boton_guardar"  Grid.Column="0" FontWeight="Light"  FontSize="20" 
+                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10" Click="Boton_guardar_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconModern Width="auto" Height="auto" Kind="Save"/>
+                            <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="     Guardar" />
+                        </StackPanel>
+                    </Button>
+                    <Button Name="boton_actualizar"  Grid.Column="1"  FontWeight="Light"  FontSize="20" 
+                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10">
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconModern Width="auto" Height="auto" Kind="DiskUpload"/>
+                            <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="     Actualizar" />
+                        </StackPanel>
+                    </Button>
                 </Grid>
 
                 <Grid Grid.Column="1" Grid.Row="2" Height="80">
@@ -248,10 +293,20 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button Name="boton_eliminar"  Grid.Column="0" Content="Eliminar" FontWeight="Light"  FontSize="20" 
-                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10"></Button>
-                    <Button Name="boton_limpiar"  Grid.Column="1" Content="Limpiar" FontWeight="Light"  FontSize="20" 
-                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10"></Button>
+                    <Button Name="boton_eliminar"  Grid.Column="0" FontWeight="Light"  FontSize="20" 
+                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10">
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconModern Width="auto" Height="auto" Kind="PageDelete"/>
+                            <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="     Eliminar" />
+                        </StackPanel>
+                    </Button>
+                    <Button Name="boton_limpiar"  Grid.Column="1"  FontWeight="Light"  FontSize="20" Click="Boton_limpiar_Click"
+                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10">
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconModern Width="auto" Height="auto" Kind="Clean"/>
+                            <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="     Limpiar formulario" />
+                        </StackPanel>
+                    </Button>
                 </Grid>
             </Grid>
         </ScrollViewer>

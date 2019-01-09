@@ -8,6 +8,8 @@ using ElementoMenu = BDatos_API.MODELO_VISTAS.ElementoMenu;
 using System.Windows.Threading;
 using BDatos_API.VISTAS;
 using static BDatos_API.nombresVentanas;
+using static BDatos_API.InicioSesion;
+using static BDatos_API.Maquina_estados;
 
 namespace BDatos_API
 {
@@ -33,6 +35,9 @@ namespace BDatos_API
                 NavigationUIVisibility = NavigationUIVisibility.Hidden
             };
             Navegacion.Frame.Navigated += SplitViewFrame_OnNavigated;
+            Usuario.Text = "Usuario: "+USUARIOdato + " Privilegios: "+TIPO_USUARIOdato+" ";
+
+
         }
 
         private void SplitViewFrame_OnNavigated(object sender, NavigationEventArgs e)
@@ -57,6 +62,7 @@ namespace BDatos_API
             var menuItem = e.InvokedItem as ElementoMenu;
             if (menuItem != null && menuItem.IsNavigation)
             {
+                fase = Entrada;
                 nombreVentana = menuItem.Text;
                 switch (nombreVentana)
                 {
@@ -85,6 +91,7 @@ namespace BDatos_API
                         Navegacion.NavegarA(busquedayreportes);
                         break;
                 }
+                
             }
         }
 

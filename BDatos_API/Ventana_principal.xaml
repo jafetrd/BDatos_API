@@ -6,6 +6,9 @@
                         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                         xmlns:viewModels="clr-namespace:BDatos_API.MODELO_VISTAS"
                         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                        TitleCharacterCasing="Normal"
+                        TextOptions.TextFormattingMode="Display"
+                        GlowBrush="{DynamicResource AccentColorBrush}"
                         mc:Ignorable="d"
                         Title="RECINTO FISCALIZADO - API coatzacoalcos" Height="493.389" Width="772.727"
                         WindowStartupLocation="CenterScreen" WindowState="Maximized" Closing="MetroWindow_Closing">       
@@ -14,6 +17,16 @@
         <viewModels:ShellViewModel></viewModels:ShellViewModel>
     </controls:MetroWindow.DataContext>
 
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconModern Width="24" Height="24" Kind="User"/>
+                <TextBlock x:Name="Usuario" Margin="4 0 0 0" VerticalAlignment="Center" Text="" FontWeight="Light"/>
+            </StackPanel>
+
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
     <!--<controls:MetroWindow.LeftWindowCommands>
         <controls:WindowCommands ShowSeparators="False">
             <Button x:Name="GoBackButton"

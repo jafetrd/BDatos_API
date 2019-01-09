@@ -117,11 +117,11 @@ namespace BDatos_API
         public const string TABLA2_PRESENTACIONES = "Presentaciones";
         public static int CANTIDAD_COLUMNAS_2 = 2;
         public static string TODO = "*";
+        public static string TITULO_MENSAJE = "Patio de contenedores";
     }
 
     public static class nombresPatioFerrocarril
     {
-
         public const string NOMBRE_TABLA_2 = "dform_patioferrocarril";
         public const string TABLA2_ID = "ID";
         public const string TABLA2_PRESENTACIONES = "Presentaciones";
@@ -139,6 +139,8 @@ namespace BDatos_API
         public static string TODO = "*";
         public const string BODEGA_C = "Bodega C";
         public const string BODEGA_2 = "Bodega 2";
+        public const string TITULO_MENSAJE_C = "Bodega C";
+        public const string TITULO_MENSAJE_2 = "Bodega 2";
     }
 
     public static class nombresVentanas
