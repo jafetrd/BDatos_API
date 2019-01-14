@@ -182,6 +182,7 @@
     <Compile Include="VISTAS\Busquedayreportes.xaml.cs">
       <DependentUpon>Busquedayreportes.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VISTAS\modeloPrincipal.cs" />
     <Compile Include="VISTAS\Modelos_Formularios.cs" />
     <Compile Include="VISTAS\Patio_Contenedor.xaml.cs">
       <DependentUpon>Patio_Contenedor.xaml</DependentUpon>

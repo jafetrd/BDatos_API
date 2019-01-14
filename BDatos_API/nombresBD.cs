@@ -109,25 +109,104 @@ namespace BDatos_API
 
     }
 
-    public static class nombresPatioContenedor
+    public static class tablaBuque
     {
-        
-        public const string NOMBRE_TABLA_2 = "dform_patiocontenedor";
-        public const string TABLA2_ID = "ID";
-        public const string TABLA2_PRESENTACIONES = "Presentaciones";
-        public static int CANTIDAD_COLUMNAS_2 = 2;
-        public static string TODO = "*";
-        public static string TITULO_MENSAJE = "Patio de contenedores";
+        public const string NOMBRE_TABLA = "buques";
+
+        public const string ID_ = "ID";
+        public const string BUQUE_ = "BUQUE";
+        public const string VIAJE_ = "VIAJE";
+    }
+
+    public static class tablaCliente
+    {
+        public const string NOMBRE_TABLA = "clientes";
+
+        public const string ID_ = "ID";
+        public const string CLIENTE_ = "CLIENTE";
+        public const int CANTIDAD_COLUMNAS_ = 2;
+    }
+
+    public static class tablaProducto
+    {
+        public const string NOMBRE_TABLA = "productos";
+
+        public const string ID_ = "ID";
+        public const string PRODUCTO_ = "PRODUCTO";
+        public const int CANTIDAD_COLUMNAS_ = 2;
+    }
+
+    public static class nombresPrincipal
+    {
+        public const string TABLA_FERROCARRIL = "tabla_patio_ferrocarril";
+        public const string TABLA_CONTENEDOR = "tabla_patio_contenedor";
+        public const string TODO = "*";
+        public const string ID_ = "ID";
+        public const string BUQUE_ = "BUQUE";
+        public const string VIAJE_ = "VIAJE";
+        public const string REGIMEN_ = "REGIMEN";
+        public const string FECHA_ENTRADA_ = "FECHA_ENTRADA";
+
+        public const string PRESENTACION_ = "PRESENTACION";
+        public const string INICIALES_ = "INICIALES";
+        public const string NUMERO_ = "NUMERO";
+
+        public const string SESION_ENTRADA_ = "SESION_ENTRADA";
+        public const string SESION_SALIDA_ = "SESION_SALIDA";
     }
 
     public static class nombresPatioFerrocarril
     {
+        public const string NOMBRE_TABLA = "tabla_patio_ferrocarril";
+        public const string ID_ = "ID";
+        public const string BUQUE_ = "BUQUE";
+        public const string VIAJE_ = "VIAJE";
+        public const string REGIMEN_ = "REGIMEN";
+        public const string FECHA_ENTRADA_ = "FECHA_ENTRADA";
+
+        public const string PRESENTACION_ = "PRESENTACION";
+        public const string INICIALES_ = "INICIALES";
+        public const string NUMERO_ = "NUMERO";
+        public const string PESO_ = "PESO";
+        public const string UNIDADES_ = "UNIDADES";
+        public const string PRODUCTO_ = "PRODUCTO";
+        public const string CLIENTE_ = "CLIENTE";
+        public const string PEDIMENTO_ = "PEDIMENTO";
+        public const string VALOR_COMERCIAL_ = "VALOR_COMERCIAL";
+     
+        public const string FECHA_SALIDA_ = "FECHA_SALIDA";
+        public const string SESION_ENTRADA_ = "SESION_ENTRADA";
+        public const string SESION_AUTORIZACION_ = "SESION_AUTORIZACION";
+        public const string SESION_SALIDA_ = "SESION_SALIDA";
+        public const string ESTADO_ = "ESTADO";
+
         public const string NOMBRE_TABLA_2 = "dform_patioferrocarril";
         public const string TABLA2_ID = "ID";
         public const string TABLA2_PRESENTACIONES = "Presentaciones";
         public static int CANTIDAD_COLUMNAS_2 = 2;
         public static string TODO = "*";
         public static string TITULO_MENSAJE = "Patio de ferrocarriles";
+
+        public const int NINGUNO = 0;
+        public const int GUARDAR = 1;
+        public const int ACTUALIZAR = 2;
+        public const int ELIMINAR = 3;
+        public const int LIMPIAR = 4;
+
+        public const string IMPORTACION = "IMPORTACION";
+        public const string EXPORTACION = "EXPORTACION";
+        public const string IMPO_SQL = "IMPO";
+        public const string EXPO_SQL = "EXPO";
+    }
+
+    public static class nombresPatioContenedor
+    {
+        public const string NOMBRE_TABLA_2 = "dform_patiocontenedor";
+        public const string TABLA2_ID = "ID";
+        public const string TABLA2_PRESENTACIONES = "Presentaciones";
+        public static int CANTIDAD_COLUMNAS_2 = 2;
+        public static string TODO = "*";
+        public static string TITULO_MENSAJE = "Patio de contenedores";
     }
 
     public static class nombresBodegaC
@@ -175,7 +254,15 @@ namespace BDatos_API
             ColorScheme = MetroDialogColorScheme.Accented
         };
 
-     
+        public MetroDialogSettings PREVIEW = new MetroDialogSettings
+        {
+            AffirmativeButtonText = "Si",
+            NegativeButtonText = "No",
+            ColorScheme = MetroDialogColorScheme.Theme,
+            DialogMessageFontSize = 30,
+            AnimateShow = true,
+            DialogTitleFontSize = 40
+        };
     }
 
 }

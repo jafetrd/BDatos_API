@@ -20,9 +20,17 @@ namespace BDatos_API.VISTAS
     /// </summary>
     public partial class Principal : Page
     {
+        modeloPrincipal modelo;
         public Principal()
         {
             InitializeComponent();
+            if (modelo == null) modelo = new modeloPrincipal();
+            this.DataContext = modelo;
+        }
+
+        private void DataGridCell_KeyDown(object sender, KeyEventArgs e)
+        {
+
         }
     }
 }

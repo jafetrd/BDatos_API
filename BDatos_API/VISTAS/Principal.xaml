@@ -3,12 +3,213 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+       xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
+      xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit" 
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
       xmlns:local="clr-namespace:BDatos_API.VISTAS"
+      xmlns:s="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Principal">
+      Title="Principal" Background="White">
+
+    <Page.Resources>
+        <ResourceDictionary >
+            <!-- This style applies to all auto-complete comboboxes in the window by default. -->
+            <Style TargetType="dotNetKitControls:AutoCompleteComboBox">
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel />
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="FontWeight" Value="Light"></Setter>
+                <Setter Property="Margin" Value="5 0 5 0"></Setter>
+                <Setter Property="TextAlignment" Value="Left"></Setter>
+            </Style>
+            <Style TargetType="ToolTip">
+                <!--<Setter Property = "HorizontalOffset" Value="10"/>
+                <Setter Property = "VerticalOffset" Value="10"/>-->
+                <Setter Property = "Background" Value="LightBlue"/>
+                <Setter Property = "Foreground" Value="Black"/>
+                <Setter Property = "FontSize" Value="16"/>
+                <Setter Property = "FontWeight" Value="Light"/>
+            </Style>
+            <Style TargetType="DataGridColumnHeader">
+                <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+            </Style>
+        </ResourceDictionary>
+
+    </Page.Resources>
 
     <Grid>
-        
+        <Grid>
+            <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
+
+                <Grid ScrollViewer.CanContentScroll="True" Margin="10 0 10 0" Width="auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions >
+                        <RowDefinition Height="45"></RowDefinition>
+                        <RowDefinition Height="45"></RowDefinition>
+                        <RowDefinition Height="600"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Inicio" FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
+                               FontWeight="Light" Foreground="Black" Grid.Row="0"></TextBlock>
+                    <Separator  Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2"></Separator>
+                    <TextBlock Text=">>Entradas" FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Center"
+                               FontWeight="Light" Foreground="Black" Grid.Column="1" Grid.Row="1" ></TextBlock>
+                    <TabControl Grid.Row="2" Margin="0 10 0 0">
+                        <TabControl.Resources>
+                            <Style TargetType="TabItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TabItem">
+                                            
+                                            <Grid Name="Panel">
+                                                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center"
+                                                  HorizontalAlignment="Center" ContentSource="Header" Margin="10,2"/>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="Panel" Property="Background" Value="#BB791518" />
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="False">
+                                                    <Setter TargetName="Panel" Property="Background" Value="White" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TabControl.Resources>
+
+                        <TabItem  Cursor="Hand" >
+                            <TabItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <iconPacks:PackIconModern Width="auto" Height="auto" Kind="ArrowDown"/>
+                                    <TextBlock Margin="4 0 0 0" FontSize="20" VerticalAlignment="Center" Text="     Importaciones" />
+                                </StackPanel>
+                            </TabItem.Header>
+
+                            <DataGrid x:Name="tabla_importaciones" AutoGenerateColumns="False"  FontWeight="Light" 
+                      FontSize="15" SelectionMode="Extended"  ScrollViewer.CanContentScroll="True" Grid.Row="1"
+                       CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" 
+                              VerticalAlignment="Stretch" CanUserAddRows="False"
+                              ItemsSource="{Binding DatosImportacion}" IsReadOnly="True"
+                              CanUserDeleteRows="False"
+                              HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                              Margin="20 10 20 0"
+                              Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Grid}}">
+
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="Contenedor" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="30" Height="45" Text="{Binding CONTENEDOR,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
+                                                 Margin="5 0 5 0" TextAlignment="Center" Name="iniciales_datagrid"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Buque" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="30" Height="45" Text="{Binding BUQUE,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                 Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="#viaje" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="30" Height="45" Text="{Binding VIAJE,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                 Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Fecha de entrada" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="30" Height="45" Text="{Binding FECHA_ENTRADA,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                 Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Patio" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="30" Height="45" Text="{Binding PATIO,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                 Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                                <DataGrid.Resources>
+                                    <Style TargetType="{x:Type DataGridCell}">
+                                        <EventSetter Event="KeyDown" Handler="DataGridCell_KeyDown"/>
+                                    </Style>
+                                </DataGrid.Resources>
+                            </DataGrid>
+                        </TabItem>
+
+                        <TabItem Cursor="Hand">
+                            <TabItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <iconPacks:PackIconModern Width="auto" Height="auto" Kind="ArrowUp"/>
+                                    <TextBlock Margin="4 0 0 0" FontSize="20" VerticalAlignment="Center" Text="     Exportaciones" />
+                                </StackPanel>
+                            </TabItem.Header>
+                            <DataGrid x:Name="tabla_exportaciones" AutoGenerateColumns="False"  FontWeight="Light" 
+                      FontSize="15" SelectionMode="Extended"  ScrollViewer.CanContentScroll="True" Grid.Row="1"
+                       CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" 
+                              VerticalAlignment="Stretch" CanUserAddRows="False"
+                              ItemsSource="{Binding datos}" IsReadOnly="False"
+                              HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                              Margin="0 10 0 0"
+                              Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Grid}}">
+
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Header="Contenedor" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="30" Height="45" Text="{Binding iniciales,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
+                                                 Margin="5 0 5 0" TextAlignment="Center" Name="iniciales_datagrid"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="Fecha de entrada" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Margin="5 0 5 0" Height="45" FontWeight="Light" FontSize="30" HorizontalContentAlignment="Center"
+                                               Name="fecha_entrada_datagrid"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                                <DataGrid.Resources>
+                                    <Style TargetType="{x:Type DataGridCell}">
+                                        <EventSetter Event="KeyDown" Handler="DataGridCell_KeyDown"/>
+                                    </Style>
+                                </DataGrid.Resources>
+                            </DataGrid>
+                        </TabItem>
+                       
+                    </TabControl>
+
+                    
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+
     </Grid>
 </Page>

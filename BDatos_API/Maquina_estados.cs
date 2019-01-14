@@ -8,7 +8,7 @@ namespace BDatos_API
 {
     public static class Maquina_estados
     {
-        public static int fase { get; set; }
+        public static int _ESTADO { get; set; }
         /// <summary>
         /// Fase 1
         /// </summary>

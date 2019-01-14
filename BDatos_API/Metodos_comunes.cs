@@ -24,6 +24,7 @@ namespace BDatos_API
             for(int a = 0; a < posicion.Length; a++)
             {
                 campos[posicion[a]].IsEnabled = false;
+                campos[posicion[a]].Background = Brushes.LightGray;
             }
         }
 
@@ -32,6 +33,7 @@ namespace BDatos_API
             for (int a = 0; a < posicion.Length; a++)
             {
                 campos[posicion[a]].IsEnabled = true;
+                campos[posicion[a]].ClearValue(Control.BackgroundProperty);
             }
         }
         /// <summary>

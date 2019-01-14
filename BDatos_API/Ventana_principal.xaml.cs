@@ -30,6 +30,7 @@ namespace BDatos_API
         {
             InitializeComponent();
 
+            if(Navegacion.Frame == null)
             Navegacion.Frame = new Frame()
             {
                 NavigationUIVisibility = NavigationUIVisibility.Hidden
@@ -62,7 +63,7 @@ namespace BDatos_API
             var menuItem = e.InvokedItem as ElementoMenu;
             if (menuItem != null && menuItem.IsNavigation)
             {
-                fase = Entrada;
+                _ESTADO = Entrada;
                 nombreVentana = menuItem.Text;
                 switch (nombreVentana)
                 {
