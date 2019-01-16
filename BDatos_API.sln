@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BDatos_API", "BDatos_API\BDatos_API.csproj", "{8CF99F2F-1E17-4B05-9AE6-87829EF8937F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplicationServer", "..\Server\ConsoleApplicationServer.csproj", "{4E9CF688-EABA-4F39-AB1B-AA68C00EF2A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplicationServer", "Server\ConsoleApplicationServer.csproj", "{4E9CF688-EABA-4F39-AB1B-AA68C00EF2A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
