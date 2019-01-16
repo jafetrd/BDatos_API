@@ -10,6 +10,8 @@ using static BDatos_API.InicioSesion;
 using MahApps.Metro.Controls.Dialogs;
 using MySql.Data.MySqlClient;
 using ToastNotifications.Core;
+using TableDependency.SqlClient;
+using TableDependency.SqlClient.Base.EventArgs;
 
 namespace BDatos_API
 {
@@ -47,10 +49,10 @@ namespace BDatos_API
                 //Navegacion.Navigate("Nuevo_usuario.xaml");
                 _vm.ShowInformation("Creando cuenta administrador");
             }
-
-            caja_texto_usuario.Text = "jafet";
-            caja_contrasena.Password = "0000";
-            Boton_ingresar_Click(null, null);
+         
+            //caja_texto_usuario.Text = "jafet";
+            //caja_contrasena.Password = "0000";
+            //Boton_ingresar_Click(null, null);
         }
 
 
@@ -72,9 +74,10 @@ namespace BDatos_API
             if (Controles.Seleccionar_control(false))
             {
                 ArrayList resultado = metodos_bd.BUSCAR(NOMBRE_TABLA, NOMBRE, USUARIOdato, CANTIDAD_COLUMNAS, TODO);
-                TIPO_USUARIOdato = resultado[3].ToString();
+                
                 if (resultado.Count > 0) /*si hay mas de un resultado entonces si existe el usuario*/
                 {
+                    TIPO_USUARIOdato = resultado[3].ToString();
                     if (resultado[2].ToString() == caja_contrasena.Password)
                     {
                         _vm.ShowInformation("Bienvenida(o): " + resultado[1].ToString());

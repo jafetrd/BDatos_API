@@ -10,7 +10,7 @@
       xmlns:local="clr-namespace:BDatos_API.VISTAS"
       xmlns:s="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="1000" d:DesignWidth="800"
       Title="Principal" Background="White">
 
     <Page.Resources>
@@ -102,9 +102,9 @@
                        CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" 
                               VerticalAlignment="Stretch" CanUserAddRows="False"
                               ItemsSource="{Binding DatosImportacion}" IsReadOnly="True"
-                              CanUserDeleteRows="False"
+                              CanUserDeleteRows="False" SelectedItem="{Binding datosSeleccionados}"
                               HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
-                              Margin="20 10 20 0"
+                              Margin="5 10 20 10"
                               Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Grid}}">
 
                                 <DataGrid.Columns>

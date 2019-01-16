@@ -114,7 +114,7 @@ namespace BDatos_API.VISTAS
         public string _SESION_AUTORIZACION;
         public string _SESION_SALIDA;
         public string _ESTADO;
-
+        public string _AGENTE;
 
         private string D1;
         private string D2;
@@ -136,6 +136,7 @@ namespace BDatos_API.VISTAS
 
         private string D19;
         private string D20;
+        private string D21;
 
         public string ID
         {
@@ -305,15 +306,25 @@ namespace BDatos_API.VISTAS
             }
         }
 
+        public string AGENTE
+        {
+            get { return this.D21; }
+            set
+            {
+                this.D21 = value;
+                OnPropertyChanged("AGENTE");
+            }
+        }
+
         //modelo para el BUQUE
         public class comboBuque
         {
             public string BUQUE_2 { get; set; }
             public string VIAJE { get; set; }
         }
+        
+        public List<comboBuque> comboBuqueDatos{ get;set;}
 
-        public List<comboBuque> comboBuqueDatos { get; set; }
-        //buque seleccionado 
         public comboBuque buqueSeleccionado { get; set; }
 
         public class comboCliente

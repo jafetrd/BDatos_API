@@ -82,7 +82,7 @@ namespace BDatos_API
             }
         }
 
-        public const string NOMBRE_TABLA = "tabla_usuario";
+        public const string NOMBRE_TABLA = "dbo.tabla_usuario";
         public const string ID_USUARIO = "id_usuario";
         public const string CONTRASEÑA = "contraseña_Usuario";
         public const string NOMBRE = "nombre_Usuario";
@@ -150,7 +150,8 @@ namespace BDatos_API
         public const string PRESENTACION_ = "PRESENTACION";
         public const string INICIALES_ = "INICIALES";
         public const string NUMERO_ = "NUMERO";
-
+        public const string CONTENEDOR = "Contenedores";
+        public const string FERROCARRIL = "Ferrocarril";
         public const string SESION_ENTRADA_ = "SESION_ENTRADA";
         public const string SESION_SALIDA_ = "SESION_SALIDA";
     }
@@ -201,12 +202,46 @@ namespace BDatos_API
 
     public static class nombresPatioContenedor
     {
+        public const string NOMBRE_TABLA = "tabla_patio_contenedor";
+        public const string ID_ = "ID";
+        public const string BUQUE_ = "BUQUE";
+        public const string VIAJE_ = "VIAJE";
+        public const string REGIMEN_ = "REGIMEN";
+        public const string FECHA_ENTRADA_ = "FECHA_ENTRADA";
+
+        public const string PRESENTACION_ = "PRESENTACION";
+        public const string INICIALES_ = "INICIALES";
+        public const string NUMERO_ = "NUMERO";
+        public const string PESO_ = "PESO";
+        public const string UNIDADES_ = "UNIDADES";
+        public const string PRODUCTO_ = "PRODUCTO";
+        public const string CLIENTE_ = "CLIENTE";
+        public const string PEDIMENTO_ = "PEDIMENTO";
+        public const string VALOR_COMERCIAL_ = "VALOR_COMERCIAL";
+
+        public const string FECHA_SALIDA_ = "FECHA_SALIDA";
+        public const string SESION_ENTRADA_ = "SESION_ENTRADA";
+        public const string SESION_AUTORIZACION_ = "SESION_AUTORIZACION";
+        public const string SESION_SALIDA_ = "SESION_SALIDA";
+        public const string ESTADO_ = "ESTADO";
+
         public const string NOMBRE_TABLA_2 = "dform_patiocontenedor";
         public const string TABLA2_ID = "ID";
         public const string TABLA2_PRESENTACIONES = "Presentaciones";
         public static int CANTIDAD_COLUMNAS_2 = 2;
         public static string TODO = "*";
         public static string TITULO_MENSAJE = "Patio de contenedores";
+
+        public const int NINGUNO = 0;
+        public const int GUARDAR = 1;
+        public const int ACTUALIZAR = 2;
+        public const int ELIMINAR = 3;
+        public const int LIMPIAR = 4;
+
+        public const string IMPORTACION = "IMPORTACION";
+        public const string EXPORTACION = "EXPORTACION";
+        public const string IMPO_SQL = "IMPO";
+        public const string EXPO_SQL = "EXPO";
     }
 
     public static class nombresBodegaC

@@ -19,9 +19,8 @@ namespace BDatos_API
     public partial class Ventana_principal : MetroWindow
     {
         Bodega bodega;
-        Bodega2 bodega2;
-        Patio_Ferrocarril ferrocarril;
-        Patio_Contenedor contenedor;
+        public  Patio_Ferrocarril ferrocarril;
+        public  Patio_Contenedor contenedor;
         Principal principal;
         Busquedayreportes busquedayreportes;
 
@@ -37,7 +36,8 @@ namespace BDatos_API
             };
             Navegacion.Frame.Navigated += SplitViewFrame_OnNavigated;
             Usuario.Text = "Usuario: "+USUARIOdato + " Privilegios: "+TIPO_USUARIOdato+" ";
-
+            if (principal == null) principal = new Principal();
+            Navegacion.NavegarA(principal);
 
         }
 
@@ -68,16 +68,12 @@ namespace BDatos_API
                 switch (nombreVentana)
                 {
                     case nombresVentanas.PatioContenedores:
-                        if (contenedor == null) contenedor = new Patio_Contenedor();
+                        if (contenedor == null) contenedor = new Patio_Contenedor(Entrada,nombresPatioContenedor.IMPORTACION);
                         Navegacion.NavegarA(contenedor);
                         break;
                     case nombresVentanas.PatioFerrocarriles:
-                        if (ferrocarril == null) ferrocarril = new Patio_Ferrocarril();
+                        if (ferrocarril == null) ferrocarril = new Patio_Ferrocarril(Entrada,nombresPatioFerrocarril.IMPORTACION);
                         Navegacion.NavegarA(ferrocarril);
-                        break;
-                    case nombresVentanas.Bodega2:
-                        if (bodega2 == null) bodega2 = new Bodega2();
-                        Navegacion.NavegarA(bodega2);
                         break;
                     case nombresVentanas.BodegaC:
                         if (bodega == null) bodega = new Bodega();

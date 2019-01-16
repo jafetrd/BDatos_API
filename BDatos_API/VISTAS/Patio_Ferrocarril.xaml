@@ -250,8 +250,12 @@
                                         KeyDown="Valorcomercial_updown_KeyDown" FormatString="C"
                                          Text="{Binding VALOR_COMERCIAL, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></xctk:DecimalUpDown>
 
-                  
 
+                    <TextBlock Text="Agente aduanal" FontSize="30" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center"></TextBlock>
+                    <TextBox Name="agenteTextbox" Grid.Row="5" Grid.Column="1" FontSize="25" VerticalAlignment="top" HorizontalAlignment="Stretch" 
+                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 15 0 0"
+                                        KeyDown="AgenteTextbox_KeyDown" 
+                                         Text="{Binding AGENTE, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
                     <Button Name="boton_salida_fisica"  Grid.Column="0" Grid.Row="6" Content="salida física" FontWeight="Light"  FontSize="20" 
                         Style="{StaticResource AccentedSquareButtonStyle}" Margin="10 10 10 10" Click="Boton_salida_Click"></Button>

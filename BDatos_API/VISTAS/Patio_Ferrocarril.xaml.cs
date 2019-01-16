@@ -55,14 +55,20 @@ namespace BDatos_API.VISTAS
         //a la lista interna de la coleccion datos 
         public List<string> presentaciones;
 
-       
+
         #endregion
 
-        public Patio_Ferrocarril()
+        private int _estado;
+        private string _regimen;
+        public Patio_Ferrocarril(int estado,string regimen)
         { 
             InitializeComponent();
+
             //constructores
+            _estado = estado;
+            _regimen = regimen;
             constructores();
+            
         }
 
         #region metodos de carga iniciales
@@ -72,7 +78,8 @@ namespace BDatos_API.VISTAS
             modeloPatioFerrocarril = null;
             modeloPatioFerrocarril = new modeloPatioFerrocarril();
             this.DataContext = modeloPatioFerrocarril;
-           
+            _ESTADO = _estado;
+            modeloPatioFerrocarril.REGIMEN = _regimen;
             if (configMetro == null) configMetro = new configMetroDialog();
             if (metodos_Bd == null) metodos_Bd = new Metodos_bd();
             if (presentaciones == null) presentaciones = new List<string>();
@@ -85,8 +92,6 @@ namespace BDatos_API.VISTAS
 
         public void elegirFase()
         {
-            _ESTADO = Entrada;
-            Debug.WriteLine(_ESTADO + " " + modeloPatioFerrocarril.REGIMEN);
             switch (_ESTADO)
             {
                 case Entrada:
@@ -159,6 +164,7 @@ namespace BDatos_API.VISTAS
             metodos_Comunes.campos.Add(cliente_Combobox);
             metodos_Comunes.campos.Add(pedimento_textbox);
             metodos_Comunes.campos.Add(valorcomercial_updown);
+            metodos_Comunes.campos.Add(agenteTextbox);
             metodos_Comunes.campos.Add(fecha_salida_fisica);
         }
 
@@ -172,7 +178,7 @@ namespace BDatos_API.VISTAS
             boton_guardar.IsEnabled = true;
             tabla_Principal.IsEnabled = true;
 
-            bloqueado = new int[] { 4, 5, 6, 7, 8, 9, 10, 11, 12};
+            bloqueado = new int[] { 4, 5, 6, 7, 8, 9, 10, 11, 12,13};
             metodos_Comunes.ocultarCampos(bloqueado);
             boton_salida_fisica.IsEnabled = false;
             boton_actualizar.IsEnabled = false;
@@ -189,7 +195,7 @@ namespace BDatos_API.VISTAS
             boton_guardar.IsEnabled = false;
             tabla_Principal.IsEnabled = false;
 
-            desbloqueado = new int[] { 4, 5, 6, 7, 8, 9, 10, 11, 12};
+            desbloqueado = new int[] { 4, 5, 6, 7, 8, 9, 10, 11, 12,13};
             metodos_Comunes.mostrarCampos(desbloqueado);
             boton_salida_fisica.IsEnabled = true;
             boton_actualizar.IsEnabled = true;
@@ -204,7 +210,7 @@ namespace BDatos_API.VISTAS
             Quitarfila.Visibility = Visibility.Visible;
             Agregarfila.Visibility = Visibility.Visible;
 
-            bloqueado = new int[] { 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+            bloqueado = new int[] { 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12,13};
             metodos_Comunes.ocultarCampos(bloqueado);
             boton_salida_fisica.IsEnabled = false;
             boton_actualizar.IsEnabled = false;
@@ -221,7 +227,7 @@ namespace BDatos_API.VISTAS
             boton_guardar.IsEnabled = false;
             tabla_Principal.IsEnabled = false;
 
-            desbloqueado = new int[] { 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+            desbloqueado = new int[] { 1, 2, 4, 5, 6, 7, 8, 9, 10, 11, 12,13 };
             metodos_Comunes.mostrarCampos(desbloqueado);
             boton_salida_fisica.IsEnabled = true;
             boton_actualizar.IsEnabled = true;
@@ -281,7 +287,7 @@ namespace BDatos_API.VISTAS
                 buque_Combobox.Text = null;
                 viaje_textbox.Text = null;
             }
-            
+
             siguiente_Key(sender,enter());
             elegirFase();
         }
@@ -364,6 +370,12 @@ namespace BDatos_API.VISTAS
         }
 
         private void Valorcomercial_updown_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter) siguiente_Key(sender, e);
+            metodos_Comunes.vacio(sender);
+        }
+
+        private void AgenteTextbox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter) siguiente_Key(sender, e);
             metodos_Comunes.vacio(sender);
@@ -458,6 +470,12 @@ namespace BDatos_API.VISTAS
                 keyEventArgs = new KeyEventArgs(Keyboard.PrimaryDevice, Keyboard.PrimaryDevice.ActiveSource, 0, Key.Enter) { RoutedEvent = Keyboard.KeyDownEvent };
             }
             return keyEventArgs;
+        }
+
+        private void Buque_Combobox_DropDownClosed(object sender, EventArgs e)
+        {
+            if (modeloPatioFerrocarril.buqueSeleccionado != null)
+                modeloPatioFerrocarril.VIAJE = (int.Parse(modeloPatioFerrocarril.buqueSeleccionado.VIAJE) + 1).ToString();
         }
         #endregion
 
@@ -643,10 +661,6 @@ namespace BDatos_API.VISTAS
             }
         }
 
-        private void Buque_Combobox_DropDownClosed(object sender, EventArgs e)
-        {
-            if(modeloPatioFerrocarril.buqueSeleccionado!=null)
-            modeloPatioFerrocarril.VIAJE = (int.Parse(modeloPatioFerrocarril.buqueSeleccionado.VIAJE) + 1).ToString();
-        }
+       
     }
 }

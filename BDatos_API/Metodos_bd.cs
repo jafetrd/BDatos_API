@@ -4,6 +4,7 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections;
 using System.Data;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls.Primitives;
@@ -23,8 +24,8 @@ namespace BDatos_API
             string campos_local = String.Join(",", Columnas);
             ConectorDB.AbrirConexion();
             string SQL = "SELECT "+ campos_local +" FROM "+NombreTabla;
-            MySqlCommand mySqlCommand = new MySqlCommand(SQL, ConectorDB.conectar);
-            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            SqlCommand mySqlCommand = new SqlCommand(SQL, ConectorDB.conectar);
+            SqlDataAdapter mySqlDataAdapter = new SqlDataAdapter(mySqlCommand);
             DataSet dataSet = new DataSet();
             mySqlDataAdapter.Fill(dataSet,RutaEnlaceDataGrid);
             //DataGrid.DataContext = dataSet;
@@ -42,7 +43,7 @@ namespace BDatos_API
         public int ULTIMO_REGISTRO(string NombreTabla, string NombreColumna)
         {
             string SQL = "SELECT MAX(" + NombreColumna + ") FROM " + NombreTabla;
-            MySqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
+            SqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
             sqlCommand.CommandText = SQL;
             ConectorDB.AbrirConexion();
             int maxId = Convert.ToInt32(sqlCommand.ExecuteScalar());
@@ -61,8 +62,8 @@ namespace BDatos_API
             string campos_local = String.Join(",", Columnas);
             ConectorDB.AbrirConexion();
             string SQL = "SELECT " + campos_local + " FROM " + NombreTabla;
-            MySqlCommand mySqlCommand = new MySqlCommand(SQL, ConectorDB.conectar);
-            MySqlDataAdapter mySqlDataAdapter = new MySqlDataAdapter(mySqlCommand);
+            SqlCommand mySqlCommand = new SqlCommand(SQL, ConectorDB.conectar);
+            SqlDataAdapter mySqlDataAdapter = new SqlDataAdapter(mySqlCommand);
             DataSet dataSet = new DataSet();
             mySqlDataAdapter.Fill(dataSet);
             ConectorDB.CerrarConexion();
@@ -81,25 +82,29 @@ namespace BDatos_API
         /// <returns></returns>
         public ArrayList BUSCAR(string NombreTabla,string NombreColumna,string Dato_Buscar,int CantidadColumnas, params string[] ColumnasRetorno)
         {
-            int count = 0;
+            object[] local;
             string columna = String.Join(",", ColumnasRetorno);
             TemporalGetSet temporal = new TemporalGetSet();
             string parametroSelector = "@" + NombreColumna;
-                string SQL = "SELECT "+columna+" FROM " + NombreTabla + " WHERE " + NombreColumna + " = " + parametroSelector;
-                MySqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
+            //string SQL = "SELECT "+columna+" FROM " + NombreTabla + " WHERE " + NombreColumna + " = " + parametroSelector;
+            string SQL = "SELECT " + columna + " FROM " + NombreTabla + " WHERE " + NombreColumna + " IN (" + parametroSelector + ")";
+                SqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
                 sqlCommand.CommandText = SQL;
                 sqlCommand.Parameters.AddWithValue(parametroSelector, Dato_Buscar);
                 ConectorDB.AbrirConexion();
-                MySqlDataReader reader = sqlCommand.ExecuteReader();
-                while (reader.Read()) { count++; }
-            if (count > 0)
+                SqlDataReader reader = sqlCommand.ExecuteReader();
+
+            local = new object[reader.FieldCount];
+            if (reader.HasRows)
             {
-                for (int a = 0; a < CantidadColumnas; a++)
+                while (reader.Read())
                 {
-                    temporal.Lista.Add(reader.GetString(a));
+                    int a = reader.GetValues(local);
                 }
+                for (int a = 0; a < reader.FieldCount; a++)
+                    temporal.Lista.Add(local[a]);
             }
-                ConectorDB.CerrarConexion(); 
+            ConectorDB.CerrarConexion(); 
                 return temporal.Lista;
         }
 
@@ -134,7 +139,7 @@ namespace BDatos_API
 
             string SQL = "Insert into " + tabla + " (" + campos_local + ") values (" + nombreParametroColumna + ")";
 
-            MySqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
+            SqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
             sqlCommand.CommandType = CommandType.Text;
             sqlCommand.CommandText = SQL;
 
@@ -170,7 +175,7 @@ namespace BDatos_API
             parametros[longitud] = "@" + datos[longitud].columnas;
 
             string SQL = "UPDATE " + tabla + " SET "+aux+" WHERE "+selector+ "=@" + selector;
-            MySqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
+            SqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
             sqlCommand.CommandType = CommandType.Text;
             sqlCommand.CommandText = SQL;
             for (int a = 0; a < datos.Length; a++)
@@ -202,7 +207,7 @@ namespace BDatos_API
             string SQL_1 = "DELETE from " + tabla + " WHERE " + selector + " IN ({0})";
             string SQL = string.Format(SQL_1, aux);
             
-            MySqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
+            SqlCommand sqlCommand = ConectorDB.conectar.CreateCommand();
             sqlCommand.CommandType = CommandType.Text;
             sqlCommand.CommandText = SQL;
             for(int a = 0; a < longitud; a++)
@@ -218,12 +223,10 @@ namespace BDatos_API
     public class TemporalGetSet
     {
         private ArrayList _array = new ArrayList(); // use underscore to indicate private field
-
         public ArrayList Lista
         {
             get { return _array; } // do not implement setter as to avoid outside to overwrite the object's array instance.
         }
-
         /* Shortcut getter/setter to the array */
         public object this[int index]
         {
@@ -232,5 +235,4 @@ namespace BDatos_API
         }
     }
 
-   
 }

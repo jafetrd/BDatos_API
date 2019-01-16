@@ -6,6 +6,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using TableDependency.SqlClient;
+using TableDependency.SqlClient.Base.EventArgs;
 
 namespace BDatos_API
 {
@@ -30,7 +32,11 @@ namespace BDatos_API
                                         theme.Item1);
 
             base.OnStartup(e);
+
+           
         }
+
+      
 
     }
 }

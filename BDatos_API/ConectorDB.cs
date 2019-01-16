@@ -4,13 +4,13 @@ using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Data.SqlClient;
 
 namespace BDatos_API
 {
     class ConectorDB
     {
-        public static MySqlConnection conectar;
+        public static SqlConnection conectar;
         public static string server=null;
         public static string database = null;
         public static string Uid = null;
@@ -22,12 +22,13 @@ namespace BDatos_API
 
         public static void Initialize()
         {
-            server = "localhost";
-            database = "bd_api";
-            Uid = "root";
-            pwd = "0000000000";
-            datos = "server=" + server + "; database=" + database + "; Uid=" + Uid + "; pwd=" + pwd + ";";
-            conectar = new MySqlConnection(datos);
+            //server = "localhost";
+            //database = "bd_api";
+            //Uid = "root";
+            //pwd = "0000000000";
+            //datos = "server=" + server + "; database=" + database + "; Uid=" + Uid + "; pwd=" + pwd + ";";
+            datos = "Data Source=DESKTOP-481IKC1;" + "Initial Catalog=bd_api;" +"Integrated Security=SSPI; ";
+            conectar = new SqlConnection(datos);
         }
 
        public static void AbrirConexion()
@@ -36,7 +37,7 @@ namespace BDatos_API
             {
                 conectar.Open();
             }
-            catch (MySqlException)
+            catch (SqlException)
             {
 
             }
@@ -50,7 +51,7 @@ namespace BDatos_API
                     conectar.Open();
                     return true;
                 }
-                catch (MySqlException)
+                catch (SqlException)
                 {
                     return false;
                 }
@@ -63,19 +64,19 @@ namespace BDatos_API
             {
                 conectar.Close();
             }
-            catch (MySqlException)
+            catch (SqlException)
             {
               
             }
         }
 
-        public static MySqlDataReader Consultas(string SQL)
+        public static SqlDataReader Consultas(string SQL)
         {
             /*Realizamos la consulta a la BD para vervicar los el usuario y su contraseña*/
-            MySqlCommand comando = new MySqlCommand(SQL, conectar);
+            SqlCommand comando = new SqlCommand(SQL, conectar);
 
             /*Ejecutamos la sentencia SQL descrita arriba*/
-            MySqlDataReader reader = comando.ExecuteReader();
+            SqlDataReader reader = comando.ExecuteReader();
 
             /*Retornamos lo que nos devolvio la consulta*/
             return reader;
@@ -87,7 +88,7 @@ namespace BDatos_API
             if (SQL != null)
             {
                 /*Realizamos la inserción a la BD para guardar lo que indique el SQL*/
-                MySqlCommand comando = new MySqlCommand(SQL, conectar);
+                SqlCommand comando = new SqlCommand(SQL, conectar);
                 /*Ejecutamos la sentencia SQL descrita arriba*/
                 respuesta = comando.ExecuteNonQuery();
                 /*Retornamos un valor cualquiera*/
