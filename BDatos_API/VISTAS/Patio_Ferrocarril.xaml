@@ -225,12 +225,12 @@
                                                             KeyDown="Producto_textbox_KeyDown"
                               Text="{Binding PRODUCTO, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></dotNetKitControls:AutoCompleteComboBox>
                     <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
-                        <CheckBox Name="mineral_checkbox" Content="¿Es mineral?" Margin="10 50 10 0" FontSize="20" FontWeight="Light"
+                        <CheckBox Name="mineral_checkbox" Content="¿Es mineral?" Margin="10 55 10 0" FontSize="16" FontWeight="Light"
                                     ToolTip="s = seleccionar" KeyDown="Mineral_checkbox_KeyDown"></CheckBox>
                     </StackPanel>
 
-                    <TextBlock Text="Cliente" FontSize="30" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></TextBlock>
-                    <dotNetKitControls:AutoCompleteComboBox  Grid.Row="2" ItemsSource="{Binding comboClientes}" 
+                    <TextBlock Text="Cliente" FontSize="30" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"></TextBlock>
+                    <dotNetKitControls:AutoCompleteComboBox  Grid.Row="3" ItemsSource="{Binding comboClientes}" 
                                                             TextSearch.TextPath="CLIENTE_2"
                                                             SelectedValuePath="CLIENTE_2" SelectedItem="{Binding clienteSeleccionado}"
                                                             Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
@@ -238,8 +238,8 @@
                                                             x:Name="cliente_Combobox" KeyDown="Cliente_Combobox_KeyDown"
                                                             Text="{Binding CLIENTE, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBlock Text="Pedimento" FontSize="30" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"></TextBlock>
-                    <xctk:MaskedTextBox x:Name="pedimento_textbox"  Grid.Row="3" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                    <TextBlock Text="Pedimento" FontSize="30" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></TextBlock>
+                    <xctk:MaskedTextBox x:Name="pedimento_textbox"  Grid.Row="2" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
                         VerticalContentAlignment="Center" HorizontalContentAlignment="Right" KeyDown="Pedimento_textbox_KeyDown"
                                         Mask="00 00 0000 0000000" ValueDataType="{x:Type s:Int32}"
                                          Text="{Binding PEDIMENTO, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></xctk:MaskedTextBox>

@@ -188,13 +188,7 @@ namespace BDatos_API.VISTAS
             metodos_Comunes.vacio(sender);
         }
 
-        private void Fecha_autorizacion_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (!String.IsNullOrEmpty(fecha_autorizacion.Text))
-                if (e.Key == Key.Enter) fecha_salida_fisica.Focus();
-            metodos_Comunes.vacio(sender);
-
-        }
+       
 
         private void Fecha_salida_fisica_KeyDown(object sender, KeyEventArgs e)
         {
@@ -220,19 +214,7 @@ namespace BDatos_API.VISTAS
             }
         }
 
-        private async void Boton_autorizacion_Click(object sender, RoutedEventArgs e)
-        {
-            var a = await this.TryFindParent<MetroWindow>().ShowMessageAsync("Patio de contenedores", "¿Dar autorización de salida?", MessageDialogStyle.AffirmativeAndNegative);
-            if (a == MessageDialogResult.Affirmative)
-            {
-                if (String.IsNullOrEmpty(fecha_autorizacion.Text))
-                    fecha_autorizacion.Text = DateTime.Now.ToString();
-            }
-            else
-            {
-                return;
-            }
-        }
+       
 
         private void periodo_almacenaje()
         {
