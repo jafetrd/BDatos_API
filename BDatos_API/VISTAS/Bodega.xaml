@@ -150,9 +150,7 @@
                                                             Style="{DynamicResource SquareButtonStyle}"></Button>
                                                     </StackPanel>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="Peso
-                                                                   
-                                                                   :"  ></TextBlock>
+                                                        <TextBlock Text="Peso:"></TextBlock>
                                                     <TextBox HorizontalAlignment="Stretch" FontWeight="Light" FontSize="30"
                                                              Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Grid}}"></TextBox>
                                                     <TextBlock Text="00/00/0000" Margin="10 0 0 0"></TextBlock>
@@ -217,15 +215,6 @@
                     <xctk:DecimalUpDown Name="valorcomercial_updown" Grid.Row="4" Grid.Column="1" FontSize="25" VerticalAlignment="top" HorizontalAlignment="Stretch" 
                            VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Margin="0 15 0 0"
                                         KeyDown="Valorcomercial_updown_KeyDown"></xctk:DecimalUpDown>
-
-                    <Button Name="boton_autorizacion"  Grid.Column="0" Grid.Row="5" Content="autorización" FontWeight="Light"  FontSize="20" 
-                        Style="{StaticResource AccentedSquareButtonStyle}" Margin="10 10 10 10" Click="Boton_autorizacion_Click"></Button>
-
-                    <TextBlock FontSize="15" Grid.Column="1" Grid.Row="5" VerticalAlignment="Top">
-                        Fecha de autorizacion de salida
-                    </TextBlock>
-                    <xctk:DateTimePicker Name="fecha_autorizacion" Grid.Row="5" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
-                           VerticalContentAlignment="Center" HorizontalContentAlignment="Right" KeyDown="Fecha_autorizacion_KeyDown"></xctk:DateTimePicker>
 
 
                     <Button Name="boton_salida_fisica"  Grid.Column="0" Grid.Row="6" Content="salida física" FontWeight="Light"  FontSize="20" 
