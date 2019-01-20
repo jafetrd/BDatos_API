@@ -580,6 +580,20 @@ namespace BDatos_API.VISTAS
                                                     (ESTADO_, modeloPatioContenedor._ESTADO),
                                                     (SESION_ENTRADA_, modeloPatioContenedor._SESION_ENTRADA));
                                             }
+                                            int ID = metodos_Bd.ULTIMO_REGISTRO(NOMBRE_TABLA, ID_)-contenedores;
+                                            for (int a = 0; a < contenedores; a++)
+                                            {
+                                                metodos_Bd.GUARDAR("Temporal",
+                                                    (ID_,(ID+a).ToString()),
+                                                    (BUQUE_, modeloPatioContenedor._BUQUE),
+                                                    (VIAJE_, modeloPatioContenedor._VIAJE),
+                                                    (REGIMEN_, modeloPatioContenedor._REGIMEN),
+                                                    (FECHA_ENTRADA_, modeloPatioContenedor._FECHA_ENTRADA),
+                                                    (INICIALES_, datos[a].iniciales),
+                                                    (NUMERO_, datos[a].numero),
+                                                    (ESTADO_, modeloPatioContenedor._ESTADO),
+                                                    (ALMACEN_, "P. CONTENEDOR"));
+                                            }
                                             if (modeloPatioContenedor._BUQUE != null)
                                             {
                                                 ArrayList arrayList = metodos_Bd.BUSCAR(tablaBuque.NOMBRE_TABLA, BUQUE_, modeloPatioContenedor._BUQUE, 3, TODO);

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ConsoleApplicationServer.Models" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ConsoleApplicationServer.Models" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfContenedor">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Contenedor" nillable="true" type="tns:Contenedor" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfContenedor" nillable="true" type="tns:ArrayOfContenedor" />
+  <xs:complexType name="Contenedor">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ALMACEN" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="BUQUE" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CONTENEDOR" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ESTADO" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FECHA_ENTRADA" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="INICIALES" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NUMERO" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PRESENTACION" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="REGIMEN" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="VIAJE" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Contenedor" nillable="true" type="tns:Contenedor" />
+</xs:schema>

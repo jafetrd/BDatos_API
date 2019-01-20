@@ -181,12 +181,16 @@ namespace BDatos_API
         public const string SESION_SALIDA_ = "SESION_SALIDA";
         public const string ESTADO_ = "ESTADO";
 
+        public const string ALMACEN_ = "ALMACEN";
+
         public const string NOMBRE_TABLA_2 = "dform_patioferrocarril";
         public const string TABLA2_ID = "ID";
         public const string TABLA2_PRESENTACIONES = "Presentaciones";
         public static int CANTIDAD_COLUMNAS_2 = 2;
         public static string TODO = "*";
         public static string TITULO_MENSAJE = "Patio de ferrocarriles";
+
+
 
         public const int NINGUNO = 0;
         public const int GUARDAR = 1;
@@ -224,6 +228,8 @@ namespace BDatos_API
         public const string SESION_AUTORIZACION_ = "SESION_AUTORIZACION";
         public const string SESION_SALIDA_ = "SESION_SALIDA";
         public const string ESTADO_ = "ESTADO";
+
+        public const string ALMACEN_ = "ALMACEN";
 
         public const string NOMBRE_TABLA_2 = "dform_patiocontenedor";
         public const string TABLA2_ID = "ID";

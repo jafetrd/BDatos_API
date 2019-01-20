@@ -8,3 +8,341 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+namespace BDatos_API.ServiceReference1 {
+    using System.Runtime.Serialization;
+    using System;
+    
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Contenedor", Namespace="http://schemas.datacontract.org/2004/07/ConsoleApplicationServer.Models")]
+    [System.SerializableAttribute()]
+    public partial class Contenedor : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ALMACENField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string BUQUEField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CONTENEDORField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ESTADOField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string FECHA_ENTRADAField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string IDField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string INICIALESField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string NUMEROField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PRESENTACIONField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string REGIMENField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string VIAJEField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ALMACEN {
+            get {
+                return this.ALMACENField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ALMACENField, value) != true)) {
+                    this.ALMACENField = value;
+                    this.RaisePropertyChanged("ALMACEN");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string BUQUE {
+            get {
+                return this.BUQUEField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.BUQUEField, value) != true)) {
+                    this.BUQUEField = value;
+                    this.RaisePropertyChanged("BUQUE");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CONTENEDOR {
+            get {
+                return this.CONTENEDORField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CONTENEDORField, value) != true)) {
+                    this.CONTENEDORField = value;
+                    this.RaisePropertyChanged("CONTENEDOR");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ESTADO {
+            get {
+                return this.ESTADOField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ESTADOField, value) != true)) {
+                    this.ESTADOField = value;
+                    this.RaisePropertyChanged("ESTADO");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string FECHA_ENTRADA {
+            get {
+                return this.FECHA_ENTRADAField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.FECHA_ENTRADAField, value) != true)) {
+                    this.FECHA_ENTRADAField = value;
+                    this.RaisePropertyChanged("FECHA_ENTRADA");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ID {
+            get {
+                return this.IDField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.IDField, value) != true)) {
+                    this.IDField = value;
+                    this.RaisePropertyChanged("ID");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string INICIALES {
+            get {
+                return this.INICIALESField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.INICIALESField, value) != true)) {
+                    this.INICIALESField = value;
+                    this.RaisePropertyChanged("INICIALES");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string NUMERO {
+            get {
+                return this.NUMEROField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.NUMEROField, value) != true)) {
+                    this.NUMEROField = value;
+                    this.RaisePropertyChanged("NUMERO");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string PRESENTACION {
+            get {
+                return this.PRESENTACIONField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PRESENTACIONField, value) != true)) {
+                    this.PRESENTACIONField = value;
+                    this.RaisePropertyChanged("PRESENTACION");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string REGIMEN {
+            get {
+                return this.REGIMENField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.REGIMENField, value) != true)) {
+                    this.REGIMENField = value;
+                    this.RaisePropertyChanged("REGIMEN");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string VIAJE {
+            get {
+                return this.VIAJEField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.VIAJEField, value) != true)) {
+                    this.VIAJEField = value;
+                    this.RaisePropertyChanged("VIAJE");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IContenedor", CallbackContract=typeof(BDatos_API.ServiceReference1.IContenedorCallback))]
+    public interface IContenedor {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/Subscribe", ReplyAction="http://tempuri.org/IContenedor/SubscribeResponse")]
+        void Subscribe();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/Subscribe", ReplyAction="http://tempuri.org/IContenedor/SubscribeResponse")]
+        System.Threading.Tasks.Task SubscribeAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/Unsubscribe", ReplyAction="http://tempuri.org/IContenedor/UnsubscribeResponse")]
+        void Unsubscribe();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/Unsubscribe", ReplyAction="http://tempuri.org/IContenedor/UnsubscribeResponse")]
+        System.Threading.Tasks.Task UnsubscribeAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/obtenerTodasImportaciones", ReplyAction="http://tempuri.org/IContenedor/obtenerTodasImportacionesResponse")]
+        BDatos_API.ServiceReference1.Contenedor[] obtenerTodasImportaciones();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/obtenerTodasImportaciones", ReplyAction="http://tempuri.org/IContenedor/obtenerTodasImportacionesResponse")]
+        System.Threading.Tasks.Task<BDatos_API.ServiceReference1.Contenedor[]> obtenerTodasImportacionesAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/obtenerTodasExportaciones", ReplyAction="http://tempuri.org/IContenedor/obtenerTodasExportacionesResponse")]
+        BDatos_API.ServiceReference1.Contenedor[] obtenerTodasExportaciones();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/obtenerTodasExportaciones", ReplyAction="http://tempuri.org/IContenedor/obtenerTodasExportacionesResponse")]
+        System.Threading.Tasks.Task<BDatos_API.ServiceReference1.Contenedor[]> obtenerTodasExportacionesAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/cambioImportaciones", ReplyAction="http://tempuri.org/IContenedor/cambioImportacionesResponse")]
+        void cambioImportaciones(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/cambioImportaciones", ReplyAction="http://tempuri.org/IContenedor/cambioImportacionesResponse")]
+        System.Threading.Tasks.Task cambioImportacionesAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/cambioExportaciones", ReplyAction="http://tempuri.org/IContenedor/cambioExportacionesResponse")]
+        void cambioExportaciones(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/cambioExportaciones", ReplyAction="http://tempuri.org/IContenedor/cambioExportacionesResponse")]
+        System.Threading.Tasks.Task cambioExportacionesAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IContenedorCallback {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/cambiosImpo", ReplyAction="http://tempuri.org/IContenedor/cambiosImpoResponse")]
+        void cambiosImpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/cambiosExpo", ReplyAction="http://tempuri.org/IContenedor/cambiosExpoResponse")]
+        void cambiosExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public interface IContenedorChannel : BDatos_API.ServiceReference1.IContenedor, System.ServiceModel.IClientChannel {
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    public partial class ContenedorClient : System.ServiceModel.DuplexClientBase<BDatos_API.ServiceReference1.IContenedor>, BDatos_API.ServiceReference1.IContenedor {
+        
+        public ContenedorClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
+        }
+        
+        public ContenedorClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
+        }
+        
+        public ContenedorClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
+        }
+        
+        public ContenedorClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
+        }
+        
+        public ContenedorClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
+        }
+        
+        public void Subscribe() {
+            base.Channel.Subscribe();
+        }
+        
+        public System.Threading.Tasks.Task SubscribeAsync() {
+            return base.Channel.SubscribeAsync();
+        }
+        
+        public void Unsubscribe() {
+            base.Channel.Unsubscribe();
+        }
+        
+        public System.Threading.Tasks.Task UnsubscribeAsync() {
+            return base.Channel.UnsubscribeAsync();
+        }
+        
+        public BDatos_API.ServiceReference1.Contenedor[] obtenerTodasImportaciones() {
+            return base.Channel.obtenerTodasImportaciones();
+        }
+        
+        public System.Threading.Tasks.Task<BDatos_API.ServiceReference1.Contenedor[]> obtenerTodasImportacionesAsync() {
+            return base.Channel.obtenerTodasImportacionesAsync();
+        }
+        
+        public BDatos_API.ServiceReference1.Contenedor[] obtenerTodasExportaciones() {
+            return base.Channel.obtenerTodasExportaciones();
+        }
+        
+        public System.Threading.Tasks.Task<BDatos_API.ServiceReference1.Contenedor[]> obtenerTodasExportacionesAsync() {
+            return base.Channel.obtenerTodasExportacionesAsync();
+        }
+        
+        public void cambioImportaciones(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
+            base.Channel.cambioImportaciones(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
+        }
+        
+        public System.Threading.Tasks.Task cambioImportacionesAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
+            return base.Channel.cambioImportacionesAsync(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
+        }
+        
+        public void cambioExportaciones(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
+            base.Channel.cambioExportaciones(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
+        }
+        
+        public System.Threading.Tasks.Task cambioExportacionesAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
+            return base.Channel.cambioExportacionesAsync(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
+        }
+    }
+}

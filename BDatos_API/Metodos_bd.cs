@@ -145,7 +145,7 @@ namespace BDatos_API
 
             for (int a = 0; a < datos.Length; a++)
             {
-                sqlCommand.Parameters.AddWithValue(parametro[a], datos[a].campos);
+                sqlCommand.Parameters.AddWithValue(parametro[a], ((object)datos[a].campos)??DBNull.Value);
             }
             ConectorDB.AbrirConexion();
             int query = sqlCommand.ExecuteNonQuery();
@@ -180,7 +180,7 @@ namespace BDatos_API
             sqlCommand.CommandText = SQL;
             for (int a = 0; a < datos.Length; a++)
             {
-                sqlCommand.Parameters.AddWithValue(parametros[a], datos[a].campos);
+                sqlCommand.Parameters.AddWithValue(parametros[a], ((object)datos[a].campos) ?? DBNull.Value);
             }
             sqlCommand.Parameters.AddWithValue(parametroSelector, dato);
             ConectorDB.AbrirConexion();

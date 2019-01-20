@@ -204,7 +204,7 @@
     </Compile>
     <Compile Include="VISTAS\modeloContenedores.cs" />
     <Compile Include="VISTAS\modeloPrincipal.cs" />
-    <Compile Include="VISTAS\Modelos_Formularios.cs" />
+    <Compile Include="VISTAS\modeloFerrocarril.cs" />
     <Compile Include="VISTAS\Patio_Contenedor.xaml.cs">
       <DependentUpon>Patio_Contenedor.xaml</DependentUpon>
     </Compile>
@@ -285,16 +285,19 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Connected Services\ServiceReference1\ConsoleApplicationServer.Models.xsd">
+    <None Include="Connected Services\ServiceReference1\BDatos_API.ServiceReference1.Contenedor.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\ServiceReference1\item.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference1\service.wsdl" />
-    <None Include="Connected Services\ServiceReference1\service.xsd">
+    <None Include="Connected Services\ServiceReference1\item1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference1\service1.xsd">
+    <None Include="Connected Services\ServiceReference1\item2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\ServiceReference1\tabla_contenedor.wsdl" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -322,6 +325,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\ServiceReference1\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ServiceReference1\item.disco" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\ServiceReference1\configuration91.svcinfo" />
