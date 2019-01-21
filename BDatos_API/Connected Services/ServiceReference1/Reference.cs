@@ -15,7 +15,7 @@ namespace BDatos_API.ServiceReference1 {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Contenedor", Namespace="http://schemas.datacontract.org/2004/07/ConsoleApplicationServer.Models")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Contenedor", Namespace="http://schemas.datacontract.org/2004/07/ServicioBroker.Models")]
     [System.SerializableAttribute()]
     public partial class Contenedor : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         

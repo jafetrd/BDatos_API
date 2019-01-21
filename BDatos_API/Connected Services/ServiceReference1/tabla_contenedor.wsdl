@@ -475,7 +475,7 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:8000/ServicioTablaContenedor/?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:8000/ServicioTablaContenedor/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://localhost:8000/ServicioTablaContenedor/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ConsoleApplicationServer.Models" />
+      <xsd:import schemaLocation="http://localhost:8000/ServicioTablaContenedor/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ServicioBroker.Models" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IContenedor_Subscribe_InputMessage">
