@@ -37,7 +37,7 @@ namespace ServicioBroker.Servicio
 
             while (!(_sqlTableDependency2.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.WaitingForNotification)) { }
 
-            Debug.WriteLine(@"ESPERANDO NOTIFICACIONES 2");
+            Console.WriteLine(@"ESPERANDO NOTIFICACIONES 2");
         }
 
         #endregion

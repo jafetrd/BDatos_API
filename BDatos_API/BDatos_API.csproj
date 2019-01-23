@@ -104,6 +104,7 @@
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -202,6 +203,9 @@
     <Compile Include="VISTAS\Busquedayreportes.xaml.cs">
       <DependentUpon>Busquedayreportes.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VISTAS\configuracion.xaml.cs">
+      <DependentUpon>configuracion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VISTAS\modeloContenedores.cs" />
     <Compile Include="VISTAS\modeloPrincipal.cs" />
     <Compile Include="VISTAS\modeloFerrocarril.cs" />
@@ -251,6 +255,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="VISTAS\Busquedayreportes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VISTAS\configuracion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -306,7 +314,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

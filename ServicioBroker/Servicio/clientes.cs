@@ -16,7 +16,7 @@ using TableDependency.SqlClient.Base.EventArgs;
 namespace ServicioBroker.Servicio
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
-    class clientes : IClientes, IDisposable
+    public class clientes : IClientes, IDisposable
     {
 
         #region Instance variables
@@ -41,7 +41,7 @@ namespace ServicioBroker.Servicio
 
             while (!(_sqlTableDependency3.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.WaitingForNotification)) { }
 
-            Debug.WriteLine(@"ESPERANDO NOTIFICACIONES 3");
+            Console.WriteLine(@"ESPERANDO NOTIFICACIONES 3");
         }
 
         #endregion
@@ -54,7 +54,7 @@ namespace ServicioBroker.Servicio
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine($"DML: {e.ChangeType}");
             Console.WriteLine($"TABLA : CLIENTES");
-            this.cambiosCliente(e.Entity.ID, e.Entity.CLIENTE);
+            this.cambiosCliente(e.Entity.CLIENTE);
         }
 
         public IList<Clientes> obtenerTodosClientes()
@@ -102,11 +102,11 @@ namespace ServicioBroker.Servicio
             }
         }
 
-        public void cambiosCliente(int ID, string CLIENTE)
+        public void cambiosCliente(string CLIENTE)
         {
             _callbackList.ForEach(delegate (IclienteCallback callback)
             {
-                callback.cambiosCliente(ID, CLIENTE);
+                callback.cambiosCliente(CLIENTE);
             });
         }
         #endregion

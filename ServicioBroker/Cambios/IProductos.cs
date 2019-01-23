@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ServicioBroker.Cambios
 {
     [ServiceContract(CallbackContract = typeof(IproductosCallBack))]
-    interface IProductos
+    public interface IProductos
     {
         [OperationContract]
         void Subscribe();
@@ -18,9 +18,9 @@ namespace ServicioBroker.Cambios
         void Unsubscribe();
 
         [OperationContract]
-        IList<Productos> obtenerTodosProductos();
+        IList<Productos>obtenerTodosProductos();
 
         [OperationContract]
-        void cambiosProductos(int ID, string PRODUCTO);
+        void cambiosProductos(string PRODUCTO);
     }
 }

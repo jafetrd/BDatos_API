@@ -271,6 +271,7 @@ namespace BDatos_API
         public const string PatioFerrocarriles = "Patio de ferrocarriles";
         public const string BusquedayReportes = "Busqueda y reportes";
         public const string Principal = "Principal";
+        public const string Configuracion = "Configuracion";
     }
     public class configMetroDialog
     {

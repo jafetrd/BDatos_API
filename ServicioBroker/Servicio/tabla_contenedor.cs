@@ -4,24 +4,21 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
 using System.Threading.Tasks;
 using TableDependency.SqlClient;
 using TableDependency.SqlClient.Base.EventArgs;
 
 namespace ServicioBroker.Servicio
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public class tabla_contenedor : IContenedor, IDisposable
     {
         #region Instance variables
 
         private readonly List<IContenedorCallback> _callbackList = new List<IContenedorCallback>();
         private readonly string _connectionString;
-        private readonly SqlTableDependency<Contenedor> _sqlTableDependency;
+        private SqlTableDependency<Contenedor> _sqlTableDependency;
         #endregion
 
         #region Constructors
@@ -30,20 +27,29 @@ namespace ServicioBroker.Servicio
         {
             _connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
 
-            _sqlTableDependency = new SqlTableDependency<Contenedor>(_connectionString, "temporal");
+            _sqlTableDependency = new SqlTableDependency<Contenedor>(_connectionString,tableName:"temporal");
 
             _sqlTableDependency.OnChanged += TableDependency_Changed;
             _sqlTableDependency.OnError += (sender, args) => Console.WriteLine($"error: {args.Message}");
+            _sqlTableDependency.OnStatusChanged += _sqlTableDependency_OnStatusChanged;
             _sqlTableDependency.Start();
-
+            
             while (!(_sqlTableDependency.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.WaitingForNotification)) { }
-
-            Console.WriteLine(@"ESPERANDO NOTIFICACIONES 1");
+            Console.WriteLine(@"ESPERANDO NOTIFICACIONES contenedores");
         }
-
         #endregion
 
+
         #region SqlTableDependency
+        private void _sqlTableDependency_OnStatusChanged(object sender, StatusChangedEventArgs e)
+        {
+            if (e.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.StopDueToCancellation)
+            {
+                _sqlTableDependency = null;
+                _sqlTableDependency = new SqlTableDependency<Contenedor>(_connectionString, tableName: "temporal");
+                _sqlTableDependency.Start();
+            }
+        }
 
         private void TableDependency_Changed(
             object sender,
@@ -81,8 +87,6 @@ namespace ServicioBroker.Servicio
 
         public IList<Contenedor> obtenerTodasExportaciones()
         {
-
-            //List<Contenedor> contenedores;
             using (var sqlConnection = new SqlConnection(_connectionString))
             {
                 sqlConnection.Open();
@@ -118,11 +122,7 @@ namespace ServicioBroker.Servicio
             }
             return contenedores;
         }
-        #endregion
-
-        #region Publish-Subscribe design pattern
-
-
+      
         public void Subscribe()
         {
             var registeredUser = OperationContext.Current.GetCallbackChannel<IContenedorCallback>();
@@ -158,13 +158,10 @@ namespace ServicioBroker.Servicio
         }
         #endregion
 
-        #region IDisposable
-
         public void Dispose()
         {
             _sqlTableDependency.Stop();
-        }
-        #endregion
+        }      
     }
 
     public static class extensionDataRead

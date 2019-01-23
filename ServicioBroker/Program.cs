@@ -7,18 +7,23 @@ using System.ServiceModel;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ServicioBroker
 {
-    static class Program
+    public class Program
     {
-        
+       
         /// <summary>
         /// Punto de entrada principal para la aplicación.
         /// </summary>
-        static void Main()
+        public static void Main()
         {
             Service1 service = new Service1();
+            
+
+           // ServiceBase.Run(service);
+
             if (Environment.UserInteractive)
             {
                 service.RunAsConsole(null);
@@ -29,8 +34,9 @@ namespace ServicioBroker
                 ServicesToRun = new ServiceBase[] { service };
                 ServiceBase.Run(ServicesToRun);
             }
+            
         }
 
-        
+
     }
 }

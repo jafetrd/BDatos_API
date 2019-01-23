@@ -11,6 +11,8 @@ using BDatos_API.ServiceReference1;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using ToastNotifications.Core;
+using System.Timers;
+using MahApps.Metro.Controls;
 
 namespace BDatos_API.VISTAS
 {
@@ -22,9 +24,9 @@ namespace BDatos_API.VISTAS
         //modeloPrincipal modelo;
         //Metodos_bd metodos_Bd;
         private readonly ToastViewModel _vm;
-        private readonly ObservableCollection<Contenedor> _Importaciones;
-        private readonly ObservableCollection<Contenedor> _Exportaciones;
-        private readonly ContenedorClient _contenedorClient;
+        private ObservableCollection<Contenedor> _Importaciones;
+        private ObservableCollection<Contenedor> _Exportaciones;
+        public ContenedorClient _contenedorClient;
 
         MessageOptions options=null;
         public Principal()
@@ -35,19 +37,23 @@ namespace BDatos_API.VISTAS
             //this.DataContext = modelo;
 
             //metodos_Bd = new Metodos_bd();
-            _vm = new ToastViewModel();
             var instanceContext = new InstanceContext(this);
             _contenedorClient = new ContenedorClient(instanceContext);
             _contenedorClient.Subscribe();
 
-          
-            _Importaciones = new ObservableCollection<Contenedor>(_contenedorClient.obtenerTodasImportaciones().AsEnumerable<Contenedor>());
-            this.tabla_importaciones.ItemsSource = _Importaciones;
-
-
+            _Importaciones = new ObservableCollection<Contenedor>(_contenedorClient.obtenerTodasImportaciones().AsEnumerable());
+            tabla_importaciones.ItemsSource = _Importaciones;
             _Exportaciones = new ObservableCollection<Contenedor>(_contenedorClient.obtenerTodasExportaciones().AsEnumerable<Contenedor>());
-            this.tabla_exportaciones.ItemsSource = _Exportaciones;
+            tabla_exportaciones.ItemsSource = _Exportaciones;
 
+            Timer timer = new Timer();
+            timer.Interval = 180000;
+            timer.Elapsed += Timer_Elapsed;
+            timer.AutoReset = true;
+            timer.Start();
+
+            
+            _vm = new ToastViewModel();
             options = new MessageOptions
             {
                 FontSize = 30, // set notification font size
@@ -58,6 +64,23 @@ namespace BDatos_API.VISTAS
                     n.Close(); // call Close method to remove notification
                 }
             };
+
+             
+        }
+
+        private void Principal_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _contenedorClient?.Unsubscribe();
+        }
+
+        private void Timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                _contenedorClient?.Subscribe();
+            }
+            catch
+            { }
         }
 
         public void cambiosExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO,string ALMACEN)
@@ -83,7 +106,6 @@ namespace BDatos_API.VISTAS
 
         public void cambiosImpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO,string ALMACEN)
         {
-            Debug.WriteLine(ID + " "+BUQUE+" "+CONTENEDOR+" "+VIAJE+" "+FECHA_ENTRADA+" "+ESTADO);
             if (_Importaciones != null)
             {
                 var importacionIndex = _Importaciones.IndexOf(_Importaciones.FirstOrDefault(c => c.BUQUE == BUQUE & c.CONTENEDOR==CONTENEDOR)

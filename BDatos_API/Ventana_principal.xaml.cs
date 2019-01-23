@@ -23,6 +23,7 @@ namespace BDatos_API
         public  Patio_Contenedor contenedor;
         Principal principal;
         Busquedayreportes busquedayreportes;
+        configuracion config;
 
         public static string nombreVentana;
         public Ventana_principal()
@@ -37,8 +38,9 @@ namespace BDatos_API
             Navegacion.Frame.Navigated += SplitViewFrame_OnNavigated;
             Usuario.Text = "Usuario: "+USUARIOdato + " Privilegios: "+TIPO_USUARIOdato+" ";
             if (principal == null) principal = new Principal();
-            Navegacion.NavegarA(principal);
 
+            principal._contenedorClient.Subscribe();
+            Navegacion.NavegarA(principal);
         }
 
         private void SplitViewFrame_OnNavigated(object sender, NavigationEventArgs e)
@@ -87,6 +89,10 @@ namespace BDatos_API
                         if (busquedayreportes == null) busquedayreportes = new Busquedayreportes();
                         Navegacion.NavegarA(busquedayreportes);
                         break;
+                    case nombresVentanas.Configuracion:
+                        if (config == null) config = new configuracion();
+                        Navegacion.NavegarA(config);
+                        break;
                 }
                 
             }
@@ -94,6 +100,7 @@ namespace BDatos_API
 
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+         
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, (DispatcherOperationCallback)delegate (object o)
             {
                 Navegacion.NavegarAtras();

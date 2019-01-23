@@ -12,6 +12,7 @@ using MySql.Data.MySqlClient;
 using ToastNotifications.Core;
 using TableDependency.SqlClient;
 using TableDependency.SqlClient.Base.EventArgs;
+using System.ServiceProcess;
 
 namespace BDatos_API
 {
@@ -45,11 +46,11 @@ namespace BDatos_API
             ArrayList resultado2 = metodos_bd.BUSCAR(NOMBRE_TABLA, NOMBRE, TIPO_ADMINISTRADOR, CANTIDAD_COLUMNAS, TODO);
             if (resultado2.Count == 0)
             {
-                Navegacion.NavegarA(new auxiliar());
-                //Navegacion.Navigate("Nuevo_usuario.xaml");
+                _vm = new ToastViewModel();
                 _vm.ShowInformation("Creando cuenta administrador");
+                Navegacion.NavegarA(new auxiliar());
             }
-         
+
             //caja_texto_usuario.Text = "jafet";
             //caja_contrasena.Password = "0000";
             //Boton_ingresar_Click(null, null);
@@ -194,7 +195,16 @@ namespace BDatos_API
 
         private void MetroWindow_Closed(object sender, EventArgs e)
         {
+           
             System.Windows.Application.Current.Shutdown();
         }
+
+        private void OnWindowLoading(object sender, RoutedEventArgs args)
+        {
+            
+        }
+
+       
+
     } //termina clase
 }//termina namespace

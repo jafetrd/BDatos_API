@@ -6,7 +6,6 @@
         /// Variable del diseñador necesaria.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-
         /// <summary>
         /// Limpiar los recursos que se estén usando.
         /// </summary>

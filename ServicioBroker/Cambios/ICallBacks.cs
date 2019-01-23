@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ServicioBroker.Cambios
 {
-    interface IContenedorCallback
+    public interface IContenedorCallback
     {
         [OperationContract]
         void cambiosImpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
@@ -15,20 +15,20 @@ namespace ServicioBroker.Cambios
         [OperationContract]
         void cambiosExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
     }
-    interface IclienteCallback
+    public interface IclienteCallback
     {
         [OperationContract]
-        void cambiosCliente(int ID, string CLIENTE);
+        void cambiosCliente(string CLIENTE);
     }
 
-    interface IproductosCallBack
+    public interface IproductosCallBack
     {
 
         [OperationContract]
-        void cambiosProductos(int ID, string PRODUCTO);
+        void cambiosProductos(string PRODUCTO);
     }
 
-    interface IbuquesCallBack
+    public interface IbuquesCallBack
     {
 
         [OperationContract]

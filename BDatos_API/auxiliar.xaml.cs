@@ -12,11 +12,13 @@ namespace BDatos_API
     /// </summary>
     public partial class auxiliar : Window
     {
+      
         Metodos_bd metodos_bd;
         public auxiliar()
         {
             InitializeComponent();
             metodos_bd = new Metodos_bd();
+          
         }
 
  

@@ -432,11 +432,7 @@ namespace BDatos_API.VISTAS
                         dataGridRow.MoveFocus(new TraversalRequest(FocusNavigationDirection.Down));
                         tabla_Principal.SelectedIndex++;
                     }
-                    catch (Exception )
-                    {
-                        System.Windows.MessageBox.Show("No se agrego fila");
-                    }
-                   
+                    catch { }
                 }
             }
         }

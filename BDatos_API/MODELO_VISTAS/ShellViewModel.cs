@@ -44,7 +44,10 @@ namespace BDatos_API.MODELO_VISTAS
                 Tooltip = "Bodega C"
             });
 
-            this.OptionsMenu.Add(new ElementoMenu() { Icon = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.CogsSolid }, Text = "Configuracion", NavigationDestination = new Uri("Views/SettingsPage.xaml", UriKind.RelativeOrAbsolute) });
+            this.OptionsMenu.Add(new ElementoMenu() {
+                Icon = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.CogsSolid },
+                Text = "Configuracion",
+                NavigationDestination = new Uri("VISTAS/configuracion.xaml", UriKind.RelativeOrAbsolute) });
             this.OptionsMenu.Add(new ElementoMenu() { Icon = new PackIconFontAwesome() { Kind = PackIconFontAwesomeKind.InfoCircleSolid }, Text = "Acerca de", NavigationDestination = new Uri("Views/AboutPage.xaml", UriKind.RelativeOrAbsolute) });
         }
 

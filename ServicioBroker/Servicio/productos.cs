@@ -4,24 +4,21 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
 using System.Threading.Tasks;
 using TableDependency.SqlClient;
 using TableDependency.SqlClient.Base.EventArgs;
 
 namespace ServicioBroker.Servicio
 {
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Single)]
-    class productos : IProductos, IDisposable
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
+    public class productos : IProductos, IDisposable
     {
         #region Instance variables
 
         private readonly List<IproductosCallBack> _callbackList = new List<IproductosCallBack>();
         private readonly string _connectionString;
-        private readonly SqlTableDependency<Productos> _sqlTableDependency4;
+        private SqlTableDependency<Productos> _sqlTableDependency;
         #endregion
 
         #region Constructors
@@ -30,30 +27,40 @@ namespace ServicioBroker.Servicio
         {
             _connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
 
-            _sqlTableDependency4 = new SqlTableDependency<Productos>(_connectionString, "productos");
+            _sqlTableDependency = new SqlTableDependency<Productos>(_connectionString, tableName: "productos");
 
-            _sqlTableDependency4.OnChanged += TableDependency4_Changed;
-            _sqlTableDependency4.OnError += (sender, args) => Console.WriteLine($"error: {args.Message}");
-            _sqlTableDependency4.Start();
+            _sqlTableDependency.OnChanged += TableDependency_Changed;
+            _sqlTableDependency.OnError += (sender, args) => Console.WriteLine($"error: {args.Message}");
+            _sqlTableDependency.OnStatusChanged += _sqlTableDependency_OnStatusChanged;
+            _sqlTableDependency.Start();
 
-            while (!(_sqlTableDependency4.Status ==TableDependency.SqlClient.Base.Enums.TableDependencyStatus.WaitingForNotification )) { }
-
-            Debug.WriteLine(@"ESPERANDO NOTIFICACIONES 4");
+            while (!(_sqlTableDependency.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.WaitingForNotification)) { }
+            Console.WriteLine(@"ESPERANDO NOTIFICACIONES productos");
         }
 
         #endregion
 
-        #region SqlTableDependency4
-        private void TableDependency4_Changed(
+        #region SqlTableDependency
+        private void _sqlTableDependency_OnStatusChanged(object sender, StatusChangedEventArgs e)
+        {
+            if (e.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.StopDueToCancellation)
+            {
+                _sqlTableDependency = null;
+                _sqlTableDependency = new SqlTableDependency<Productos>(_connectionString, tableName: "productos");
+                _sqlTableDependency.Start();
+            }
+        }
+
+        private void TableDependency_Changed(
             object sender,
             RecordChangedEventArgs<Productos> e)
         {
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine($"DML: {e.ChangeType}");
             Console.WriteLine($"TABLA : PRODUCTOS");
-            this.cambiosProductos(e.Entity.ID, e.Entity.PRODUCTO);
+            this.cambiosProductos(e.Entity.PRODUCTO);
         }
-
+       
         public IList<Productos> obtenerTodosProductos()
         {
             using (var sqlConnection = new SqlConnection(_connectionString))
@@ -62,21 +69,27 @@ namespace ServicioBroker.Servicio
                 using (var sqlCommand = sqlConnection.CreateCommand())
                 {
                     sqlCommand.CommandText = "SELECT * FROM [productos]";
-                    var contenedores = new List<Productos>();
-                    using (var sqlDataReader = sqlCommand.ExecuteReader())
-                    {
-                        if (sqlDataReader.HasRows)
-                            while (sqlDataReader.Read())
-                            {
-                                contenedores.Add(new Productos
-                                {
-                                    PRODUCTO = sqlDataReader.SafeGetString("PRODUCTO")
-                                });
-                            }
-                    }
-                    return contenedores;
+
+                    return GetBuques(sqlCommand);
                 }
             }
+        }
+
+        private IList<Productos> GetBuques(SqlCommand sqlCommand)
+        {
+            var contenedores = new List<Productos>();
+            using (var sqlDataReader = sqlCommand.ExecuteReader())
+            {
+                if (sqlDataReader.HasRows)
+                    while (sqlDataReader.Read())
+                    {
+                        contenedores.Add(new Productos
+                        { 
+                            PRODUCTO = sqlDataReader.SafeGetString("PRODUCTO")
+                        });
+                    }
+            }
+            return contenedores;
         }
         #endregion
 
@@ -101,11 +114,11 @@ namespace ServicioBroker.Servicio
             }
         }
 
-        public void cambiosProductos(int ID, string PRODUCTO)
+        public void cambiosProductos(string PRODUCTO)
         {
             _callbackList.ForEach(delegate (IproductosCallBack callback)
             {
-                callback.cambiosProductos(ID, PRODUCTO);
+                callback.cambiosProductos(PRODUCTO);
             });
         }
         #endregion
@@ -114,7 +127,7 @@ namespace ServicioBroker.Servicio
 
         public void Dispose()
         {
-            _sqlTableDependency4.Stop();
+            _sqlTableDependency.Stop();
         }
         #endregion
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f636b664-38d1-4909-bcca-07a3ddbdd341" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="fb40f346-e824-4ac5-bb6e-aa7c8e252111" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -24,11 +24,11 @@
     <MetadataSource Address="http://localhost:8000/ServicioTablaContenedor/" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="d11f9e8c-8890-4ccb-9953-ac264dbce59a" SourceId="1" SourceUrl="http://localhost:8000/ServicioTablaContenedor/?xsd=xsd0" />
-    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="f19f0177-9f99-41e0-b21c-b0524d9771c5" SourceId="1" SourceUrl="http://localhost:8000/ServicioTablaContenedor/?disco" />
-    <MetadataFile FileName="tabla_contenedor.wsdl" MetadataType="Wsdl" ID="89d07e61-e32f-4ded-b485-8b9fddd2cba7" SourceId="1" SourceUrl="http://localhost:8000/ServicioTablaContenedor/?wsdl" />
-    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="3d92226a-73ee-4d10-a974-93ee62bcaf95" SourceId="1" SourceUrl="http://localhost:8000/ServicioTablaContenedor/?xsd=xsd2" />
-    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="e0e3b667-51e9-45c6-a4f3-f39f9eb3035f" SourceId="1" SourceUrl="http://localhost:8000/ServicioTablaContenedor/?xsd=xsd1" />
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="49a2a4c9-4669-4134-85cc-464acb1982c1" SourceId="1" SourceUrl="http://localhost:8000/ServicioTablaContenedor/?xsd=xsd0" />
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="9f444454-0f01-4e5d-829c-d3ccdf00769f" SourceId="1" SourceUrl="http://localhost:8000/ServicioTablaContenedor/?disco" />
+    <MetadataFile FileName="tabla_contenedor.wsdl" MetadataType="Wsdl" ID="21bd6e85-897f-4005-9b67-b33037483471" SourceId="1" SourceUrl="http://localhost:8000/ServicioTablaContenedor/?wsdl" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="e6edcfa6-f075-42a5-9801-5d30f1e55eeb" SourceId="1" SourceUrl="http://localhost:8000/ServicioTablaContenedor/?xsd=xsd2" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="6a18b897-59f7-4593-93ae-77a99e2074f1" SourceId="1" SourceUrl="http://localhost:8000/ServicioTablaContenedor/?xsd=xsd1" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
