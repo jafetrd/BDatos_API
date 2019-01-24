@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.ServiceModel;
-using System.Threading.Tasks;
 using TableDependency.SqlClient;
 using TableDependency.SqlClient.Base.EventArgs;
 

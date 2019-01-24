@@ -6,21 +6,15 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Media;
-using Xceed.Wpf.Toolkit;
 using static BDatos_API.nombresPatioContenedor;
 using static BDatos_API.Maquina_estados;
 using System.Collections;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Linq;
 using System.Diagnostics;
 
 namespace BDatos_API.VISTAS
 {
-    
+
     /// <summary>
     /// Lógica de interacción para Patio_Contenedor.xaml
     /// </summary>

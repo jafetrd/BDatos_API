@@ -1,18 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using MahApps.Metro.Controls;
 using static BDatos_API.InicioSesion;
 using MahApps.Metro.Controls.Dialogs;
-using MySql.Data.MySqlClient;
-using ToastNotifications.Core;
-using TableDependency.SqlClient;
-using TableDependency.SqlClient.Base.EventArgs;
-using System.ServiceProcess;
 
 namespace BDatos_API
 {

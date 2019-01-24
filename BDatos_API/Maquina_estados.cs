@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BDatos_API
+﻿namespace BDatos_API
 {
     public static class Maquina_estados
     {

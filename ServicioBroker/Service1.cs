@@ -1,18 +1,12 @@
 ﻿
 using ServicioBroker.Servicio;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
-using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.ServiceModel;
 using System.ServiceProcess;
 using System.Timers;
-using static System.Net.Mime.MediaTypeNames;
 //Microsoft.SqlServer.Smo.dll
 using Microsoft.SqlServer.Management.Smo;
 //Microsoft.SqlServer.ConnectionInfo.dll

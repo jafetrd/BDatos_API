@@ -1,7 +1,4 @@
-﻿
-using MahApps.Metro;
-using MahApps.Metro.Controls.Dialogs;
-using System.Windows.Controls;
+﻿using MahApps.Metro.Controls.Dialogs;
 
 namespace BDatos_API
 {

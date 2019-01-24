@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using System.Windows;
 using BDatos_API.servicioContenedores;
-using System.Diagnostics;
 using System.Collections.ObjectModel;
 using ToastNotifications.Core;
 using System.Timers;
-using MahApps.Metro.Controls;
 using BDatos_API.servicioBuques;
 
 namespace BDatos_API.VISTAS

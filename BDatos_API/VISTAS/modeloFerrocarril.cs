@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using static BDatos_API.nombresPatioFerrocarril;
 using static BDatos_API.Maquina_estados;
 using System.ComponentModel;
-using System.Collections.ObjectModel;
-using System.Data;
-using BDatos_API.servicioBuques;
-using BDatos_API.servicioClientes;
-using BDatos_API.servicioProductos;
-using System.Diagnostics;
 
 namespace BDatos_API.VISTAS
 {

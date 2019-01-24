@@ -1,12 +1,7 @@
-﻿using MahApps.Metro.Controls;
-using MahApps.Metro.Controls.Dialogs;
-using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls.Primitives;
 namespace BDatos_API
 {
