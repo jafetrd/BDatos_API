@@ -241,6 +241,52 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IContenedor_IContenedorImpo_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IContenedor_IContenedorImpo_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
   <wsp:Policy wsu:Id="WSDualHttpBinding_IContenedor_obtenerTodasExportaciones_Input_policy">
     <wsp:ExactlyOne>
       <wsp:All>
@@ -287,7 +333,7 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsp:Policy wsu:Id="WSDualHttpBinding_IContenedor_cambioImportaciones_Input_policy">
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IContenedor_IContenedorExpo_Input_policy">
     <wsp:ExactlyOne>
       <wsp:All>
         <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
@@ -310,53 +356,7 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsp:Policy wsu:Id="WSDualHttpBinding_IContenedor_cambioImportaciones_output_policy">
-    <wsp:ExactlyOne>
-      <wsp:All>
-        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
-          <sp:Body />
-          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
-          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
-          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
-          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
-          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
-        </sp:SignedParts>
-        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
-          <sp:Body />
-        </sp:EncryptedParts>
-      </wsp:All>
-    </wsp:ExactlyOne>
-  </wsp:Policy>
-  <wsp:Policy wsu:Id="WSDualHttpBinding_IContenedor_cambioExportaciones_Input_policy">
-    <wsp:ExactlyOne>
-      <wsp:All>
-        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
-          <sp:Body />
-          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
-          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
-          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
-          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
-          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
-          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
-        </sp:SignedParts>
-        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
-          <sp:Body />
-        </sp:EncryptedParts>
-      </wsp:All>
-    </wsp:ExactlyOne>
-  </wsp:Policy>
-  <wsp:Policy wsu:Id="WSDualHttpBinding_IContenedor_cambioExportaciones_output_policy">
+  <wsp:Policy wsu:Id="WSDualHttpBinding_IContenedor_IContenedorExpo_output_policy">
     <wsp:ExactlyOne>
       <wsp:All>
         <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
@@ -473,9 +473,9 @@
   </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
-      <xsd:import schemaLocation="http://localhost:8000/ServicioTablaContenedor/?xsd=xsd0" namespace="http://tempuri.org/" />
-      <xsd:import schemaLocation="http://localhost:8000/ServicioTablaContenedor/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://localhost:8000/ServicioTablaContenedor/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ServicioBroker.Models" />
+      <xsd:import schemaLocation="http://localhost:8001/ServicioTablaContenedor/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:8001/ServicioTablaContenedor/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:8001/ServicioTablaContenedor/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ServicioBroker.Models" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IContenedor_Subscribe_InputMessage">
@@ -496,23 +496,23 @@
   <wsdl:message name="IContenedor_obtenerTodasImportaciones_OutputMessage">
     <wsdl:part name="parameters" element="tns:obtenerTodasImportacionesResponse" />
   </wsdl:message>
+  <wsdl:message name="IContenedor_IContenedorImpo_InputMessage">
+    <wsdl:part name="parameters" element="tns:IContenedorImpo" />
+  </wsdl:message>
+  <wsdl:message name="IContenedor_IContenedorImpo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IContenedorImpoResponse" />
+  </wsdl:message>
   <wsdl:message name="IContenedor_obtenerTodasExportaciones_InputMessage">
     <wsdl:part name="parameters" element="tns:obtenerTodasExportaciones" />
   </wsdl:message>
   <wsdl:message name="IContenedor_obtenerTodasExportaciones_OutputMessage">
     <wsdl:part name="parameters" element="tns:obtenerTodasExportacionesResponse" />
   </wsdl:message>
-  <wsdl:message name="IContenedor_cambioImportaciones_InputMessage">
-    <wsdl:part name="parameters" element="tns:cambioImportaciones" />
+  <wsdl:message name="IContenedor_IContenedorExpo_InputMessage">
+    <wsdl:part name="parameters" element="tns:IContenedorExpo" />
   </wsdl:message>
-  <wsdl:message name="IContenedor_cambioImportaciones_OutputMessage">
-    <wsdl:part name="parameters" element="tns:cambioImportacionesResponse" />
-  </wsdl:message>
-  <wsdl:message name="IContenedor_cambioExportaciones_InputMessage">
-    <wsdl:part name="parameters" element="tns:cambioExportaciones" />
-  </wsdl:message>
-  <wsdl:message name="IContenedor_cambioExportaciones_OutputMessage">
-    <wsdl:part name="parameters" element="tns:cambioExportacionesResponse" />
+  <wsdl:message name="IContenedor_IContenedorExpo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IContenedorExpoResponse" />
   </wsdl:message>
   <wsdl:message name="IContenedor_cambiosImpo_OutputCallbackMessage">
     <wsdl:part name="parameters" element="tns:cambiosImpo" />
@@ -539,17 +539,17 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IContenedor/obtenerTodasImportaciones" message="tns:IContenedor_obtenerTodasImportaciones_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IContenedor/obtenerTodasImportacionesResponse" message="tns:IContenedor_obtenerTodasImportaciones_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="IContenedorImpo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IContenedor/IContenedorImpo" message="tns:IContenedor_IContenedorImpo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IContenedor/IContenedorImpoResponse" message="tns:IContenedor_IContenedorImpo_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="obtenerTodasExportaciones">
       <wsdl:input wsaw:Action="http://tempuri.org/IContenedor/obtenerTodasExportaciones" message="tns:IContenedor_obtenerTodasExportaciones_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IContenedor/obtenerTodasExportacionesResponse" message="tns:IContenedor_obtenerTodasExportaciones_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="cambioImportaciones">
-      <wsdl:input wsaw:Action="http://tempuri.org/IContenedor/cambioImportaciones" message="tns:IContenedor_cambioImportaciones_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IContenedor/cambioImportacionesResponse" message="tns:IContenedor_cambioImportaciones_OutputMessage" />
-    </wsdl:operation>
-    <wsdl:operation name="cambioExportaciones">
-      <wsdl:input wsaw:Action="http://tempuri.org/IContenedor/cambioExportaciones" message="tns:IContenedor_cambioExportaciones_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IContenedor/cambioExportacionesResponse" message="tns:IContenedor_cambioExportaciones_OutputMessage" />
+    <wsdl:operation name="IContenedorExpo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IContenedor/IContenedorExpo" message="tns:IContenedor_IContenedorExpo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IContenedor/IContenedorExpoResponse" message="tns:IContenedor_IContenedorExpo_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="cambiosImpo">
       <wsdl:output wsaw:Action="http://tempuri.org/IContenedor/cambiosImpo" message="tns:IContenedor_cambiosImpo_OutputCallbackMessage" />
@@ -596,6 +596,17 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="IContenedorImpo">
+      <soap12:operation soapAction="http://tempuri.org/IContenedor/IContenedorImpo" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSDualHttpBinding_IContenedor_IContenedorImpo_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSDualHttpBinding_IContenedor_IContenedorImpo_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="obtenerTodasExportaciones">
       <soap12:operation soapAction="http://tempuri.org/IContenedor/obtenerTodasExportaciones" style="document" />
       <wsdl:input>
@@ -607,25 +618,14 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="cambioImportaciones">
-      <soap12:operation soapAction="http://tempuri.org/IContenedor/cambioImportaciones" style="document" />
+    <wsdl:operation name="IContenedorExpo">
+      <soap12:operation soapAction="http://tempuri.org/IContenedor/IContenedorExpo" style="document" />
       <wsdl:input>
-        <wsp:PolicyReference URI="#WSDualHttpBinding_IContenedor_cambioImportaciones_Input_policy" />
+        <wsp:PolicyReference URI="#WSDualHttpBinding_IContenedor_IContenedorExpo_Input_policy" />
         <soap12:body use="literal" />
       </wsdl:input>
       <wsdl:output>
-        <wsp:PolicyReference URI="#WSDualHttpBinding_IContenedor_cambioImportaciones_output_policy" />
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="cambioExportaciones">
-      <soap12:operation soapAction="http://tempuri.org/IContenedor/cambioExportaciones" style="document" />
-      <wsdl:input>
-        <wsp:PolicyReference URI="#WSDualHttpBinding_IContenedor_cambioExportaciones_Input_policy" />
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <wsp:PolicyReference URI="#WSDualHttpBinding_IContenedor_cambioExportaciones_output_policy" />
+        <wsp:PolicyReference URI="#WSDualHttpBinding_IContenedor_IContenedorExpo_output_policy" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
@@ -654,9 +654,9 @@
   </wsdl:binding>
   <wsdl:service name="tabla_contenedor">
     <wsdl:port name="WSDualHttpBinding_IContenedor" binding="tns:WSDualHttpBinding_IContenedor">
-      <soap12:address location="http://localhost:8000/ServicioTablaContenedor/get" />
+      <soap12:address location="http://localhost:8001/ServicioTablaContenedor/get" />
       <wsa10:EndpointReference>
-        <wsa10:Address>http://localhost:8000/ServicioTablaContenedor/get</wsa10:Address>
+        <wsa10:Address>http://localhost:8001/ServicioTablaContenedor/get</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
           <Dns>localhost</Dns>
         </Identity>

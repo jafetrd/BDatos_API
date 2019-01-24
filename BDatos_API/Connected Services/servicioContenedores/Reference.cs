@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BDatos_API.ServiceReference1 {
+namespace BDatos_API.servicioContenedores {
     using System.Runtime.Serialization;
     using System;
     
@@ -32,7 +32,13 @@ namespace BDatos_API.ServiceReference1 {
         private string CONTENEDORField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string DIASField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string ESTADOField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ESTADO_VENCIMIENTOField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string FECHA_ENTRADAField;
@@ -105,6 +111,19 @@ namespace BDatos_API.ServiceReference1 {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public string DIAS {
+            get {
+                return this.DIASField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.DIASField, value) != true)) {
+                    this.DIASField = value;
+                    this.RaisePropertyChanged("DIAS");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string ESTADO {
             get {
                 return this.ESTADOField;
@@ -113,6 +132,19 @@ namespace BDatos_API.ServiceReference1 {
                 if ((object.ReferenceEquals(this.ESTADOField, value) != true)) {
                     this.ESTADOField = value;
                     this.RaisePropertyChanged("ESTADO");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string ESTADO_VENCIMIENTO {
+            get {
+                return this.ESTADO_VENCIMIENTOField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ESTADO_VENCIMIENTOField, value) != true)) {
+                    this.ESTADO_VENCIMIENTOField = value;
+                    this.RaisePropertyChanged("ESTADO_VENCIMIENTO");
                 }
             }
         }
@@ -219,7 +251,7 @@ namespace BDatos_API.ServiceReference1 {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IContenedor", CallbackContract=typeof(BDatos_API.ServiceReference1.IContenedorCallback))]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="servicioContenedores.IContenedor", CallbackContract=typeof(BDatos_API.servicioContenedores.IContenedorCallback))]
     public interface IContenedor {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/Subscribe", ReplyAction="http://tempuri.org/IContenedor/SubscribeResponse")]
@@ -235,28 +267,28 @@ namespace BDatos_API.ServiceReference1 {
         System.Threading.Tasks.Task UnsubscribeAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/obtenerTodasImportaciones", ReplyAction="http://tempuri.org/IContenedor/obtenerTodasImportacionesResponse")]
-        BDatos_API.ServiceReference1.Contenedor[] obtenerTodasImportaciones();
+        BDatos_API.servicioContenedores.Contenedor[] obtenerTodasImportaciones();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/obtenerTodasImportaciones", ReplyAction="http://tempuri.org/IContenedor/obtenerTodasImportacionesResponse")]
-        System.Threading.Tasks.Task<BDatos_API.ServiceReference1.Contenedor[]> obtenerTodasImportacionesAsync();
+        System.Threading.Tasks.Task<BDatos_API.servicioContenedores.Contenedor[]> obtenerTodasImportacionesAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/IContenedorImpo", ReplyAction="http://tempuri.org/IContenedor/IContenedorImpoResponse")]
+        void IContenedorImpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/IContenedorImpo", ReplyAction="http://tempuri.org/IContenedor/IContenedorImpoResponse")]
+        System.Threading.Tasks.Task IContenedorImpoAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/obtenerTodasExportaciones", ReplyAction="http://tempuri.org/IContenedor/obtenerTodasExportacionesResponse")]
-        BDatos_API.ServiceReference1.Contenedor[] obtenerTodasExportaciones();
+        BDatos_API.servicioContenedores.Contenedor[] obtenerTodasExportaciones();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/obtenerTodasExportaciones", ReplyAction="http://tempuri.org/IContenedor/obtenerTodasExportacionesResponse")]
-        System.Threading.Tasks.Task<BDatos_API.ServiceReference1.Contenedor[]> obtenerTodasExportacionesAsync();
+        System.Threading.Tasks.Task<BDatos_API.servicioContenedores.Contenedor[]> obtenerTodasExportacionesAsync();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/cambioImportaciones", ReplyAction="http://tempuri.org/IContenedor/cambioImportacionesResponse")]
-        void cambioImportaciones(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/IContenedorExpo", ReplyAction="http://tempuri.org/IContenedor/IContenedorExpoResponse")]
+        void IContenedorExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/cambioImportaciones", ReplyAction="http://tempuri.org/IContenedor/cambioImportacionesResponse")]
-        System.Threading.Tasks.Task cambioImportacionesAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/cambioExportaciones", ReplyAction="http://tempuri.org/IContenedor/cambioExportacionesResponse")]
-        void cambioExportaciones(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/cambioExportaciones", ReplyAction="http://tempuri.org/IContenedor/cambioExportacionesResponse")]
-        System.Threading.Tasks.Task cambioExportacionesAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/IContenedorExpo", ReplyAction="http://tempuri.org/IContenedor/IContenedorExpoResponse")]
+        System.Threading.Tasks.Task IContenedorExpoAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -270,12 +302,12 @@ namespace BDatos_API.ServiceReference1 {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IContenedorChannel : BDatos_API.ServiceReference1.IContenedor, System.ServiceModel.IClientChannel {
+    public interface IContenedorChannel : BDatos_API.servicioContenedores.IContenedor, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class ContenedorClient : System.ServiceModel.DuplexClientBase<BDatos_API.ServiceReference1.IContenedor>, BDatos_API.ServiceReference1.IContenedor {
+    public partial class ContenedorClient : System.ServiceModel.DuplexClientBase<BDatos_API.servicioContenedores.IContenedor>, BDatos_API.servicioContenedores.IContenedor {
         
         public ContenedorClient(System.ServiceModel.InstanceContext callbackInstance) : 
                 base(callbackInstance) {
@@ -313,36 +345,36 @@ namespace BDatos_API.ServiceReference1 {
             return base.Channel.UnsubscribeAsync();
         }
         
-        public BDatos_API.ServiceReference1.Contenedor[] obtenerTodasImportaciones() {
+        public BDatos_API.servicioContenedores.Contenedor[] obtenerTodasImportaciones() {
             return base.Channel.obtenerTodasImportaciones();
         }
         
-        public System.Threading.Tasks.Task<BDatos_API.ServiceReference1.Contenedor[]> obtenerTodasImportacionesAsync() {
+        public System.Threading.Tasks.Task<BDatos_API.servicioContenedores.Contenedor[]> obtenerTodasImportacionesAsync() {
             return base.Channel.obtenerTodasImportacionesAsync();
         }
         
-        public BDatos_API.ServiceReference1.Contenedor[] obtenerTodasExportaciones() {
+        public void IContenedorImpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
+            base.Channel.IContenedorImpo(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
+        }
+        
+        public System.Threading.Tasks.Task IContenedorImpoAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
+            return base.Channel.IContenedorImpoAsync(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
+        }
+        
+        public BDatos_API.servicioContenedores.Contenedor[] obtenerTodasExportaciones() {
             return base.Channel.obtenerTodasExportaciones();
         }
         
-        public System.Threading.Tasks.Task<BDatos_API.ServiceReference1.Contenedor[]> obtenerTodasExportacionesAsync() {
+        public System.Threading.Tasks.Task<BDatos_API.servicioContenedores.Contenedor[]> obtenerTodasExportacionesAsync() {
             return base.Channel.obtenerTodasExportacionesAsync();
         }
         
-        public void cambioImportaciones(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
-            base.Channel.cambioImportaciones(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
+        public void IContenedorExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
+            base.Channel.IContenedorExpo(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
         }
         
-        public System.Threading.Tasks.Task cambioImportacionesAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
-            return base.Channel.cambioImportacionesAsync(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
-        }
-        
-        public void cambioExportaciones(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
-            base.Channel.cambioExportaciones(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
-        }
-        
-        public System.Threading.Tasks.Task cambioExportacionesAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
-            return base.Channel.cambioExportacionesAsync(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
+        public System.Threading.Tasks.Task IContenedorExpoAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
+            return base.Channel.IContenedorExpoAsync(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
         }
     }
 }

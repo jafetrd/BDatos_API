@@ -31,7 +31,7 @@ namespace ServicioBroker.Servicio
 
             _sqlTableDependency.OnChanged += TableDependency_Changed;
             _sqlTableDependency.OnError += (sender, args) => Console.WriteLine($"error: {args.Message}");
-            _sqlTableDependency.OnStatusChanged += _sqlTableDependency_OnStatusChanged;
+           // _sqlTableDependency.OnStatusChanged += _sqlTableDependency_OnStatusChanged;
             _sqlTableDependency.Start();
 
             while (!(_sqlTableDependency.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.WaitingForNotification)) { }
@@ -41,15 +41,15 @@ namespace ServicioBroker.Servicio
         #endregion
 
         #region SqlTableDependency
-        private void _sqlTableDependency_OnStatusChanged(object sender, StatusChangedEventArgs e)
-        {
-            if (e.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.StopDueToCancellation)
-            {
-                _sqlTableDependency = null;
-                _sqlTableDependency = new SqlTableDependency<Productos>(_connectionString, tableName: "productos");
-                _sqlTableDependency.Start();
-            }
-        }
+        //private void _sqlTableDependency_OnStatusChanged(object sender, StatusChangedEventArgs e)
+        //{
+        //    if (e.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.StopDueToCancellation)
+        //    {
+        //        _sqlTableDependency = null;
+        //        _sqlTableDependency = new SqlTableDependency<Productos>(_connectionString, tableName: "productos");
+        //        _sqlTableDependency.Start();
+        //    }
+        //}
 
         private void TableDependency_Changed(
             object sender,

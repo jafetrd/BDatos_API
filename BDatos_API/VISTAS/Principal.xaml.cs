@@ -7,12 +7,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using System.Windows;
-using BDatos_API.ServiceReference1;
+using BDatos_API.servicioContenedores;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using ToastNotifications.Core;
 using System.Timers;
 using MahApps.Metro.Controls;
+using BDatos_API.servicioBuques;
 
 namespace BDatos_API.VISTAS
 {
@@ -27,6 +28,7 @@ namespace BDatos_API.VISTAS
         private ObservableCollection<Contenedor> _Importaciones;
         private ObservableCollection<Contenedor> _Exportaciones;
         public ContenedorClient _contenedorClient;
+        public BuquesClient buquesClient;
 
         MessageOptions options=null;
         public Principal()
@@ -43,8 +45,10 @@ namespace BDatos_API.VISTAS
 
             _Importaciones = new ObservableCollection<Contenedor>(_contenedorClient.obtenerTodasImportaciones().AsEnumerable());
             tabla_importaciones.ItemsSource = _Importaciones;
-            _Exportaciones = new ObservableCollection<Contenedor>(_contenedorClient.obtenerTodasExportaciones().AsEnumerable<Contenedor>());
+            _Exportaciones = new ObservableCollection<Contenedor>(_contenedorClient.obtenerTodasExportaciones().AsEnumerable());
             tabla_exportaciones.ItemsSource = _Exportaciones;
+
+            //this.TryFindParent<MetroWindow>().Closed += Principal_Closed;
 
             Timer timer = new Timer();
             timer.Interval = 180000;
@@ -66,6 +70,11 @@ namespace BDatos_API.VISTAS
             };
 
              
+        }
+
+        private void Principal_Closed(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void Principal_Closing(object sender, System.ComponentModel.CancelEventArgs e)

@@ -98,8 +98,8 @@
 
                     <TextBlock Text="Buque" FontSize="30" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"></TextBlock>
                     <dotNetKitControls:AutoCompleteComboBox 
-                                                           ItemsSource="{Binding comboBuqueDatos}" TextSearch.TextPath="BUQUE_2"
-                                                            SelectedValuePath="BUQUE_2" SelectedItem="{Binding buqueSeleccionado}"
+                                                            TextSearch.TextPath="BUQUE"
+                                                            SelectedValuePath="BUQUE" SelectedItem="{Binding buqueSeleccionado}"
                                                             Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
                                                             FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Row="1"
                                                             x:Name="buque_Combobox" KeyDown="Buque_Combobox_KeyDown" 
@@ -108,7 +108,7 @@
                         <dotNetKitControls:AutoCompleteComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <TextBlock Text="{Binding BUQUE_2}" FontWeight="Bold" />
+                                    <TextBlock Text="{Binding BUQUE}" FontWeight="Bold" />
                                     <TextBlock>
                                      Ultimo viaje: <Run Text="{Binding VIAJE, Mode=OneTime}" FontWeight="Light"></Run>
                                     </TextBlock>

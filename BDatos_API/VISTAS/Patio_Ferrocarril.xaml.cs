@@ -17,6 +17,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Linq;
 using System.Diagnostics;
+using DotNetKit.Windows.Controls;
 
 namespace BDatos_API.VISTAS
 {
@@ -57,7 +58,7 @@ namespace BDatos_API.VISTAS
 
 
         #endregion
-
+        ActualizarAutoCompletado autoCompletado;
         private int _estado;
         private string _regimen;
         public Patio_Ferrocarril(int estado,string regimen)
@@ -68,7 +69,10 @@ namespace BDatos_API.VISTAS
             _estado = estado;
             _regimen = regimen;
             constructores();
-            
+            autoCompletado = new ActualizarAutoCompletado(_buques:buque_Combobox,_productos:producto_textbox,_clientes:cliente_Combobox);
+            cliente_Combobox = autoCompletado.clientes;
+            producto_textbox = autoCompletado.productos;
+            buque_Combobox = autoCompletado.buques;
         }
 
         #region metodos de carga iniciales
@@ -253,8 +257,7 @@ namespace BDatos_API.VISTAS
         #region metodos de controles
         private void Buque_Combobox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter) {
-                siguiente_Key(sender, e); }
+            if (e.Key == Key.Enter) {siguiente_Key(sender, e); }
             metodos_Comunes.vacio(sender);
         }
 
@@ -470,8 +473,8 @@ namespace BDatos_API.VISTAS
 
         private void Buque_Combobox_DropDownClosed(object sender, EventArgs e)
         {
-            if (modeloPatioFerrocarril.buqueSeleccionado != null)
-                modeloPatioFerrocarril.VIAJE = (int.Parse(modeloPatioFerrocarril.buqueSeleccionado.VIAJE) + 1).ToString();
+            if (autoCompletado.buqueSeleccionado != null)
+                modeloPatioFerrocarril.VIAJE = (int.Parse(autoCompletado.buqueSeleccionado.VIAJE) + 1).ToString();
         }
         #endregion
 
@@ -547,7 +550,7 @@ namespace BDatos_API.VISTAS
                                     if (vacio == false)
                                     {
                                         modeloPatioFerrocarril.conFormatoSQL();
-                                        string msj = "BUQUE: " + modeloPatioFerrocarril.BUQUE + "\n" +
+                                        string msj = "BUQUE: " + autoCompletado.buqueSeleccionado.BUQUE + "\n" +
                                                      "VIAJE: " + modeloPatioFerrocarril.VIAJE + "\n" +
                                                      "REGIMEN: " + modeloPatioFerrocarril.REGIMEN + "\n" +
                                                      "FECHA DE ENTRADA: " + modeloPatioFerrocarril._FECHA_ENTRADA+ "\n"+
@@ -563,7 +566,7 @@ namespace BDatos_API.VISTAS
                                             for (int a = 0; a < contenedores; a++)
                                             {
                                                 metodos_Bd.GUARDAR(NOMBRE_TABLA,
-                                                    (BUQUE_, modeloPatioFerrocarril._BUQUE),
+                                                    (BUQUE_, autoCompletado.buqueSeleccionado.BUQUE),
                                                     (VIAJE_, modeloPatioFerrocarril._VIAJE),
                                                     (REGIMEN_, modeloPatioFerrocarril._REGIMEN),
                                                     (FECHA_ENTRADA_, modeloPatioFerrocarril._FECHA_ENTRADA),
@@ -579,7 +582,7 @@ namespace BDatos_API.VISTAS
                                             {
                                                 metodos_Bd.GUARDAR("Temporal",
                                                     (ID_, (ID + a).ToString()),
-                                                    (BUQUE_, modeloPatioFerrocarril._BUQUE),
+                                                    (BUQUE_, autoCompletado.buqueSeleccionado.BUQUE),
                                                     (VIAJE_, modeloPatioFerrocarril._VIAJE),
                                                     (REGIMEN_, modeloPatioFerrocarril._REGIMEN),
                                                     (FECHA_ENTRADA_, modeloPatioFerrocarril._FECHA_ENTRADA),
@@ -588,13 +591,13 @@ namespace BDatos_API.VISTAS
                                                     (ESTADO_, modeloPatioFerrocarril._ESTADO),
                                                     (ALMACEN_, "P. FERROCARRIL"));
                                             }
-                                            if (modeloPatioFerrocarril._BUQUE != null)
+                                            if (autoCompletado.buqueSeleccionado.BUQUE != null)
                                             {
-                                                ArrayList arrayList = metodos_Bd.BUSCAR(tablaBuque.NOMBRE_TABLA, BUQUE_, modeloPatioFerrocarril._BUQUE, 3, TODO);
+                                                ArrayList arrayList = metodos_Bd.BUSCAR(tablaBuque.NOMBRE_TABLA, BUQUE_,autoCompletado.buqueSeleccionado.BUQUE, 3, TODO);
                                                 if (arrayList.Count == 0)
                                                 {
                                                     metodos_Bd.GUARDAR(tablaBuque.NOMBRE_TABLA,
-                                                        (tablaBuque.BUQUE_, modeloPatioFerrocarril._BUQUE),
+                                                        (tablaBuque.BUQUE_, autoCompletado.buqueSeleccionado.BUQUE),
                                                         (tablaBuque.VIAJE_, modeloPatioFerrocarril._VIAJE));
                                                 }
                                                 else
@@ -603,31 +606,21 @@ namespace BDatos_API.VISTAS
                                                         (tablaBuque.VIAJE_, modeloPatioFerrocarril._VIAJE));
                                                 }
                                             }
-                                            if (modeloPatioFerrocarril._CLIENTE != null)
+                                            if (autoCompletado.clienteSeleccionado.CLIENTE != null)
                                             {
-                                                ArrayList arrayList = metodos_Bd.BUSCAR(tablaCliente.NOMBRE_TABLA, CLIENTE_, modeloPatioFerrocarril._CLIENTE, tablaCliente.CANTIDAD_COLUMNAS_, TODO);
+                                                ArrayList arrayList = metodos_Bd.BUSCAR(tablaCliente.NOMBRE_TABLA, CLIENTE_, autoCompletado.clienteSeleccionado.CLIENTE, tablaCliente.CANTIDAD_COLUMNAS_, TODO);
                                                 if (arrayList.Count == 0)
                                                 {
                                                     metodos_Bd.GUARDAR(tablaCliente.NOMBRE_TABLA,
-                                                        (tablaCliente.CLIENTE_, modeloPatioFerrocarril._CLIENTE));
-                                                }
-                                                else
-                                                {
-                                                    metodos_Bd.ACTUALIZAR(tablaCliente.NOMBRE_TABLA, tablaCliente.ID_, arrayList[0].ToString(), 
-                                                        (tablaCliente.CLIENTE_, modeloPatioFerrocarril._CLIENTE));
+                                                        (tablaCliente.CLIENTE_, autoCompletado.clienteSeleccionado.CLIENTE));
                                                 }
                                             }
-                                            if (modeloPatioFerrocarril._PRODUCTO != null)
+                                            if (autoCompletado.productoSeleccionado.PRODUCTO != null)
                                             {
-                                                ArrayList arrayList = metodos_Bd.BUSCAR(tablaProducto.NOMBRE_TABLA, PRODUCTO_, modeloPatioFerrocarril._PRODUCTO, tablaProducto.CANTIDAD_COLUMNAS_, TODO);
+                                                ArrayList arrayList = metodos_Bd.BUSCAR(tablaProducto.NOMBRE_TABLA, PRODUCTO_, autoCompletado.productoSeleccionado.PRODUCTO, tablaProducto.CANTIDAD_COLUMNAS_, TODO);
                                                 if (arrayList.Count == 0)
                                                 {
-                                                    metodos_Bd.GUARDAR(tablaProducto.NOMBRE_TABLA,(tablaProducto.PRODUCTO_, modeloPatioFerrocarril._PRODUCTO));
-                                                }
-                                                else
-                                                {
-                                                    metodos_Bd.ACTUALIZAR(tablaProducto.NOMBRE_TABLA, tablaProducto.ID_, arrayList[0].ToString(), 
-                                                        (tablaProducto.PRODUCTO_, modeloPatioFerrocarril._PRODUCTO));
+                                                    metodos_Bd.GUARDAR(tablaProducto.NOMBRE_TABLA,(tablaProducto.PRODUCTO_, autoCompletado.productoSeleccionado.PRODUCTO));
                                                 }
                                             }
                                             await this.TryFindParent<MetroWindow>().ShowMessageAsync(TITULO_MENSAJE, "Se crearon: " + contenedores + " registros",

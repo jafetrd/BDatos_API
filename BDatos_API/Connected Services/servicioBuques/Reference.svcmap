@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="18ab4ff4-e427-42fa-919c-f5ccecaf9107" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>false</ReferenceAllAssemblies>
+    <ReferencedAssemblies>
+      <ReferencedAssembly AssemblyName="TableDependency.SqlClient" />
+    </ReferencedAssemblies>
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8001/ServicioTablaBuques/" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="b820108f-565e-4c7c-a2ba-4db892e192fc" SourceId="1" SourceUrl="http://localhost:8001/ServicioTablaBuques/?disco" />
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="a7c740cc-3a3f-4062-99e4-c34ceeedfa7c" SourceId="1" SourceUrl="http://localhost:8001/ServicioTablaBuques/?xsd=xsd0" />
+    <MetadataFile FileName="buques.wsdl" MetadataType="Wsdl" ID="59d7b6b9-b880-4e30-938b-25beb8b3ca6e" SourceId="1" SourceUrl="http://localhost:8001/ServicioTablaBuques/?wsdl" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="7bc7b6fe-7868-429b-b772-9ab14370c5cb" SourceId="1" SourceUrl="http://localhost:8001/ServicioTablaBuques/?xsd=xsd1" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="c85d66bf-1e98-4aa9-9ccc-5f2a234d46c1" SourceId="1" SourceUrl="http://localhost:8001/ServicioTablaBuques/?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

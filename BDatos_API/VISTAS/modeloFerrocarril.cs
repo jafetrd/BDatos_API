@@ -9,6 +9,9 @@ using static BDatos_API.Maquina_estados;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Data;
+using BDatos_API.servicioBuques;
+using BDatos_API.servicioClientes;
+using BDatos_API.servicioProductos;
 using System.Diagnostics;
 
 namespace BDatos_API.VISTAS
@@ -16,45 +19,11 @@ namespace BDatos_API.VISTAS
 
     public class modeloPatioFerrocarril : INotifyPropertyChanged
     {
-        DataTable data;
-        Metodos_bd metodos_Bd;
         public modeloPatioFerrocarril()
         {
-            data = new DataTable();
-            metodos_Bd = new Metodos_bd();
-            comboBuqueDatos = new List<comboBuque>();
-            comboClientes = new List<comboCliente>();
-            comboProductos = new List<comboProducto>();
-            cargarAutocompletado();
+            
         }
 
-        public void cargarAutocompletado()
-        {
-            comboBuqueDatos.Clear();
-            comboClientes.Clear();
-            comboProductos.Clear();
-            data = metodos_Bd.REGRESAR_TODO(tablaBuque.NOMBRE_TABLA, TODO);
-            foreach (DataRow row in data.Rows)
-            {
-                comboBuqueDatos.Add(new comboBuque() { BUQUE_2 = row[1].ToString(), VIAJE = row[2].ToString() });
-            }
-
-            data = null;
-
-            data = metodos_Bd.REGRESAR_TODO(tablaCliente.NOMBRE_TABLA, TODO);
-            foreach (DataRow row in data.Rows)
-            {
-                comboClientes.Add(new comboCliente { CLIENTE_2 = row[0].ToString() });
-            }
-
-            data = null;
-
-            data = metodos_Bd.REGRESAR_TODO(tablaProducto.NOMBRE_TABLA, TODO);
-            foreach (DataRow row in data.Rows)
-            {
-                comboProductos.Add(new comboProducto { PRODUCTO_2 = row[0].ToString() });
-            }
-        }
 
         public void limpiarPropiedades()
         {
@@ -83,10 +52,10 @@ namespace BDatos_API.VISTAS
             switch (Maquina_estados._ESTADO)
             {
                 case Entrada:
-                    _SESION_ENTRADA = InicioSesion.USUARIOdato;
+                    _SESION_ENTRADA = InicioSesion.USUARIOdato.ToUpper();
                     break;
                 case Salida:
-                    _SESION_ENTRADA = InicioSesion.USUARIOdato;
+                    _SESION_SALIDA = InicioSesion.USUARIOdato.ToUpper();
                     break;
             }
             _PRODUCTO = PRODUCTO;
@@ -315,35 +284,6 @@ namespace BDatos_API.VISTAS
                 OnPropertyChanged("AGENTE");
             }
         }
-
-        //modelo para el BUQUE
-        public class comboBuque
-        {
-            public string BUQUE_2 { get; set; }
-            public string VIAJE { get; set; }
-        }
-        
-        public List<comboBuque> comboBuqueDatos{ get;set;}
-
-        public comboBuque buqueSeleccionado { get; set; }
-
-        public class comboCliente
-        {
-            public string CLIENTE_2 { get; set; }
-        }
-
-        public List<comboCliente> comboClientes { get; set;  }
-
-        public comboCliente clienteSeleccionado { get; set; }
-
-        public class comboProducto
-        {
-            public string PRODUCTO_2 { get; set; }
-        }
-
-        public List<comboProducto> comboProductos { get; set; }
-
-        public comboProducto productoSeleccionado { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

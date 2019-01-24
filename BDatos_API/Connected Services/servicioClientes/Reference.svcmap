@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="a4784afe-8c9a-42e1-bc67-e222978f28f4" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>false</ReferenceAllAssemblies>
+    <ReferencedAssemblies>
+      <ReferencedAssembly AssemblyName="TableDependency.SqlClient" />
+    </ReferencedAssemblies>
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8001/ServicioTablaClientes/" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="clientes.wsdl" MetadataType="Wsdl" ID="bca44e4f-3f68-4d82-9af1-2a1e609f04dc" SourceId="1" SourceUrl="http://localhost:8001/ServicioTablaClientes/?wsdl" />
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="770c9aaf-77eb-4cfd-8faa-6e7239deab1d" SourceId="1" SourceUrl="http://localhost:8001/ServicioTablaClientes/?disco" />
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="e85066f8-8730-49ed-99ed-e68f9c488b4f" SourceId="1" SourceUrl="http://localhost:8001/ServicioTablaClientes/?xsd=xsd2" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="960cc910-68a2-48a1-ada9-5cf01f68e97d" SourceId="1" SourceUrl="http://localhost:8001/ServicioTablaClientes/?xsd=xsd0" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="7ad68502-2ce4-4eb2-9bdb-4a126ceb9674" SourceId="1" SourceUrl="http://localhost:8001/ServicioTablaClientes/?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

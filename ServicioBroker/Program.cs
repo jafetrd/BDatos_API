@@ -13,7 +13,7 @@ namespace ServicioBroker
 {
     public class Program
     {
-       
+       [STAThread]
         /// <summary>
         /// Punto de entrada principal para la aplicación.
         /// </summary>

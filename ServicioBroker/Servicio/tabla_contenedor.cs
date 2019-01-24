@@ -4,10 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Linq.Expressions;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using TableDependency.SqlClient;
+using TableDependency.SqlClient.Base;
+using TableDependency.SqlClient.Base.Abstracts;
 using TableDependency.SqlClient.Base.EventArgs;
+using TableDependency.SqlClient.Where;
 
 namespace ServicioBroker.Servicio
 {
@@ -19,21 +23,29 @@ namespace ServicioBroker.Servicio
         private readonly List<IContenedorCallback> _callbackList = new List<IContenedorCallback>();
         private readonly string _connectionString;
         private SqlTableDependency<Contenedor> _sqlTableDependency;
+        private SqlTableDependency<Contenedor> _sqlTableDependency2;
         #endregion
 
         #region Constructors
 
         public tabla_contenedor()
         {
+    
             _connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
-
-            _sqlTableDependency = new SqlTableDependency<Contenedor>(_connectionString,tableName:"temporal");
-
+            Expression<Func<Contenedor, bool>> expression = p => p.REGIMEN == "EXPO";
+            ITableDependencyFilter CONDICION = new SqlTableDependencyFilter<Contenedor>(expression);
+            _sqlTableDependency = new SqlTableDependency<Contenedor>(_connectionString,tableName:"temporal",filter:CONDICION);
             _sqlTableDependency.OnChanged += TableDependency_Changed;
             _sqlTableDependency.OnError += (sender, args) => Console.WriteLine($"error: {args.Message}");
-            _sqlTableDependency.OnStatusChanged += _sqlTableDependency_OnStatusChanged;
             _sqlTableDependency.Start();
-            
+            while (!(_sqlTableDependency.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.WaitingForNotification)) { }
+
+             expression = p => p.REGIMEN == "IMPO";
+            CONDICION = new SqlTableDependencyFilter<Contenedor>(expression);
+            _sqlTableDependency2 = new SqlTableDependency<Contenedor>(_connectionString, tableName: "temporal", filter: CONDICION);
+            _sqlTableDependency2.OnChanged += TableDependency2_Changed;
+            _sqlTableDependency2.OnError += (sender, args) => Console.WriteLine($"error: {args.Message}");
+            _sqlTableDependency2.Start();
             while (!(_sqlTableDependency.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.WaitingForNotification)) { }
             Console.WriteLine(@"ESPERANDO NOTIFICACIONES contenedores");
         }
@@ -41,33 +53,21 @@ namespace ServicioBroker.Servicio
 
 
         #region SqlTableDependency
-        private void _sqlTableDependency_OnStatusChanged(object sender, StatusChangedEventArgs e)
-        {
-            if (e.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.StopDueToCancellation)
-            {
-                _sqlTableDependency = null;
-                _sqlTableDependency = new SqlTableDependency<Contenedor>(_connectionString, tableName: "temporal");
-                _sqlTableDependency.Start();
-            }
-        }
 
-        private void TableDependency_Changed(
-            object sender,
-            RecordChangedEventArgs<Contenedor> e)
+        private void TableDependency_Changed(object sender,RecordChangedEventArgs<Contenedor> e)
         {
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine($"DML: {e.ChangeType}");
-            Console.WriteLine($"regimen: {e.Entity.REGIMEN}");
             Console.WriteLine($"TABLA : CONTENEDOR");
-            switch (e.Entity.REGIMEN)
-            {
-                case "IMPO":
-                    this.cambioImportaciones(e.Entity.ID, e.Entity.BUQUE, e.Entity.INICIALES + e.Entity.NUMERO, e.Entity.VIAJE, e.Entity.FECHA_ENTRADA, e.Entity.ESTADO, e.Entity.ALMACEN);
-                    break;
-                case "EXPO":
-                    this.cambioExportaciones(e.Entity.ID, e.Entity.BUQUE, e.Entity.INICIALES + e.Entity.NUMERO, e.Entity.VIAJE, e.Entity.FECHA_ENTRADA, e.Entity.ESTADO, e.Entity.ALMACEN);
-                    break;
-            }
+            this.cambioExportaciones(e.Entity.ID, e.Entity.BUQUE, e.Entity.INICIALES + e.Entity.NUMERO, e.Entity.VIAJE, e.Entity.FECHA_ENTRADA, e.Entity.ESTADO, e.Entity.ALMACEN);            
+        }
+
+        private void TableDependency2_Changed(object sender, RecordChangedEventArgs<Contenedor> e)
+        {
+            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine($"DML: {e.ChangeType}");
+            Console.WriteLine($"TABLA : CONTENEDOR");
+            this.cambioImportaciones(e.Entity.ID, e.Entity.BUQUE, e.Entity.INICIALES + e.Entity.NUMERO, e.Entity.VIAJE, e.Entity.FECHA_ENTRADA, e.Entity.ESTADO, e.Entity.ALMACEN);
         }
 
         public IList<Contenedor> obtenerTodasImportaciones()
@@ -112,15 +112,24 @@ namespace ServicioBroker.Servicio
                         {
                             ID = sqlDataReader.SafeGetString("ID"),
                             BUQUE = sqlDataReader.SafeGetString("BUQUE"),
-                            CONTENEDOR = sqlDataReader.SafeGetString("INICIALES") + sqlDataReader.SafeGetString("NUMERO"),
+                            CONTENEDOR =sqlDataReader.SafeGetString("INICIALES") + sqlDataReader.SafeGetString("NUMERO"),
                             VIAJE = sqlDataReader.SafeGetString("VIAJE"),
                             FECHA_ENTRADA = sqlDataReader.SafeGetString("FECHA_ENTRADA"),
                             ESTADO = sqlDataReader.SafeGetString("ESTADO"),
-                            ALMACEN = sqlDataReader.SafeGetString("ALMACEN")
+                            ALMACEN = sqlDataReader.SafeGetString("ALMACEN"),
+                            DIAS = dias(sqlDataReader.SafeGetString("FECHA_ENTRADA"))
                         });
                     }
             }
             return contenedores;
+        }
+
+        private string dias(string fecha_entrada)
+        {
+            DateTime date = DateTime.Parse(fecha_entrada);
+            int dias = (DateTime.Today - date).Days;
+            Console.WriteLine(dias.ToString());
+            return dias.ToString();
         }
       
         public void Subscribe()
@@ -161,7 +170,8 @@ namespace ServicioBroker.Servicio
         public void Dispose()
         {
             _sqlTableDependency.Stop();
-        }      
+        }
+
     }
 
     public static class extensionDataRead

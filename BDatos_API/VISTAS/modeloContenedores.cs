@@ -12,45 +12,10 @@ using System.Reflection;
 namespace BDatos_API.VISTAS
 {
     public class modeloContenedores : INotifyPropertyChanged
-    {
-        DataTable data;
-        Metodos_bd metodos_Bd;
+    { 
         public modeloContenedores()
         {
-            data = new DataTable();
-            metodos_Bd = new Metodos_bd();
-            comboBuqueDatos = new List<comboBuque>();
-            comboClientes = new List<comboCliente>();
-            comboProductos = new List<comboProducto>();
-            cargarAutocompletado();
-        }
 
-        public void cargarAutocompletado()
-        {
-            comboBuqueDatos.Clear();
-            comboClientes.Clear();
-            comboProductos.Clear();
-            data = metodos_Bd.REGRESAR_TODO(tablaBuque.NOMBRE_TABLA, TODO);
-            foreach (DataRow row in data.Rows)
-            {
-                comboBuqueDatos.Add(new comboBuque() { BUQUE_2 = row[1].ToString(), VIAJE = row[2].ToString() });
-            }
-
-            data = null;
-
-            data = metodos_Bd.REGRESAR_TODO(tablaCliente.NOMBRE_TABLA, TODO);
-            foreach (DataRow row in data.Rows)
-            {
-                comboClientes.Add(new comboCliente { CLIENTE_2 = row[0].ToString() });
-            }
-
-            data = null;
-
-            data = metodos_Bd.REGRESAR_TODO(tablaProducto.NOMBRE_TABLA, TODO);
-            foreach (DataRow row in data.Rows)
-            {
-                comboProductos.Add(new comboProducto { PRODUCTO_2 = row[0].ToString() });
-            }
         }
 
         public void limpiarPropiedades()
@@ -62,7 +27,6 @@ namespace BDatos_API.VISTAS
             }
 
         }
-
         public void conFormatoSQL()
         {
             _BUQUE = BUQUE;
@@ -312,35 +276,6 @@ namespace BDatos_API.VISTAS
                 OnPropertyChanged("AGENTE");
             }
         }
-
-        //modelo para el BUQUE
-        public class comboBuque
-        {
-            public string BUQUE_2 { get; set; }
-            public string VIAJE { get; set; }
-        }
-        
-        public List<comboBuque> comboBuqueDatos{ get; set; }
-        //buque seleccionado 
-        public comboBuque buqueSeleccionado { get; set; }
-
-        public class comboCliente
-        {
-            public string CLIENTE_2 { get; set; }
-        }
-
-        public List<comboCliente> comboClientes { get; set; }
-
-        public comboCliente clienteSeleccionado { get; set; }
-
-        public class comboProducto
-        {
-            public string PRODUCTO_2 { get; set; }
-        }
-
-        public List<comboProducto> comboProductos { get; set; }
-
-        public comboProducto productoSeleccionado { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -61,6 +61,7 @@ namespace BDatos_API.VISTAS
 
         private int _estado;
         private string _regimen;
+        ActualizarAutoCompletado autoCompletado;
         public Patio_Contenedor(int estado,string regimen)
         {
             InitializeComponent();
@@ -68,6 +69,10 @@ namespace BDatos_API.VISTAS
             _estado = estado;
             _regimen = regimen;
             constructores();
+            autoCompletado = new ActualizarAutoCompletado(_buques: buque_Combobox, _productos: producto_textbox, _clientes: cliente_Combobox);
+            cliente_Combobox = autoCompletado.clientes;
+            producto_textbox = autoCompletado.productos;
+            buque_Combobox = autoCompletado.buques;
         }
 
         #region metodos de carga iniciales
@@ -477,8 +482,8 @@ namespace BDatos_API.VISTAS
 
         private void Buque_Combobox_DropDownClosed(object sender, EventArgs e)
         {
-            if (modeloPatioContenedor.buqueSeleccionado != null)
-                modeloPatioContenedor.VIAJE = (int.Parse(modeloPatioContenedor.buqueSeleccionado.VIAJE) + 1).ToString();
+            if (autoCompletado.buqueSeleccionado != null)
+                modeloPatioContenedor.VIAJE = (int.Parse(autoCompletado.buqueSeleccionado.VIAJE) + 1).ToString();
         }
         #endregion
 
@@ -554,7 +559,7 @@ namespace BDatos_API.VISTAS
                                     if (vacio == false)
                                     {
                                         modeloPatioContenedor.conFormatoSQL();
-                                        string msj = "BUQUE: " + modeloPatioContenedor.BUQUE + "\n" +
+                                        string msj = "BUQUE: " + autoCompletado.buqueSeleccionado.BUQUE + "\n" +
                                                      "VIAJE: " + modeloPatioContenedor.VIAJE + "\n" +
                                                      "REGIMEN: " + modeloPatioContenedor.REGIMEN + "\n" +
                                                      "FECHA DE ENTRADA: " + modeloPatioContenedor._FECHA_ENTRADA + "\n" +
@@ -570,7 +575,7 @@ namespace BDatos_API.VISTAS
                                             for (int a = 0; a < contenedores; a++)
                                             {
                                                 metodos_Bd.GUARDAR(NOMBRE_TABLA,
-                                                    (BUQUE_, modeloPatioContenedor._BUQUE),
+                                                    (BUQUE_, autoCompletado.buqueSeleccionado.BUQUE),
                                                     (VIAJE_, modeloPatioContenedor._VIAJE),
                                                     (REGIMEN_, modeloPatioContenedor._REGIMEN),
                                                     (FECHA_ENTRADA_, modeloPatioContenedor._FECHA_ENTRADA),
@@ -585,7 +590,7 @@ namespace BDatos_API.VISTAS
                                             {
                                                 metodos_Bd.GUARDAR("Temporal",
                                                     (ID_,(ID+a).ToString()),
-                                                    (BUQUE_, modeloPatioContenedor._BUQUE),
+                                                    (BUQUE_, autoCompletado.buqueSeleccionado.BUQUE),
                                                     (VIAJE_, modeloPatioContenedor._VIAJE),
                                                     (REGIMEN_, modeloPatioContenedor._REGIMEN),
                                                     (FECHA_ENTRADA_, modeloPatioContenedor._FECHA_ENTRADA),
@@ -594,13 +599,13 @@ namespace BDatos_API.VISTAS
                                                     (ESTADO_, modeloPatioContenedor._ESTADO),
                                                     (ALMACEN_, "P. CONTENEDOR"));
                                             }
-                                            if (modeloPatioContenedor._BUQUE != null)
+                                            if (autoCompletado.buqueSeleccionado.BUQUE != null)
                                             {
-                                                ArrayList arrayList = metodos_Bd.BUSCAR(tablaBuque.NOMBRE_TABLA, BUQUE_, modeloPatioContenedor._BUQUE, 3, TODO);
+                                                ArrayList arrayList = metodos_Bd.BUSCAR(tablaBuque.NOMBRE_TABLA, BUQUE_, autoCompletado.buqueSeleccionado.BUQUE, 3, TODO);
                                                 if (arrayList.Count == 0)
                                                 {
                                                     metodos_Bd.GUARDAR(tablaBuque.NOMBRE_TABLA,
-                                                        (tablaBuque.BUQUE_, modeloPatioContenedor._BUQUE),
+                                                        (tablaBuque.BUQUE_, autoCompletado.buqueSeleccionado.BUQUE),
                                                         (tablaBuque.VIAJE_, modeloPatioContenedor._VIAJE));
                                                 }
                                                 else
@@ -609,31 +614,21 @@ namespace BDatos_API.VISTAS
                                                         (tablaBuque.VIAJE_, modeloPatioContenedor._VIAJE));
                                                 }
                                             }
-                                            if (modeloPatioContenedor._CLIENTE != null)
+                                            if (autoCompletado.clienteSeleccionado.CLIENTE != null)
                                             {
-                                                ArrayList arrayList = metodos_Bd.BUSCAR(tablaCliente.NOMBRE_TABLA, CLIENTE_, modeloPatioContenedor._CLIENTE, tablaCliente.CANTIDAD_COLUMNAS_, TODO);
+                                                ArrayList arrayList = metodos_Bd.BUSCAR(tablaCliente.NOMBRE_TABLA, CLIENTE_, autoCompletado.clienteSeleccionado.CLIENTE, tablaCliente.CANTIDAD_COLUMNAS_, TODO);
                                                 if (arrayList.Count == 0)
                                                 {
                                                     metodos_Bd.GUARDAR(tablaCliente.NOMBRE_TABLA,
-                                                        (tablaCliente.CLIENTE_, modeloPatioContenedor._CLIENTE));
-                                                }
-                                                else
-                                                {
-                                                    metodos_Bd.ACTUALIZAR(tablaCliente.NOMBRE_TABLA, tablaCliente.ID_, arrayList[0].ToString(),
-                                                        (tablaCliente.CLIENTE_, modeloPatioContenedor._CLIENTE));
+                                                        (tablaCliente.CLIENTE_, autoCompletado.clienteSeleccionado.CLIENTE));
                                                 }
                                             }
-                                            if (modeloPatioContenedor._PRODUCTO != null)
+                                            if (autoCompletado.productoSeleccionado.PRODUCTO != null)
                                             {
-                                                ArrayList arrayList = metodos_Bd.BUSCAR(tablaProducto.NOMBRE_TABLA, PRODUCTO_, modeloPatioContenedor._PRODUCTO, tablaProducto.CANTIDAD_COLUMNAS_, TODO);
+                                                ArrayList arrayList = metodos_Bd.BUSCAR(tablaProducto.NOMBRE_TABLA, PRODUCTO_, autoCompletado.productoSeleccionado.PRODUCTO, tablaProducto.CANTIDAD_COLUMNAS_, TODO);
                                                 if (arrayList.Count == 0)
                                                 {
-                                                    metodos_Bd.GUARDAR(tablaProducto.NOMBRE_TABLA, (tablaProducto.PRODUCTO_, modeloPatioContenedor._PRODUCTO));
-                                                }
-                                                else
-                                                {
-                                                    metodos_Bd.ACTUALIZAR(tablaProducto.NOMBRE_TABLA, tablaProducto.ID_, arrayList[0].ToString(),
-                                                        (tablaProducto.PRODUCTO_, modeloPatioContenedor._PRODUCTO));
+                                                    metodos_Bd.GUARDAR(tablaProducto.NOMBRE_TABLA, (tablaProducto.PRODUCTO_, autoCompletado.productoSeleccionado.PRODUCTO));
                                                 }
                                             }
                                             await this.TryFindParent<MetroWindow>().ShowMessageAsync(TITULO_MENSAJE, "Se crearon: " + contenedores + " registros",

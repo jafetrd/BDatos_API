@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="23fc55d2-3875-4f85-a43c-2a93db38be5a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>false</ReferenceAllAssemblies>
+    <ReferencedAssemblies>
+      <ReferencedAssembly AssemblyName="TableDependency.SqlClient" />
+    </ReferencedAssemblies>
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8001/ServicioTablaContenedor/" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="tabla_contenedor.wsdl" MetadataType="Wsdl" ID="70b7b68c-46bc-42dd-b716-d599b5ae77a2" SourceId="1" SourceUrl="http://localhost:8001/ServicioTablaContenedor/?wsdl" />
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="872670a7-fc33-482c-8cde-cc79a458a924" SourceId="1" SourceUrl="http://localhost:8001/ServicioTablaContenedor/?xsd=xsd2" />
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="ec1c0b88-81ac-46ba-b185-8b91299c08d0" SourceId="1" SourceUrl="http://localhost:8001/ServicioTablaContenedor/?disco" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="4a484c97-0b8a-4906-b63f-29ae4a5fbe20" SourceId="1" SourceUrl="http://localhost:8001/ServicioTablaContenedor/?xsd=xsd0" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="bc7f1e1c-6708-40ff-b52e-3be1ee72ee7e" SourceId="1" SourceUrl="http://localhost:8001/ServicioTablaContenedor/?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

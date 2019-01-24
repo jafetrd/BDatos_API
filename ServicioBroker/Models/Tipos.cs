@@ -21,6 +21,9 @@ namespace ServicioBroker.Models
         public string PRESENTACION { get; set; }
         public string INICIALES { get; set; }
         public string NUMERO { get; set; }
+
+        public string DIAS { get; set; }
+        public string ESTADO_VENCIMIENTO { get; set; }
     }
 
     public class Clientes

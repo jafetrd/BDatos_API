@@ -20,7 +20,7 @@ namespace ServicioBroker.Cambios
         [OperationContract]
         IList<Buques> obtenerTodosBuque();
 
-        [OperationContract]
+        [OperationContract(Name ="IBuques")]
         void cambiosBuques(string BUQUE, string VIAJE);
 
     }

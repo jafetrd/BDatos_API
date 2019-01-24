@@ -20,13 +20,14 @@ namespace ServicioBroker.Cambios
         [OperationContract]
         IList<Contenedor> obtenerTodasImportaciones();
 
-        [OperationContract]
-        IList<Contenedor> obtenerTodasExportaciones();
-
-        [OperationContract]
+        [OperationContract(Name ="IContenedorImpo")]
         void cambioImportaciones(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
 
         [OperationContract]
+        IList<Contenedor> obtenerTodasExportaciones();
+
+        [OperationContract(Name = "IContenedorExpo")]
         void cambioExportaciones(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
     }
+
 }
