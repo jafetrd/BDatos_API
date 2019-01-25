@@ -17,13 +17,13 @@ namespace ServicioBroker.Cambios
         IList<Contenedor> obtenerTodasImportaciones();
 
         [OperationContract(Name ="IContenedorImpo")]
-        void cambioImportaciones(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        void cambioImportaciones(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN, string tipo_Cambio,string DIAS);
 
         [OperationContract]
         IList<Contenedor> obtenerTodasExportaciones();
 
         [OperationContract(Name = "IContenedorExpo")]
-        void cambioExportaciones(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        void cambioExportaciones(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN, string tipo_Cambio,string DIAS);
     }
 
 }

@@ -1,19 +1,20 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.ServiceProcess;
 
 namespace ServicioBroker
 {
     public class Program
     {
+        private static Service1 service;
        [STAThread]
         /// <summary>
         /// Punto de entrada principal para la aplicación.
         /// </summary>
         public static void Main()
         {
-            Service1 service = new Service1();
-            
-
+           
+            service = new Service1();
            // ServiceBase.Run(service);
 
             if (Environment.UserInteractive)
@@ -29,6 +30,6 @@ namespace ServicioBroker
             
         }
 
-
+       
     }
 }

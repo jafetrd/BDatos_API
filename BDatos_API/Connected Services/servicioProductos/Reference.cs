@@ -97,17 +97,17 @@ namespace BDatos_API.servicioProductos {
         System.Threading.Tasks.Task<BDatos_API.servicioProductos.Productos[]> obtenerTodosProductosAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductos/IProductos", ReplyAction="http://tempuri.org/IProductos/IProductosResponse")]
-        void IProductos(string PRODUCTO);
+        void IProductos(string PRODUCTO, string tipo_Cambio);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductos/IProductos", ReplyAction="http://tempuri.org/IProductos/IProductosResponse")]
-        System.Threading.Tasks.Task IProductosAsync(string PRODUCTO);
+        System.Threading.Tasks.Task IProductosAsync(string PRODUCTO, string tipo_Cambio);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IProductosCallback {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IProductos/cambiosProductos", ReplyAction="http://tempuri.org/IProductos/cambiosProductosResponse")]
-        void cambiosProductos(string PRODUCTO);
+        void cambiosProductos(string PRODUCTO, string tipo_Cambio);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -162,12 +162,12 @@ namespace BDatos_API.servicioProductos {
             return base.Channel.obtenerTodosProductosAsync();
         }
         
-        public void IProductos(string PRODUCTO) {
-            base.Channel.IProductos(PRODUCTO);
+        public void IProductos(string PRODUCTO, string tipo_Cambio) {
+            base.Channel.IProductos(PRODUCTO, tipo_Cambio);
         }
         
-        public System.Threading.Tasks.Task IProductosAsync(string PRODUCTO) {
-            return base.Channel.IProductosAsync(PRODUCTO);
+        public System.Threading.Tasks.Task IProductosAsync(string PRODUCTO, string tipo_Cambio) {
+            return base.Channel.IProductosAsync(PRODUCTO, tipo_Cambio);
         }
     }
 }

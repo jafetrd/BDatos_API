@@ -10,28 +10,28 @@ namespace ServicioBroker.Cambios
     public interface IContenedorCallback
     {
         [OperationContract]
-        void cambiosImpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        void cambiosImpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN, string tipo_Cambio,string DIAS);
 
         [OperationContract]
-        void cambiosExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        void cambiosExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN, string tipo_Cambio,string DIAS);
     }
     public interface IclienteCallback
     {
         [OperationContract]
-        void cambiosCliente(string CLIENTE);
+        void cambiosCliente(string CLIENTE, string tipo_Cambio);
     }
 
     public interface IproductosCallBack
     {
 
         [OperationContract]
-        void cambiosProductos(string PRODUCTO);
+        void cambiosProductos(string PRODUCTO,string tipo_Cambio);
     }
 
     public interface IbuquesCallBack
     {
 
         [OperationContract]
-        void cambiosBuques(string BUQUE, string VIAJE);
+        void cambiosBuques(string BUQUE, string VIAJE,string tipo_Cambio);
     }
 }

@@ -113,17 +113,17 @@ namespace BDatos_API.servicioBuques {
         System.Threading.Tasks.Task<BDatos_API.servicioBuques.Buques[]> obtenerTodosBuqueAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBuques/IBuques", ReplyAction="http://tempuri.org/IBuques/IBuquesResponse")]
-        void IBuques(string BUQUE, string VIAJE);
+        void IBuques(string BUQUE, string VIAJE, string tipo_Cambio);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBuques/IBuques", ReplyAction="http://tempuri.org/IBuques/IBuquesResponse")]
-        System.Threading.Tasks.Task IBuquesAsync(string BUQUE, string VIAJE);
+        System.Threading.Tasks.Task IBuquesAsync(string BUQUE, string VIAJE, string tipo_Cambio);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IBuquesCallback {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IBuques/cambiosBuques", ReplyAction="http://tempuri.org/IBuques/cambiosBuquesResponse")]
-        void cambiosBuques(string BUQUE, string VIAJE);
+        void cambiosBuques(string BUQUE, string VIAJE, string tipo_Cambio);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -178,12 +178,12 @@ namespace BDatos_API.servicioBuques {
             return base.Channel.obtenerTodosBuqueAsync();
         }
         
-        public void IBuques(string BUQUE, string VIAJE) {
-            base.Channel.IBuques(BUQUE, VIAJE);
+        public void IBuques(string BUQUE, string VIAJE, string tipo_Cambio) {
+            base.Channel.IBuques(BUQUE, VIAJE, tipo_Cambio);
         }
         
-        public System.Threading.Tasks.Task IBuquesAsync(string BUQUE, string VIAJE) {
-            return base.Channel.IBuquesAsync(BUQUE, VIAJE);
+        public System.Threading.Tasks.Task IBuquesAsync(string BUQUE, string VIAJE, string tipo_Cambio) {
+            return base.Channel.IBuquesAsync(BUQUE, VIAJE, tipo_Cambio);
         }
     }
 }

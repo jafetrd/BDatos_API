@@ -16,36 +16,60 @@ namespace ServicioBroker.Servicio
         #region Instance variables
 
         private readonly List<IbuquesCallBack> _callbackList = new List<IbuquesCallBack>();
-        private readonly string _connectionString;
-        private readonly SqlTableDependency<Buques> _sqlTableDependency2;
+        private string _connectionString;
+        private SqlTableDependency<Buques> _sqlTableDependency;
         #endregion
 
         #region Constructors
 
         public buques()
         {
+            iniciar();
+        }
+
+        private void iniciar()
+        {
             _connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
-            _sqlTableDependency2 = new SqlTableDependency<Buques>(_connectionString, "buques");
+            _sqlTableDependency = new SqlTableDependency<Buques>(_connectionString, "buques");
 
-            _sqlTableDependency2.OnChanged += TableDependency2_Changed;
-            _sqlTableDependency2.OnError += (sender, args) => Console.WriteLine($"Error: {args.Message}");
-            _sqlTableDependency2.Start();
+            _sqlTableDependency.OnChanged += TableDependency_Changed;
+            _sqlTableDependency.OnError += _sqlTableDependency_OnError;
+            _sqlTableDependency.OnStatusChanged += _sqlTableDependency_OnStatusChanged;
+            _sqlTableDependency.Start(watchDogTimeOut: 28800);
 
-            while (!(_sqlTableDependency2.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.WaitingForNotification)) { }
+            while (!(_sqlTableDependency.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.WaitingForNotification)) { }
 
-            Console.WriteLine(@"ESPERANDO NOTIFICACIONES 2");
+            Console.WriteLine(@"ESPERANDO NOTIFICACIONES BUQUES");
+        }
+
+        private void _sqlTableDependency_OnStatusChanged(object sender, StatusChangedEventArgs e)
+        {
+            Console.WriteLine(e.Status);
+            if (e.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.StopDueToError)
+            {
+                Unsubscribe();
+                Dispose();
+            }
+        }
+
+        private void _sqlTableDependency_OnError(object sender, ErrorEventArgs e)
+        {
+            Console.WriteLine(e.Error);
+            Unsubscribe();
+            Dispose();
         }
 
         #endregion
 
-        #region SqlTableDependency2
-        private void TableDependency2_Changed(
-            object sender, RecordChangedEventArgs<Buques> e)
+        #region SqlTableDependency
+        private void TableDependency_Changed(object sender, RecordChangedEventArgs<Buques> e)
         {
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine($"DML: {e.ChangeType}");
             Console.WriteLine($"TABLA : BUQUES");
-            this.cambiosBuques(e.Entity.BUQUE, e.Entity.VIAJE);
+            this.cambiosBuques(e.Entity.BUQUE, e.Entity.VIAJE, e.ChangeType.ToString());
+            Unsubscribe();
+            Subscribe();
         }
 
         public IList<Buques> obtenerTodosBuque()
@@ -99,11 +123,11 @@ namespace ServicioBroker.Servicio
         }
 
 
-        public void cambiosBuques(string BUQUE, string VIAJE)
+        public void cambiosBuques(string BUQUE, string VIAJE, string tipo_Cambio)
         {
             _callbackList.ForEach(delegate (IbuquesCallBack callback)
             {
-                callback.cambiosBuques(BUQUE, VIAJE);
+                callback.cambiosBuques(BUQUE, VIAJE,tipo_Cambio);
             });
         }
 
@@ -113,7 +137,7 @@ namespace ServicioBroker.Servicio
 
         public void Dispose()
         {
-            _sqlTableDependency2.Stop();
+            _sqlTableDependency.Stop();
         }
         #endregion
     }

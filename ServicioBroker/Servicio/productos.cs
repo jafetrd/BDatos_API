@@ -16,7 +16,7 @@ namespace ServicioBroker.Servicio
         #region Instance variables
 
         private readonly List<IproductosCallBack> _callbackList = new List<IproductosCallBack>();
-        private readonly string _connectionString;
+        private string _connectionString;
         private SqlTableDependency<Productos> _sqlTableDependency;
         #endregion
 
@@ -24,40 +24,53 @@ namespace ServicioBroker.Servicio
 
         public productos()
         {
+            iniciar();
+        }
+
+        private void iniciar()
+        {
             _connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
 
             _sqlTableDependency = new SqlTableDependency<Productos>(_connectionString, tableName: "productos");
 
             _sqlTableDependency.OnChanged += TableDependency_Changed;
-            _sqlTableDependency.OnError += (sender, args) => Console.WriteLine($"error: {args.Message}");
-           // _sqlTableDependency.OnStatusChanged += _sqlTableDependency_OnStatusChanged;
-            _sqlTableDependency.Start();
+            _sqlTableDependency.OnError += _sqlTableDependency_OnError;
+            _sqlTableDependency.OnStatusChanged += _sqlTableDependency_OnStatusChanged;
+            _sqlTableDependency.Start(watchDogTimeOut: 28800);
 
             while (!(_sqlTableDependency.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.WaitingForNotification)) { }
-            Console.WriteLine(@"ESPERANDO NOTIFICACIONES productos");
+            Console.WriteLine(@"ESPERANDO NOTIFICACIONES PRODUCTOS");
+        }
+
+        private void _sqlTableDependency_OnStatusChanged(object sender, StatusChangedEventArgs e)
+        {
+            Console.WriteLine(e.Status);
+            if (e.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.StopDueToError)
+            {
+                Unsubscribe();
+                Dispose();
+            }
+        }
+
+        private void _sqlTableDependency_OnError(object sender, ErrorEventArgs e)
+        {
+            Console.WriteLine(e.Error);
+            Unsubscribe();
+            Dispose();
         }
 
         #endregion
 
         #region SqlTableDependency
-        //private void _sqlTableDependency_OnStatusChanged(object sender, StatusChangedEventArgs e)
-        //{
-        //    if (e.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.StopDueToCancellation)
-        //    {
-        //        _sqlTableDependency = null;
-        //        _sqlTableDependency = new SqlTableDependency<Productos>(_connectionString, tableName: "productos");
-        //        _sqlTableDependency.Start();
-        //    }
-        //}
 
-        private void TableDependency_Changed(
-            object sender,
-            RecordChangedEventArgs<Productos> e)
+        private void TableDependency_Changed(object sender,RecordChangedEventArgs<Productos> e)
         {
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine($"DML: {e.ChangeType}");
             Console.WriteLine($"TABLA : PRODUCTOS");
-            this.cambiosProductos(e.Entity.PRODUCTO);
+            this.cambiosProductos(e.Entity.PRODUCTO,e.ChangeType.ToString());
+            Unsubscribe();
+            Subscribe();
         }
        
         public IList<Productos> obtenerTodosProductos()
@@ -113,11 +126,11 @@ namespace ServicioBroker.Servicio
             }
         }
 
-        public void cambiosProductos(string PRODUCTO)
+        public void cambiosProductos(string PRODUCTO, string tipo_Cambio)
         {
             _callbackList.ForEach(delegate (IproductosCallBack callback)
             {
-                callback.cambiosProductos(PRODUCTO);
+                callback.cambiosProductos(PRODUCTO,tipo_Cambio);
             });
         }
         #endregion

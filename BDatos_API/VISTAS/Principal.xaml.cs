@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using ToastNotifications.Core;
 using System.Timers;
 using BDatos_API.servicioBuques;
+using System.Diagnostics;
 
 namespace BDatos_API.VISTAS
 {
@@ -23,7 +24,8 @@ namespace BDatos_API.VISTAS
         private ObservableCollection<Contenedor> _Importaciones;
         private ObservableCollection<Contenedor> _Exportaciones;
         public ContenedorClient _contenedorClient;
-        public BuquesClient buquesClient;
+        Metodos_bd metodos_Bd;
+      
 
         MessageOptions options=null;
         public Principal()
@@ -64,7 +66,7 @@ namespace BDatos_API.VISTAS
                 }
             };
 
-             
+            metodos_Bd = new Metodos_bd(); 
         }
 
         private void Principal_Closed(object sender, EventArgs e)
@@ -87,14 +89,14 @@ namespace BDatos_API.VISTAS
             { }
         }
 
-        public void cambiosExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO,string ALMACEN)
+        public void cambiosExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO,string ALMACEN, string tipo_Cambio,string DIAS)
         {
             if (_Exportaciones != null)
             {
-                var exportacionIndex = _Exportaciones.IndexOf(_Exportaciones.FirstOrDefault(c => c.ID == ID));
+                var exportacionIndex = _Exportaciones.IndexOf(_Exportaciones.FirstOrDefault(c => c.BUQUE == BUQUE & c.CONTENEDOR == CONTENEDOR));
                 if (exportacionIndex >= 0)
                 {
-                    _Exportaciones[exportacionIndex] = new Contenedor { CONTENEDOR = CONTENEDOR, BUQUE = BUQUE, VIAJE = VIAJE, FECHA_ENTRADA = FECHA_ENTRADA, ESTADO = ESTADO, ALMACEN=ALMACEN};
+                    _Exportaciones[exportacionIndex] = new Contenedor { CONTENEDOR = CONTENEDOR, BUQUE = BUQUE, VIAJE = VIAJE, FECHA_ENTRADA = FECHA_ENTRADA, ESTADO = ESTADO, ALMACEN=ALMACEN,DIAS=DIAS};
 
                     this.tabla_exportaciones.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
                     {
@@ -103,12 +105,12 @@ namespace BDatos_API.VISTAS
                 }else
                 {
                     _vm.ShowSuccess("NUEVA ENTRADA", options);
-                    _Exportaciones.Add(new Contenedor { CONTENEDOR = CONTENEDOR, BUQUE = BUQUE, VIAJE = VIAJE, FECHA_ENTRADA = FECHA_ENTRADA, ESTADO = ESTADO, ALMACEN = ALMACEN });
+                    _Exportaciones.Add(new Contenedor { CONTENEDOR = CONTENEDOR, BUQUE = BUQUE, VIAJE = VIAJE, FECHA_ENTRADA = FECHA_ENTRADA, ESTADO = ESTADO, ALMACEN = ALMACEN,DIAS=DIAS });
                 }
             }
         }
 
-        public void cambiosImpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO,string ALMACEN)
+        public void cambiosImpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO,string ALMACEN, string tipo_Cambio,string DIAS)
         {
             if (_Importaciones != null)
             {
@@ -116,7 +118,7 @@ namespace BDatos_API.VISTAS
                     );
                 if (importacionIndex >= 0)
                 {
-                    _Importaciones[importacionIndex] = new Contenedor { CONTENEDOR = CONTENEDOR, BUQUE = BUQUE, VIAJE = VIAJE, FECHA_ENTRADA = FECHA_ENTRADA, ESTADO = ESTADO,ALMACEN=ALMACEN };
+                    _Importaciones[importacionIndex] = new Contenedor { CONTENEDOR = CONTENEDOR, BUQUE = BUQUE, VIAJE = VIAJE, FECHA_ENTRADA = FECHA_ENTRADA, ESTADO = ESTADO,ALMACEN=ALMACEN,DIAS=DIAS};
                     this.tabla_exportaciones.Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
                     {
                         this.tabla_exportaciones.Items.Refresh();
@@ -125,19 +127,41 @@ namespace BDatos_API.VISTAS
                 else
                 {
                     _vm.ShowSuccess("NUEVA ENTRADA",options);
-                    _Importaciones.Add(new Contenedor { CONTENEDOR = CONTENEDOR, BUQUE = BUQUE, VIAJE = VIAJE, FECHA_ENTRADA = FECHA_ENTRADA, ESTADO = ESTADO,ALMACEN=ALMACEN });           
+                    _Importaciones.Add(new Contenedor { CONTENEDOR = CONTENEDOR, BUQUE = BUQUE, VIAJE = VIAJE, FECHA_ENTRADA = FECHA_ENTRADA, ESTADO = ESTADO,ALMACEN=ALMACEN,DIAS=DIAS });           
                 }
             }
-        }
-
-        private void DataGridCell_KeyDown(object sender, KeyEventArgs e)
-        {
-
         }
 
         private void Tabla_importaciones_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void DataGridCell_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DataGrid x = (DataGrid)this.FindName(tabla_importaciones.Name);
+
+            //if (x.SelectedItem[4] == "P. CONTENEDOR")
+            //{
+            //    Console.WriteLine("contenedor");
+            //}
+
+            //if ((x.SelectedItem as Contenedor).ALMACEN == "P. FERROCARRIL")
+            //{
+            //    Console.WriteLine("ferrocarril");
+            //}
+
+        }
+
+        private void DataGridCell_KeyDown(object sender, KeyEventArgs e)
+        {
+            DataGrid x = (DataGrid)this.FindName(tabla_importaciones.Name);
+            Contenedor a;
+            for (int i = x.SelectedItems.Count - 1; i >= 0; i--)
+            {
+                a = x.SelectedItem as Contenedor;
+
+            }
         }
     }
 }

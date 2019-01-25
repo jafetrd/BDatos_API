@@ -17,6 +17,6 @@ namespace ServicioBroker.Cambios
         IList<Clientes> obtenerTodosClientes();
         
         [OperationContract(Name ="IClientes")]
-        void cambiosCliente(string CLIENTE);
+        void cambiosCliente(string CLIENTE, string tipo_Cambio);
     }
 }

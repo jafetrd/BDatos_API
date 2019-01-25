@@ -38,6 +38,7 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="BUQUE" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="VIAJE" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="tipo_Cambio" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -51,6 +52,7 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="BUQUE" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="VIAJE" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="tipo_Cambio" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

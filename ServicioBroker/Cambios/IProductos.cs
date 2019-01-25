@@ -17,6 +17,6 @@ namespace ServicioBroker.Cambios
         IList<Productos>obtenerTodosProductos();
 
         [OperationContract(Name ="IProductos")]
-        void cambiosProductos(string PRODUCTO);
+        void cambiosProductos(string PRODUCTO, string tipo_Cambio);
     }
 }

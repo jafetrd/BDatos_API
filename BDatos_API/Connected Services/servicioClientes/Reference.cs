@@ -97,17 +97,17 @@ namespace BDatos_API.servicioClientes {
         System.Threading.Tasks.Task<BDatos_API.servicioClientes.Clientes[]> obtenerTodosClientesAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientes/IClientes", ReplyAction="http://tempuri.org/IClientes/IClientesResponse")]
-        void IClientes(string CLIENTE);
+        void IClientes(string CLIENTE, string tipo_Cambio);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientes/IClientes", ReplyAction="http://tempuri.org/IClientes/IClientesResponse")]
-        System.Threading.Tasks.Task IClientesAsync(string CLIENTE);
+        System.Threading.Tasks.Task IClientesAsync(string CLIENTE, string tipo_Cambio);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IClientesCallback {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IClientes/cambiosCliente", ReplyAction="http://tempuri.org/IClientes/cambiosClienteResponse")]
-        void cambiosCliente(string CLIENTE);
+        void cambiosCliente(string CLIENTE, string tipo_Cambio);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -162,12 +162,12 @@ namespace BDatos_API.servicioClientes {
             return base.Channel.obtenerTodosClientesAsync();
         }
         
-        public void IClientes(string CLIENTE) {
-            base.Channel.IClientes(CLIENTE);
+        public void IClientes(string CLIENTE, string tipo_Cambio) {
+            base.Channel.IClientes(CLIENTE, tipo_Cambio);
         }
         
-        public System.Threading.Tasks.Task IClientesAsync(string CLIENTE) {
-            return base.Channel.IClientesAsync(CLIENTE);
+        public System.Threading.Tasks.Task IClientesAsync(string CLIENTE, string tipo_Cambio) {
+            return base.Channel.IClientesAsync(CLIENTE, tipo_Cambio);
         }
     }
 }

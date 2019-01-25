@@ -43,6 +43,8 @@
         <xs:element minOccurs="0" name="FECHA_ENTRADA" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="ESTADO" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="ALMACEN" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="tipo_Cambio" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="DIAS" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -73,6 +75,8 @@
         <xs:element minOccurs="0" name="FECHA_ENTRADA" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="ESTADO" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="ALMACEN" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="tipo_Cambio" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="DIAS" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -91,6 +95,8 @@
         <xs:element minOccurs="0" name="FECHA_ENTRADA" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="ESTADO" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="ALMACEN" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="tipo_Cambio" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="DIAS" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -109,6 +115,8 @@
         <xs:element minOccurs="0" name="FECHA_ENTRADA" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="ESTADO" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="ALMACEN" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="tipo_Cambio" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="DIAS" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

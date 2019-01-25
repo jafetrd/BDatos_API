@@ -273,10 +273,10 @@ namespace BDatos_API.servicioContenedores {
         System.Threading.Tasks.Task<BDatos_API.servicioContenedores.Contenedor[]> obtenerTodasImportacionesAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/IContenedorImpo", ReplyAction="http://tempuri.org/IContenedor/IContenedorImpoResponse")]
-        void IContenedorImpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        void IContenedorImpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN, string tipo_Cambio, string DIAS);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/IContenedorImpo", ReplyAction="http://tempuri.org/IContenedor/IContenedorImpoResponse")]
-        System.Threading.Tasks.Task IContenedorImpoAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        System.Threading.Tasks.Task IContenedorImpoAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN, string tipo_Cambio, string DIAS);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/obtenerTodasExportaciones", ReplyAction="http://tempuri.org/IContenedor/obtenerTodasExportacionesResponse")]
         BDatos_API.servicioContenedores.Contenedor[] obtenerTodasExportaciones();
@@ -285,20 +285,20 @@ namespace BDatos_API.servicioContenedores {
         System.Threading.Tasks.Task<BDatos_API.servicioContenedores.Contenedor[]> obtenerTodasExportacionesAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/IContenedorExpo", ReplyAction="http://tempuri.org/IContenedor/IContenedorExpoResponse")]
-        void IContenedorExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        void IContenedorExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN, string tipo_Cambio, string DIAS);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/IContenedorExpo", ReplyAction="http://tempuri.org/IContenedor/IContenedorExpoResponse")]
-        System.Threading.Tasks.Task IContenedorExpoAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        System.Threading.Tasks.Task IContenedorExpoAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN, string tipo_Cambio, string DIAS);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IContenedorCallback {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/cambiosImpo", ReplyAction="http://tempuri.org/IContenedor/cambiosImpoResponse")]
-        void cambiosImpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        void cambiosImpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN, string tipo_Cambio, string DIAS);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IContenedor/cambiosExpo", ReplyAction="http://tempuri.org/IContenedor/cambiosExpoResponse")]
-        void cambiosExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN);
+        void cambiosExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN, string tipo_Cambio, string DIAS);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -353,12 +353,12 @@ namespace BDatos_API.servicioContenedores {
             return base.Channel.obtenerTodasImportacionesAsync();
         }
         
-        public void IContenedorImpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
-            base.Channel.IContenedorImpo(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
+        public void IContenedorImpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN, string tipo_Cambio, string DIAS) {
+            base.Channel.IContenedorImpo(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN, tipo_Cambio, DIAS);
         }
         
-        public System.Threading.Tasks.Task IContenedorImpoAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
-            return base.Channel.IContenedorImpoAsync(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
+        public System.Threading.Tasks.Task IContenedorImpoAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN, string tipo_Cambio, string DIAS) {
+            return base.Channel.IContenedorImpoAsync(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN, tipo_Cambio, DIAS);
         }
         
         public BDatos_API.servicioContenedores.Contenedor[] obtenerTodasExportaciones() {
@@ -369,12 +369,12 @@ namespace BDatos_API.servicioContenedores {
             return base.Channel.obtenerTodasExportacionesAsync();
         }
         
-        public void IContenedorExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
-            base.Channel.IContenedorExpo(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
+        public void IContenedorExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN, string tipo_Cambio, string DIAS) {
+            base.Channel.IContenedorExpo(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN, tipo_Cambio, DIAS);
         }
         
-        public System.Threading.Tasks.Task IContenedorExpoAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN) {
-            return base.Channel.IContenedorExpoAsync(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN);
+        public System.Threading.Tasks.Task IContenedorExpoAsync(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO, string ALMACEN, string tipo_Cambio, string DIAS) {
+            return base.Channel.IContenedorExpoAsync(ID, BUQUE, CONTENEDOR, VIAJE, FECHA_ENTRADA, ESTADO, ALMACEN, tipo_Cambio, DIAS);
         }
     }
 }

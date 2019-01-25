@@ -18,39 +18,62 @@ namespace ServicioBroker.Servicio
         #region Instance variables
 
         private readonly List<IclienteCallback> _callbackList = new List<IclienteCallback>();
-        private readonly string _connectionString;
+        private  string _connectionString;
 
-        private readonly SqlTableDependency<Clientes> _sqlTableDependency3;
+        private  SqlTableDependency<Clientes> _sqlTableDependency;
         #endregion
 
         #region Constructors
 
         public clientes()
         {
+            iniciar();  
+        }
+
+        public void iniciar()
+        {
             _connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
 
-            _sqlTableDependency3 = new SqlTableDependency<Clientes>(_connectionString, "clientes");
+            _sqlTableDependency = new SqlTableDependency<Clientes>(_connectionString, "clientes");
 
-            _sqlTableDependency3.OnChanged += TableDependency3_Changed;
-            _sqlTableDependency3.OnError += (sender, args) => Console.WriteLine($"error: {args.Message}");
-            _sqlTableDependency3.Start();
+            _sqlTableDependency.OnChanged += TableDependency_Changed;
+            _sqlTableDependency.OnError += _sqlTableDependency_OnError;
+            _sqlTableDependency.OnStatusChanged += _sqlTableDependency_OnStatusChanged;
+            _sqlTableDependency.Start(watchDogTimeOut: 28800);
 
-            while (!(_sqlTableDependency3.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.WaitingForNotification)) { }
+            while (!(_sqlTableDependency.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.WaitingForNotification)) { }
 
-            Console.WriteLine(@"ESPERANDO NOTIFICACIONES 3");
+            Console.WriteLine(@"ESPERANDO NOTIFICACIONES CLIENTES");
+        }
+
+        private void _sqlTableDependency_OnStatusChanged(object sender, StatusChangedEventArgs e)
+        {
+            Console.WriteLine(e.Status);
+            if (e.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.StopDueToError)
+            {
+                Unsubscribe();
+                Dispose();
+            }
+        }
+
+        private void _sqlTableDependency_OnError(object sender, ErrorEventArgs e)
+        {
+            Console.WriteLine(e.Error);
+            Unsubscribe();
+            Dispose();
         }
 
         #endregion
 
         #region SqlTableDependency3
-        private void TableDependency3_Changed(
-            object sender,
-            RecordChangedEventArgs<Clientes> e)
+        private void TableDependency_Changed(object sender,RecordChangedEventArgs<Clientes> e)
         {
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine($"DML: {e.ChangeType}");
             Console.WriteLine($"TABLA : CLIENTES");
-            this.cambiosCliente(e.Entity.CLIENTE);
+            this.cambiosCliente(e.Entity.CLIENTE,e.ChangeType.ToString());
+            Unsubscribe();
+            Subscribe();
         }
 
         public IList<Clientes> obtenerTodosClientes()
@@ -98,11 +121,11 @@ namespace ServicioBroker.Servicio
             }
         }
 
-        public void cambiosCliente(string CLIENTE)
+        public void cambiosCliente(string CLIENTE, string tipo_Cambio)
         {
             _callbackList.ForEach(delegate (IclienteCallback callback)
             {
-                callback.cambiosCliente(CLIENTE);
+                callback.cambiosCliente(CLIENTE,tipo_Cambio);
             });
         }
         #endregion
@@ -111,7 +134,7 @@ namespace ServicioBroker.Servicio
 
         public void Dispose()
         {
-            _sqlTableDependency3.Stop();
+            _sqlTableDependency.Stop();
         }
         #endregion
 
