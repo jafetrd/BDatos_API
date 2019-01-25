@@ -141,15 +141,15 @@ namespace BDatos_API.VISTAS
         {
             DataGrid x = (DataGrid)this.FindName(tabla_importaciones.Name);
 
-            //if (x.SelectedItem[4] == "P. CONTENEDOR")
-            //{
-            //    Console.WriteLine("contenedor");
-            //}
+            if ((x.SelectedItem as Contenedor).ALMACEN== "P. CONTENEDOR")
+            {
+                Console.WriteLine("contenedor");
+            }
 
-            //if ((x.SelectedItem as Contenedor).ALMACEN == "P. FERROCARRIL")
-            //{
-            //    Console.WriteLine("ferrocarril");
-            //}
+            if ((x.SelectedItem as Contenedor).ALMACEN == "P. FERROCARRIL")
+            {
+                Console.WriteLine("ferrocarril");
+            }
 
         }
 
