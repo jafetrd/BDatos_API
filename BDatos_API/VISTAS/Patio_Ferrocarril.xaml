@@ -130,7 +130,7 @@
                                           Text="{Binding FECHA_ENTRADA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,BindsDirectlyToSource=True}"></xctk:DateTimePicker>
 
                     <TextBlock Name ="FFCC" Text="FFCC" TextAlignment="Center" FontSize="28" Grid.Column="0" Grid.Row="4" 
-                               VerticalAlignment="Bottom" ></TextBlock>
+                               VerticalAlignment="Bottom" FontWeight="Black"></TextBlock>
                     <DataGrid x:Name="tabla_Principal" AutoGenerateColumns="False"  FontWeight="Light" 
                       FontSize="15" SelectionMode="Extended"  ScrollViewer.CanContentScroll="True" Grid.Row="5"
                        CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" Grid.ColumnSpan="2"

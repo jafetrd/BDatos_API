@@ -10,6 +10,8 @@ using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Common;
 using System.Reflection;
 using Microsoft.Win32;
+using System.Data;
+using System.Data.Sql;
 
 namespace ServicioBroker
 {
@@ -41,6 +43,7 @@ namespace ServicioBroker
         public void RunAsConsole(string[] args)
         {
             SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+         
             if (CheckDatabaseExists())
             {
                 try
@@ -90,6 +93,7 @@ namespace ServicioBroker
 
         protected override void OnStart(string[] args)
         {
+         
             host = new ServiceHost(typeof(tabla_contenedor));
             host.Open();
             //Console.WriteLine($"Servicio 1 iniciado en {host.Description.Endpoints[1].Address}");
@@ -167,6 +171,18 @@ namespace ServicioBroker
                     else
                         Console.WriteLine("Datos agregados con exito");
                 }
+            }
+        }
+
+        private void busqueda_maquinas(DataTable table)
+        {
+            foreach (System.Data.DataRow row in table.Rows)
+            {
+                foreach (System.Data.DataColumn col in table.Columns)
+                {
+                    Console.WriteLine("{0} = {1}", col.ColumnName, row[col]);
+                }
+                Console.WriteLine("============================");
             }
         }
 

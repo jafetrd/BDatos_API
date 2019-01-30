@@ -36,7 +36,7 @@
                 <Setter Property = "VerticalOffset" Value="10"/>-->
                 <Setter Property = "Background" Value="LightBlue"/>
                 <Setter Property = "Foreground" Value="Black"/>
-                <Setter Property = "FontSize" Value="16"/>
+                <Setter Property = "FontSize" Value="20"/>
                 <Setter Property = "FontWeight" Value="Light"/>
             </Style>
             <Style TargetType="DataGridColumnHeader">
@@ -99,7 +99,7 @@
                             </TabItem.Header>
 
                             <DataGrid x:Name="tabla_importaciones" AutoGenerateColumns="False"  FontWeight="Light" 
-                      FontSize="12" SelectionMode="Extended"  ScrollViewer.CanContentScroll="True" Grid.Row="1"
+                      FontSize="15" SelectionMode="Extended"  ScrollViewer.CanContentScroll="True" Grid.Row="1"
                        CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" 
                               VerticalAlignment="Stretch" CanUserAddRows="False"
                               IsReadOnly="True" 
@@ -112,7 +112,7 @@
                                     <DataGridTemplateColumn Header="CONTENEDOR" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock FontSize="20" Height="45" Text="{Binding CONTENEDOR,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
+                                                <TextBlock FontSize="24" Height="45" Text="{Binding CONTENEDOR,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
                                                  Margin="5 0 5 0" TextAlignment="Center" Name="iniciales_datagrid"></TextBlock>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -121,7 +121,7 @@
                                     <DataGridTemplateColumn Header="BUQUE" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock FontSize="20" Height="45" Text="{Binding BUQUE,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                <TextBlock FontSize="24" Height="45" Text="{Binding BUQUE,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -130,7 +130,7 @@
                                     <DataGridTemplateColumn Header="#VIAJE" Width="0.5*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock FontSize="20" Height="45" Text="{Binding VIAJE,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                <TextBlock FontSize="24" Height="45" Text="{Binding VIAJE,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -139,7 +139,7 @@
                                     <DataGridTemplateColumn Header="ENTRADA" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock FontSize="20" Height="45" Text="{Binding FECHA_ENTRADA,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                <TextBlock FontSize="24" Height="45" Text="{Binding FECHA_ENTRADA,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -148,7 +148,7 @@
                                     <DataGridTemplateColumn Header="ALMACEN" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock FontSize="20" Height="45" Text="{Binding ALMACEN,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                <TextBlock FontSize="24" Height="45" Text="{Binding ALMACEN,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -157,7 +157,7 @@
                                     <DataGridTemplateColumn Header="DIAS" Width="0.5*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock FontSize="20" Height="45" Text="{Binding DIAS,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                <TextBlock FontSize="24" Height="45" Text="{Binding DIAS,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -189,7 +189,7 @@
                               Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Grid}}">
 
                                 <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="Contenedor" Width="*">
+                                    <DataGridTemplateColumn Header="CONTENEDOR" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock FontSize="30" Height="45" Text="{Binding CONTENEDOR,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
@@ -198,7 +198,7 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="Fecha de entrada" Width="*">
+                                    <DataGridTemplateColumn Header="ENTRADA" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock FontSize="30" Height="45" Text="{Binding FECHA_ENTRADA,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
@@ -206,6 +206,25 @@
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="ALMACEN" Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="30" Height="45" Text="{Binding ALMACEN,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                 Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Header="DIAS" Width="0.5*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="30" Height="45" Text="{Binding DIAS,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                 Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
                                 </DataGrid.Columns>
                                 <DataGrid.Resources>
                                     <Style TargetType="{x:Type DataGridCell}">

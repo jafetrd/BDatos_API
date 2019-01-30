@@ -103,7 +103,7 @@ namespace ServicioBroker.Servicio
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine($"DML: {e.ChangeType}");
             Console.WriteLine($"TABLA : CONTENEDOR");
-            this.cambioExportaciones(e.Entity.ID, e.Entity.BUQUE, e.Entity.INICIALES + e.Entity.NUMERO, e.Entity.VIAJE, e.Entity.FECHA_ENTRADA, e.Entity.ESTADO, e.Entity.ALMACEN,e.ChangeType.ToString(),e.Entity.DIAS);
+            this.cambioExportaciones(e.Entity.ID, e.Entity.BUQUE, e.Entity.INICIALES + e.Entity.NUMERO, e.Entity.VIAJE, e.Entity.FECHA_ENTRADA, e.Entity.ESTADO, e.Entity.ALMACEN,e.ChangeType.ToString(),"0");
             Unsubscribe();
             Subscribe();
         }
@@ -113,7 +113,7 @@ namespace ServicioBroker.Servicio
             Console.WriteLine(Environment.NewLine);
             Console.WriteLine($"DML: {e.ChangeType}");
             Console.WriteLine($"TABLA : CONTENEDOR");
-            this.cambioImportaciones(e.Entity.ID, e.Entity.BUQUE, e.Entity.INICIALES + e.Entity.NUMERO, e.Entity.VIAJE, e.Entity.FECHA_ENTRADA, e.Entity.ESTADO, e.Entity.ALMACEN,e.ChangeType.ToString(),e.Entity.DIAS);
+            this.cambioImportaciones(e.Entity.ID, e.Entity.BUQUE, e.Entity.INICIALES + e.Entity.NUMERO, e.Entity.VIAJE, e.Entity.FECHA_ENTRADA, e.Entity.ESTADO, e.Entity.ALMACEN,e.ChangeType.ToString(),"0");
             Unsubscribe();
             Subscribe();
         }

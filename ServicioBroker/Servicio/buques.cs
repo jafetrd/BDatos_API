@@ -29,6 +29,7 @@ namespace ServicioBroker.Servicio
 
         private void iniciar()
         {
+           
             _connectionString = ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
             _sqlTableDependency = new SqlTableDependency<Buques>(_connectionString, "buques");
 
