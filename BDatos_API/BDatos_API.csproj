@@ -185,6 +185,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Maquina_estados.cs" />
+    <Compile Include="metodosExtension.cs" />
     <Compile Include="Metodos_bd.cs" />
     <Compile Include="Metodos_comunes.cs" />
     <Compile Include="MODELO_VISTAS\MenuItem.cs" />

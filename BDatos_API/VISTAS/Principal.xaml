@@ -10,7 +10,7 @@
       xmlns:local="clr-namespace:BDatos_API.VISTAS"
       xmlns:s="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
-      d:DesignHeight="1000" d:DesignWidth="800"
+      d:DesignWidth="800"
       Title="Principal" Background="White">
 
     <Page.Resources>
@@ -58,7 +58,7 @@
                     <Grid.RowDefinitions >
                         <RowDefinition Height="45"></RowDefinition>
                         <RowDefinition Height="45"></RowDefinition>
-                        <RowDefinition Height="600"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Inicio" FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
                                FontWeight="Light" Foreground="Black" Grid.Row="0"></TextBlock>
@@ -97,79 +97,115 @@
                                     <TextBlock Margin="4 0 0 0" FontSize="20" VerticalAlignment="Center" Text="     Importaciones" />
                                 </StackPanel>
                             </TabItem.Header>
-
-                            <DataGrid x:Name="tabla_importaciones" AutoGenerateColumns="False"  FontWeight="Light" 
-                      FontSize="15" SelectionMode="Extended"  ScrollViewer.CanContentScroll="True" Grid.Row="1"
-                       CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" 
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal" Height="50" HorizontalAlignment="Center">
+                                    <TextBlock Text="Ir a" VerticalAlignment="Center" Margin="5" FontSize="15" FontWeight="Light"/>
+                                    <TextBox Name="tbxPageNum" VerticalAlignment="Center" Width="30" Text="" />
+                                    <TextBlock  VerticalAlignment="Center" Margin="5" Text="Pagina" FontSize="15" FontWeight="Light"/>
+                                    <Button  VerticalAlignment="Center" Margin="5" Style="{DynamicResource SquareButtonStyle}"
+                                             Click="Button_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontWeight="Light" FontSize="15"> Ir</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Name="btn_ultima" Margin="5"  VerticalAlignment="Center"
+                                            Style="{DynamicResource SquareButtonStyle}" Click="Btn_ultima_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontWeight="Light" FontSize="15"> Ultima pagina</TextBlock>
+                                            <iconPacks:PackIconFontAwesome Kind="ArrowAltCircleRightRegular" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Name="btn_siguiente"  Margin="5"  VerticalAlignment="Center"
+                                            Style="{DynamicResource SquareButtonStyle}" Click="Btn_siguiente_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontWeight="Light" FontSize="15"> Siguiente pagina</TextBlock>
+                                            <iconPacks:PackIconFontAwesome Kind="ArrowRightSolid" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <TextBlock Height="30" VerticalAlignment="Center" FontSize="18">
+                                    <TextBlock Text="【Total " />
+                                    <TextBlock Name="tbkTotal" Foreground="Red" />
+                                    <TextBlock Text="paginas】" />
+                                    <TextBlock Text="【Pagina " />
+                                    <TextBlock Name="tbkCurrentsize" Foreground="Red" />
+                                    <TextBlock Text="actual】" />
+                                    </TextBlock>
+                                </StackPanel>
+                                <DataGrid x:Name="tabla_importaciones" AutoGenerateColumns="False"  FontWeight="Light" 
+                              FontSize="15" SelectionMode="Extended"  ScrollViewer.CanContentScroll="True" 
+                              CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" 
                               VerticalAlignment="Stretch" CanUserAddRows="False"
-                              IsReadOnly="True" 
+                              IsReadOnly="True"  
                               CanUserDeleteRows="False" SelectedItem="{Binding datosSeleccionados}"
                               HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                               Margin="5 10 10 10"
-                              Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Grid}}" SelectionChanged="Tabla_importaciones_SelectionChanged">
+                              Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Grid}}"
+                              SelectionChanged="Tabla_importaciones_SelectionChanged">
 
-                                <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="CONTENEDOR" Width="*">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock FontSize="24" Height="45" Text="{Binding CONTENEDOR,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="CONTENEDOR" Width="*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="24" Height="45" Text="{Binding CONTENEDOR,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
                                                  Margin="5 0 5 0" TextAlignment="Center" Name="iniciales_datagrid"></TextBlock>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="BUQUE" Width="*">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock FontSize="24" Height="45" Text="{Binding BUQUE,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                        <DataGridTemplateColumn Header="BUQUE" Width="*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="24" Height="45" Text="{Binding BUQUE,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="#VIAJE" Width="0.5*">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock FontSize="24" Height="45" Text="{Binding VIAJE,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                        <DataGridTemplateColumn Header="#VIAJE" Width="0.5*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="24" Height="45" Text="{Binding VIAJE,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="ENTRADA" Width="*">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock FontSize="24" Height="45" Text="{Binding FECHA_ENTRADA,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                        <DataGridTemplateColumn Header="ENTRADA" Width="*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="24" Height="45" Text="{Binding FECHA_ENTRADA,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="ALMACEN" Width="*">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock FontSize="24" Height="45" Text="{Binding ALMACEN,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                        <DataGridTemplateColumn Header="ALMACEN" Width="*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="24" Height="45" Text="{Binding ALMACEN,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="DIAS" Width="0.5*">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock FontSize="24" Height="45" Text="{Binding DIAS,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                        <DataGridTemplateColumn Header="DIAS" Width="0.5*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="24" Height="45" Text="{Binding DIAS,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
-                                </DataGrid.Columns>
-                                <DataGrid.Resources>
-                                    <Style TargetType="{x:Type DataGridCell}">
-                                        <EventSetter Event="KeyDown" Handler="DataGridCell_KeyDown"/>
-                                        <EventSetter Event="MouseDoubleClick" Handler="DataGridCell_MouseDoubleClick"></EventSetter>
-                                    </Style>
-                                </DataGrid.Resources>
-                            </DataGrid>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                    <DataGrid.Resources>
+                                        <Style TargetType="{x:Type DataGridCell}">
+                                            <EventSetter Event="KeyDown" Handler="DataGridCell_KeyDown"/>
+                                            <EventSetter Event="MouseDoubleClick" Handler="DataGridCell_MouseDoubleClick"></EventSetter>
+                                        </Style>
+                                    </DataGrid.Resources>
+                                </DataGrid>
+                               
+                            </StackPanel>
                         </TabItem>
 
                         <TabItem Cursor="Hand">
@@ -179,7 +215,41 @@
                                     <TextBlock Margin="4 0 0 0" FontSize="20" VerticalAlignment="Center" Text="     Exportaciones" />
                                 </StackPanel>
                             </TabItem.Header>
-                            <DataGrid x:Name="tabla_exportaciones" AutoGenerateColumns="False"  FontWeight="Light" 
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal" Height="50" HorizontalAlignment="Center">
+                                    <TextBlock Text="Ir a" VerticalAlignment="Center" Margin="5" FontSize="15" FontWeight="Light"/>
+                                    <TextBox Name="tbxPageNum2" VerticalAlignment="Center" Width="30" Text="" />
+                                    <TextBlock  VerticalAlignment="Center" Margin="5" Text="Pagina" FontSize="15" FontWeight="Light"/>
+                                    <Button  VerticalAlignment="Center" Margin="5" Style="{DynamicResource SquareButtonStyle}"
+                                             Click="Button_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontWeight="Light" FontSize="15"> Ir</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Name="btn_ultima2" Margin="5"  VerticalAlignment="Center"
+                                            Style="{DynamicResource SquareButtonStyle}" Click="Btn_ultima2_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontWeight="Light" FontSize="15"> Ultima pagina</TextBlock>
+                                            <iconPacks:PackIconFontAwesome Kind="ArrowAltCircleRightRegular" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Name="btn_siguiente2"  Margin="5"  VerticalAlignment="Center"
+                                            Style="{DynamicResource SquareButtonStyle}" Click="Btn_siguiente2_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontWeight="Light" FontSize="15"> Siguiente pagina</TextBlock>
+                                            <iconPacks:PackIconFontAwesome Kind="ArrowRightSolid" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <TextBlock Height="30" VerticalAlignment="Center" FontSize="18">
+                                    <TextBlock Text="【Total " />
+                                    <TextBlock Name="tbkTotal2" Foreground="Red" />
+                                    <TextBlock Text="paginas】" />
+                                    <TextBlock Text="【Pagina " />
+                                    <TextBlock Name="tbkCurrentsize2" Foreground="Red" />
+                                    <TextBlock Text="actual】" />
+                                    </TextBlock>
+                                </StackPanel>
+                                <DataGrid x:Name="tabla_exportaciones" AutoGenerateColumns="False"  FontWeight="Light" 
                       FontSize="15" SelectionMode="Extended"  ScrollViewer.CanContentScroll="True" Grid.Row="1"
                        CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" 
                               VerticalAlignment="Stretch" CanUserAddRows="False"
@@ -188,55 +258,57 @@
                               Margin="0 10 0 0"
                               Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Grid}}">
 
-                                <DataGrid.Columns>
-                                    <DataGridTemplateColumn Header="CONTENEDOR" Width="*">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock FontSize="30" Height="45" Text="{Binding CONTENEDOR,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="CONTENEDOR" Width="*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="30" Height="45" Text="{Binding CONTENEDOR,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
                                                  Margin="5 0 5 0" TextAlignment="Center" Name="iniciales_datagrid"></TextBlock>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="ENTRADA" Width="*">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock FontSize="30" Height="45" Text="{Binding FECHA_ENTRADA,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
+                                        <DataGridTemplateColumn Header="ENTRADA" Width="*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="30" Height="45" Text="{Binding FECHA_ENTRADA,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
                                                  Margin="5 0 5 0" TextAlignment="Center" Name="iniciales_datagrid"></TextBlock>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="ALMACEN" Width="*">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock FontSize="30" Height="45" Text="{Binding ALMACEN,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                        <DataGridTemplateColumn Header="ALMACEN" Width="*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="30" Height="45" Text="{Binding ALMACEN,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
 
-                                    <DataGridTemplateColumn Header="DIAS" Width="0.5*">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock FontSize="30" Height="45" Text="{Binding DIAS,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                        <DataGridTemplateColumn Header="DIAS" Width="0.5*">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock FontSize="30" Height="45" Text="{Binding DIAS,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
 
-                                </DataGrid.Columns>
-                                <DataGrid.Resources>
-                                    <Style TargetType="{x:Type DataGridCell}">
-                                        <EventSetter Event="MouseDoubleClick"  Handler="DataGridCell_MouseDoubleClick"/>
-                                    </Style>
-                                </DataGrid.Resources>
-                            </DataGrid>
+                                    </DataGrid.Columns>
+                                    <DataGrid.Resources>
+                                        <Style TargetType="{x:Type DataGridCell}">
+                                            <EventSetter Event="MouseDoubleClick"  Handler="DataGridCell_MouseDoubleClick"/>
+                                        </Style>
+                                    </DataGrid.Resources>
+                                </DataGrid>
+                            </StackPanel>
                         </TabItem>
-                       
+                      
                     </TabControl>
-
                     
+
+
                 </Grid>
             </ScrollViewer>
         </Grid>

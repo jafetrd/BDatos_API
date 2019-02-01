@@ -8,8 +8,6 @@ using BDatos_API.servicioContenedores;
 using System.Collections.ObjectModel;
 using ToastNotifications.Core;
 using System.Timers;
-using BDatos_API.servicioBuques;
-using System.Diagnostics;
 
 namespace BDatos_API.VISTAS
 {
@@ -23,9 +21,15 @@ namespace BDatos_API.VISTAS
         private readonly ToastViewModel _vm;
         private ObservableCollection<Contenedor> _Importaciones;
         private ObservableCollection<Contenedor> _Exportaciones;
+
+        private ObservableCollection<Contenedor> _impo;
+        private ObservableCollection<Contenedor> _expo;
+
         public ContenedorClient _contenedorClient;
         Metodos_bd metodos_Bd;
-      
+        private int num = 15;
+        private int cont = 0;
+        private int cont2 = 0;
 
         MessageOptions options=null;
         public Principal()
@@ -40,20 +44,12 @@ namespace BDatos_API.VISTAS
             _contenedorClient = new ContenedorClient(instanceContext);
             _contenedorClient.Subscribe();
 
-            _Importaciones = new ObservableCollection<Contenedor>(_contenedorClient.obtenerTodasImportaciones().AsEnumerable());
-            tabla_importaciones.ItemsSource = _Importaciones;
-            _Exportaciones = new ObservableCollection<Contenedor>(_contenedorClient.obtenerTodasExportaciones().AsEnumerable());
-            tabla_exportaciones.ItemsSource = _Exportaciones;
-
-            //this.TryFindParent<MetroWindow>().Closed += Principal_Closed;
-
             Timer timer = new Timer();
             timer.Interval = 180000;
             timer.Elapsed += Timer_Elapsed;
             timer.AutoReset = true;
             timer.Start();
 
-            
             _vm = new ToastViewModel();
             options = new MessageOptions
             {
@@ -66,13 +62,16 @@ namespace BDatos_API.VISTAS
                 }
             };
 
+            _Exportaciones = new ObservableCollection<Contenedor>(_contenedorClient.obtenerTodasExportaciones().AsEnumerable());
+            _Importaciones = new ObservableCollection<Contenedor>(_contenedorClient.obtenerTodasImportaciones().AsEnumerable());
+
+            _impo = _Importaciones;
+            _expo = _Exportaciones;
+            paginacionImpo(num, 1);
+            paginacionExpo(num, 1);
             metodos_Bd = new Metodos_bd(); 
         }
 
-        private void Principal_Closed(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
         private void Principal_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -83,10 +82,51 @@ namespace BDatos_API.VISTAS
         {
             try
             {
+                _contenedorClient.Unsubscribe();
                 _contenedorClient?.Subscribe();
             }
-            catch
-            { }
+            catch{ }
+        }
+
+        private void paginacionImpo(int num, int paginaActual)
+        {
+            cont = _Importaciones.Count;
+            int tamanoPag = 0;
+            if (cont % num == 0)
+            {
+                tamanoPag = cont / num;
+            }
+            else
+            {
+                tamanoPag = cont / num + 1;
+            }
+            
+            tbkTotal.Text = tamanoPag.ToString();
+            tbkCurrentsize.Text = paginaActual.ToString();
+
+            _impo = new ObservableCollection<Contenedor>(_Importaciones.Take(num * paginaActual).Skip(num * (paginaActual - 1)));
+            tabla_importaciones.ItemsSource = _impo;
+        }
+
+        private void paginacionExpo(int num, int paginaActual)
+        {
+            cont2 = _Exportaciones.Count;
+            int tamanoPag = 0;
+            if (cont2 % num == 0)
+            {
+                tamanoPag = cont2 / num;
+            }
+            else
+            {
+                tamanoPag = cont2 / num + 1;
+            }
+
+            tbkTotal2.Text = tamanoPag.ToString();
+            tbkCurrentsize2.Text = paginaActual.ToString();
+
+            _expo = new ObservableCollection<Contenedor>(_Exportaciones.Take(num * paginaActual).Skip(num * (paginaActual - 1)));
+            tabla_exportaciones.ItemsSource = _expo;
+
         }
 
         public void cambiosExpo(string ID, string BUQUE, string CONTENEDOR, string VIAJE, string FECHA_ENTRADA, string ESTADO,string ALMACEN, string tipo_Cambio,string DIAS)
@@ -128,7 +168,7 @@ namespace BDatos_API.VISTAS
                 {
                     _vm.ShowSuccess("NUEVA ENTRADA",options);
                     _Importaciones.Add(new Contenedor { CONTENEDOR = CONTENEDOR, BUQUE = BUQUE, VIAJE = VIAJE, FECHA_ENTRADA = FECHA_ENTRADA, ESTADO = ESTADO,ALMACEN=ALMACEN,DIAS=DIAS });           
-                }
+                }   
             }
         }
 
@@ -161,6 +201,49 @@ namespace BDatos_API.VISTAS
             {
                 a = x.SelectedItem as Contenedor;
 
+            }
+        }
+
+        private void Btn_ultima_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            int paginaActual = int.Parse(tbkCurrentsize.Text);
+            if (paginaActual > 1)
+            {
+                paginacionImpo(num, paginaActual-1);
+            }
+        }
+
+        private void Btn_siguiente_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            int total = int.Parse(tbkTotal.Text);
+            int paginaActual = int.Parse(tbkCurrentsize.Text);
+            if (paginaActual < total)
+            {
+                paginacionImpo(num, paginaActual + 1);
+            }
+        }
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
+
+        private void Btn_ultima2_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            int paginaActual = int.Parse(tbkCurrentsize2.Text);
+            if (paginaActual > 1)
+            {
+                paginacionExpo(num, paginaActual - 1);
+            }
+        }
+
+        private void Btn_siguiente2_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            int total = int.Parse(tbkTotal2.Text);
+            int paginaActual = int.Parse(tbkCurrentsize2.Text);
+            if (paginaActual < total)
+            {
+                paginacionExpo(num, paginaActual + 1);
             }
         }
     }

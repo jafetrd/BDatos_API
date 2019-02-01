@@ -116,6 +116,9 @@
     <Compile Include="Cambios\IClientes.cs" />
     <Compile Include="Cambios\IContenedor.cs" />
     <Compile Include="Cambios\IProductos.cs" />
+    <Compile Include="Instalador.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Models\Tipos.cs" />
     <Compile Include="Service1.cs">
       <SubType>Component</SubType>
