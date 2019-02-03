@@ -46,7 +46,8 @@
 
 
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled"
+                      PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
 
             <Grid ScrollViewer.CanContentScroll="True" Margin="10 0 10 0" Width="auto">
                 <Grid.ColumnDefinitions>

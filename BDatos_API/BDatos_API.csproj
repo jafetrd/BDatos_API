@@ -204,9 +204,6 @@
     </Compile>
     <Compile Include="VISTAS\actualizarAutoCompletado.cs" />
     <Compile Include="VISTAS\AutoCompleteComboBoxSettings.cs" />
-    <Compile Include="VISTAS\Bodega2.xaml.cs">
-      <DependentUpon>Bodega2.xaml</DependentUpon>
-    </Compile>
     <Compile Include="VISTAS\Bodega.xaml.cs">
       <DependentUpon>Bodega.xaml</DependentUpon>
     </Compile>
@@ -217,7 +214,6 @@
       <DependentUpon>configuracion.xaml</DependentUpon>
     </Compile>
     <Compile Include="VISTAS\modeloContenedores.cs" />
-    <Compile Include="VISTAS\modeloPrincipal.cs" />
     <Compile Include="VISTAS\modeloFerrocarril.cs" />
     <Compile Include="VISTAS\Patio_Contenedor.xaml.cs">
       <DependentUpon>Patio_Contenedor.xaml</DependentUpon>
@@ -255,10 +251,6 @@
     <Page Include="Nuevo_usuario.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="VISTAS\Bodega2.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="VISTAS\Bodega.xaml">
       <SubType>Designer</SubType>

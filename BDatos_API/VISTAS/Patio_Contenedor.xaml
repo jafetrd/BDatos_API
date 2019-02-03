@@ -47,7 +47,8 @@
 
 
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled"
+                       PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
 
             <Grid ScrollViewer.CanContentScroll="True" Margin="10 0 10 0" Width="auto">
                 <Grid.ColumnDefinitions>
@@ -97,14 +98,11 @@
                     </ComboBox>
 
                     <TextBlock Text="Buque" FontSize="30" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"></TextBlock>
-                    <dotNetKitControls:AutoCompleteComboBox 
-                                                            TextSearch.TextPath="BUQUE"
-                                                            SelectedValuePath="BUQUE" SelectedItem="{Binding buqueSeleccionado}"
-                                                            Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
-                                                            FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Row="1"
-                                                            x:Name="buque_Combobox" KeyDown="Buque_Combobox_KeyDown" 
-                                                            DropDownClosed="Buque_Combobox_DropDownClosed"
-                                                            Text="{Binding BUQUE, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <dotNetKitControls:AutoCompleteComboBox TextSearch.TextPath="BUQUE" SelectedValuePath="BUQUE" 
+                    SelectedItem="{Binding buqueSeleccionado}" Grid.Column="1" VerticalAlignment="Center" 
+                    HorizontalAlignment="Stretch" FontSize="25" VerticalContentAlignment="Center" 
+                    HorizontalContentAlignment="Right" Grid.Row="1" x:Name="buque_Combobox" KeyDown="Buque_Combobox_KeyDown" 
+                    DropDownClosed="Buque_Combobox_DropDownClosed" Text="{Binding BUQUE, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                         <dotNetKitControls:AutoCompleteComboBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>

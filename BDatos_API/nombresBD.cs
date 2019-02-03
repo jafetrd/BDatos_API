@@ -179,6 +179,9 @@ namespace BDatos_API
         public const string ESTADO_ = "ESTADO";
 
         public const string ALMACEN_ = "ALMACEN";
+        public const string PFERROCARRIL = "P. FERROCARRIL";
+
+        public const string TABLA_TEMPORAL = "Temporal";
 
         public const string NOMBRE_TABLA_2 = "dform_patioferrocarril";
         public const string TABLA2_ID = "ID";
@@ -227,6 +230,8 @@ namespace BDatos_API
         public const string ESTADO_ = "ESTADO";
 
         public const string ALMACEN_ = "ALMACEN";
+        public const string PCONTENEDOR = "P. CONTENEDOR";
+        public const string TABLA_TEMPORAL = "Temporal";
 
         public const string NOMBRE_TABLA_2 = "dform_patiocontenedor";
         public const string TABLA2_ID = "ID";
@@ -254,8 +259,17 @@ namespace BDatos_API
         public const string TABLA2_PRESENTACIONES = "Presentaciones";
         public static int CANTIDAD_COLUMNAS_2 = 2;
         public static string TODO = "*";
+
+        public const string BODEGA_A = "Bodega A";
+        public const string BODEGA_B = "Bodega B";
         public const string BODEGA_C = "Bodega C";
+        public const string BODEGA_1 = "Bodega 1";
         public const string BODEGA_2 = "Bodega 2";
+        public const string BODEGA_3 = "Bodega 3";
+        public const string BODEGA_4 = "Bodega 4";
+        public const string BODEGA_5 = "Bodega 5";
+        public const string BODEGA_6 = "Bodega 6";
+
         public const string TITULO_MENSAJE_C = "Bodega C";
         public const string TITULO_MENSAJE_2 = "Bodega 2";
     }

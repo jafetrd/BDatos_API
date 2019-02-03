@@ -577,7 +577,7 @@ namespace BDatos_API.VISTAS
                                             int ID = metodos_Bd.ULTIMO_REGISTRO(NOMBRE_TABLA, ID_) - contenedores;
                                             for (int a = 0; a < contenedores; a++)
                                             {
-                                                metodos_Bd.GUARDAR("Temporal",
+                                                metodos_Bd.GUARDAR(nombresPatioFerrocarril.TABLA_TEMPORAL,
                                                     (ID_, (ID + a).ToString()),
                                                     (BUQUE_, autoCompletado.BUQUE),
                                                     (VIAJE_, modeloPatioFerrocarril._VIAJE),
@@ -586,7 +586,7 @@ namespace BDatos_API.VISTAS
                                                     (INICIALES_, datos[a].iniciales),
                                                     (NUMERO_, datos[a].numero),
                                                     (ESTADO_, modeloPatioFerrocarril._ESTADO),
-                                                    (ALMACEN_, "P. FERROCARRIL"));
+                                                    (ALMACEN_, nombresPatioFerrocarril.PFERROCARRIL));
                                             }
                                             if (autoCompletado.BUQUE != null)
                                             {
@@ -662,6 +662,11 @@ namespace BDatos_API.VISTAS
             }
         }
 
-       
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            //e.Handled = true;
+        }
     }
 }

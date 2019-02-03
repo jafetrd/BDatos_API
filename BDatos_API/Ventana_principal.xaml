@@ -11,7 +11,7 @@
                         GlowBrush="{DynamicResource AccentColorBrush}"
                         mc:Ignorable="d"
                         Title="RECINTO FISCALIZADO - API coatzacoalcos" Height="493.389" Width="772.727"
-                        WindowStartupLocation="CenterScreen" WindowState="Maximized" Closing="MetroWindow_Closing">       
+                        WindowStartupLocation="CenterScreen" WindowState="Normal"  Closing="MetroWindow_Closing">       
 
     <controls:MetroWindow.DataContext>
         <viewModels:ShellViewModel></viewModels:ShellViewModel>
