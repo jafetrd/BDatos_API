@@ -244,5 +244,20 @@ namespace BDatos_API.VISTAS
             }
         }
 
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+        }
+
+        private void Buque_Combobox_DropDownClosed(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Mineral_checkbox_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
     }
 }

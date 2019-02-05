@@ -15,6 +15,8 @@ namespace BDatos_API
     /// </summary>
     public partial class Ventana_principal : MetroWindow
     {
+        
+
         Bodega bodega;
         public  Patio_Ferrocarril ferrocarril;
         public  Patio_Contenedor contenedor;
@@ -26,8 +28,7 @@ namespace BDatos_API
         public Ventana_principal()
         {
             InitializeComponent();
-
-            if(Navegacion.Frame == null)
+            if (Navegacion.Frame == null)
             Navegacion.Frame = new Frame()
             {
                 NavigationUIVisibility = NavigationUIVisibility.Hidden

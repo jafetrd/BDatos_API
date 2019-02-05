@@ -47,7 +47,8 @@ namespace BDatos_API.VISTAS
         //esta lista se usa para obtener los datos de la base SQL y despues los pasa
         //a la lista interna de la coleccion datos 
         public List<string> presentaciones;
-
+        int cont = 0;
+        string[] a;
 
         #endregion
         ActualizarAutoCompletado autoCompletado;
@@ -70,6 +71,8 @@ namespace BDatos_API.VISTAS
             cliente_Combobox.ItemsSource = autoCompletado.GetClientes;
             producto_textbox.ItemsSource = autoCompletado.GetProductos;
             buque_Combobox.ItemsSource = autoCompletado.GetBuques;
+
+            a = new string[3] { "UUFF", "Contenedores", "Carga suelta" };
         }
 
         #region metodos de carga iniciales
@@ -667,6 +670,30 @@ namespace BDatos_API.VISTAS
             ScrollViewer scv = (ScrollViewer)sender;
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             //e.Handled = true;
+        }
+
+        private void EstadoPresentacion_Click(object sender, RoutedEventArgs e)
+        {
+            int ultimo = tabla_Principal.SelectedIndex;
+            datos.Remove(tabla_Principal.SelectedItem as fila);
+            cont++;
+            if (cont == 3) cont = 0;
+            estadoPresentacion.Content = a[cont];
+            DataTable data = null;
+            if (cont == 0)
+            data = metodos_Bd.REGRESAR_TODO(nombresPatioFerrocarril.NOMBRE_TABLA_2, nombresPatioFerrocarril.TABLA2_PRESENTACIONES);
+            if (cont == 1)
+            data = metodos_Bd.REGRESAR_TODO(nombresPatioContenedor.NOMBRE_TABLA_2, nombresPatioContenedor.TABLA2_PRESENTACIONES);
+            if (cont == 2)
+                data = metodos_Bd.REGRESAR_TODO(nombresBodegaC.NOMBRE_TABLA_2, nombresBodegaC.TABLA2_PRESENTACIONES);
+            presentaciones = new List<string>();
+            foreach (DataRow row in data.Rows)
+            {
+                presentaciones.Add(row[0].ToString());
+            }
+            datos.Insert(ultimo, new fila() { numero = "", presentacion = presentaciones });
+
+            tabla_Principal.SelectedIndex = ultimo;
         }
     }
 }

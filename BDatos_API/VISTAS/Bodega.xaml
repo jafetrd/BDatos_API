@@ -5,8 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
       xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit" 
-      xmlns:local="clr-namespace:BDatos_API.VISTAS"
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
       mc:Ignorable="d" 
+      xmlns:s="clr-namespace:System;assembly=mscorlib"
       d:DesignHeight="866" d:DesignWidth="1053"
       Title="Bodega" Background="White">
 
@@ -42,7 +43,8 @@
 
 
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" 
+                       PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
 
             <Grid ScrollViewer.CanContentScroll="True" Margin="10 0 10 0">
                 <Grid.ColumnDefinitions>
@@ -54,13 +56,13 @@
                     <RowDefinition Height="600"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock Name="Titulo" Text="Bodega C " FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
-         FontWeight="Heavy" Foreground="DeepSkyBlue" Grid.Column="1" Grid.Row="0" ></TextBlock>
+                <TextBlock Name="Titulo" Text="Bodegas" FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
+         FontWeight="Heavy" Foreground="Black" Grid.Column="1" Grid.Row="0" ></TextBlock>
 
                 <Separator  Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2"></Separator>
                 <!--Columna Izquierda-->
 
-                <Grid Grid.Row="1" Grid.Column="0" Width="500" Margin="0 0 30 0">
+                <Grid Grid.Row="1" Grid.Column="0" Width="auto" Margin="30 0 30 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="1.2*"></ColumnDefinition>
@@ -78,18 +80,29 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="Buque" FontSize="30" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"></TextBlock>
-                    <dotNetKitControls:AutoCompleteComboBox SelectedValuePath="Id" TextSearch.TextPath="Name"
-                ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" SelectedValue="{Binding SelectedValue}"
-                 Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
-                FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Row="0"
-                x:Name="buque_Combobox" KeyDown="Buque_Combobox_KeyDown"/>
-
+                    <dotNetKitControls:AutoCompleteComboBox TextSearch.TextPath="BUQUE" SelectedValuePath="BUQUE" 
+                    SelectedItem="{Binding buqueSeleccionado}" Grid.Column="1" VerticalAlignment="Center" 
+                    HorizontalAlignment="Stretch" FontSize="25" VerticalContentAlignment="Center" 
+                    HorizontalContentAlignment="Right" Grid.Row="0" x:Name="buque_Combobox" KeyDown="Buque_Combobox_KeyDown" 
+                    DropDownClosed="Buque_Combobox_DropDownClosed" Text="{Binding BUQUE, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                        <dotNetKitControls:AutoCompleteComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding BUQUE}" FontWeight="Bold" />
+                                    <TextBlock>
+                                     Ultimo viaje: <Run Text="{Binding VIAJE, Mode=OneTime}" FontWeight="Light"></Run>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </dotNetKitControls:AutoCompleteComboBox.ItemTemplate>
+                    </dotNetKitControls:AutoCompleteComboBox>
+                    
                     <TextBlock Text="Viaje" FontSize="30" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"></TextBlock>
                     <TextBox x:Name="viaje_textbox" Grid.Row="1" Grid.Column="1" FontSize="25" VerticalAlignment="Center"
                  HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"
                      KeyDown="Viaje_textbox_KeyDown"></TextBox>
 
-                    <TextBlock Text="Altura" FontSize="30" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></TextBlock>
+                    <TextBlock Text="Regimen" FontSize="30" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></TextBlock>
                     <ComboBox Name="Altura_combobox" Grid.Row="2" Grid.Column="1" FontSize="25" VerticalAlignment="Center" 
                               HorizontalAlignment="Stretch" KeyDown="Altura_combobox_KeyDown"
                            VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
@@ -122,7 +135,18 @@
                             <DataGridTemplateColumn Header="Producto" Width="*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBox FontSize="30" Height="45" Text="{Binding numero}" Margin="5 0 5 0"></TextBox>
+                                        <StackPanel Orientation="Vertical">
+                                            <dotNetKitControls:AutoCompleteComboBox Name="producto_textbox" Grid.Row="1" 
+                                                            TextSearch.TextPath="PRODUCTO"
+                                                            SelectedValuePath="PRODUCTO" SelectedItem="{Binding productoSeleccionado}"
+                                                            Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                                                            FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"
+                                                            KeyDown="Producto_textbox_KeyDown"
+                                                           Text="{Binding PRODUCTO, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                            <CheckBox Name="mineral_checkbox" Content="¿Es mineral?" Margin="10 55 10 0" FontSize="16" FontWeight="Light"
+                                    ToolTip="s = seleccionar" KeyDown="Mineral_checkbox_KeyDown"></CheckBox>
+                                        </StackPanel>
+                                        
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -173,7 +197,7 @@
                 </Grid>
 
                 <!--Columna derecha-->
-                <Grid Grid.Row="1" Grid.Column="1" Width="500">
+                <Grid Grid.Row="1" Grid.Column="1" Width="auto" Margin="0 0 30 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="1.2*"></ColumnDefinition>
@@ -199,17 +223,20 @@
                                      ToolTip="Toneladas" KeyDown="Tn_rbutton_KeyDown"></RadioButton>
                     </StackPanel>
 
-                    <TextBlock Text="Cliente" FontSize="30" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></TextBlock>
-                    <dotNetKitControls:AutoCompleteComboBox SelectedValuePath="Id" TextSearch.TextPath="Name"
-                ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}" SelectedValue="{Binding SelectedValue}"
-                 Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
-                FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Row="2"
-                x:Name="cliente_Combobox" KeyDown="Cliente_Combobox_KeyDown"/>
+                    <TextBlock Text="Pedimento" FontSize="30" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></TextBlock>
+                    <dotNetKitControls:AutoCompleteComboBox  Grid.Row="3" 
+                                                            TextSearch.TextPath="CLIENTE"
+                                                            SelectedValuePath="CLIENTE" SelectedItem="{Binding clienteSeleccionado}"
+                                                            Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                                                            FontSize="25" VerticalContentAlignment="Center" HorizontalContentAlignment="Right"
+                                                            x:Name="cliente_Combobox" KeyDown="Cliente_Combobox_KeyDown"
+                                                            Text="{Binding CLIENTE, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBlock Text="Pedimento" FontSize="30" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"></TextBlock>
-                    <xctk:MaskedTextBox x:Name="pedimento_textbox"  Grid.Row="3" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
+                    <TextBlock Text="Cliente" FontSize="30" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"></TextBlock>
+                    <xctk:MaskedTextBox x:Name="pedimento_textbox"  Grid.Row="2" Grid.Column="1" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Stretch" 
                         VerticalContentAlignment="Center" HorizontalContentAlignment="Right" KeyDown="Pedimento_textbox_KeyDown"
-                                        Mask="00 0000 0000000"></xctk:MaskedTextBox>
+                                        Mask="00 00 0000 0000000" ValueDataType="{x:Type s:Int32}"
+                                         Text="{Binding PEDIMENTO, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></xctk:MaskedTextBox>
 
                     <TextBlock Text="Valor comercial" FontSize="30" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center"></TextBlock>
                     <xctk:DecimalUpDown Name="valorcomercial_updown" Grid.Row="4" Grid.Column="1" FontSize="25" VerticalAlignment="top" HorizontalAlignment="Stretch" 
@@ -238,10 +265,20 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button Name="boton_guardar"  Grid.Column="0" Content="Guardar" FontWeight="Light"  FontSize="20" 
-                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10"></Button>
-                    <Button Name="boton_actualizar"  Grid.Column="1" Content="Actualizar" FontWeight="Light"  FontSize="20" 
-                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10"></Button>
+                    <Button Name="boton_guardar"  Grid.Column="0" FontWeight="Light"  FontSize="20" 
+                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10">
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconModern Width="auto" Height="auto" Kind="Save"/>
+                            <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="     Guardar" />
+                        </StackPanel>
+                    </Button>
+                    <Button Name="boton_actualizar"  Grid.Column="1" FontWeight="Light"  FontSize="20" 
+                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10">
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconModern Width="auto" Height="auto" Kind="DiskUpload"/>
+                            <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="     Actualizar" />
+                        </StackPanel>
+                    </Button>
                 </Grid>
 
                 <Grid Grid.Column="1" Grid.Row="2" Height="80">
@@ -249,10 +286,20 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Button Name="boton_eliminar"  Grid.Column="0" Content="Eliminar" FontWeight="Light"  FontSize="20" 
-                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10"></Button>
-                    <Button Name="boton_limpiar"  Grid.Column="1" Content="Limpiar" FontWeight="Light"  FontSize="20" 
-                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10"></Button>
+                    <Button Name="boton_eliminar"  Grid.Column="0" FontWeight="Light"  FontSize="20" 
+                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10">
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconModern Width="auto" Height="auto" Kind="PageDelete"/>
+                            <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="     Eliminar" />
+                        </StackPanel>
+                    </Button>
+                    <Button Name="boton_limpiar"  Grid.Column="1"  FontWeight="Light"  FontSize="20" 
+                        Style="{DynamicResource SquareButtonStyle}" Margin="10 10 10 10">
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconModern Width="auto" Height="auto" Kind="Clean"/>
+                            <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="     Limpiar formulario" />
+                        </StackPanel>
+                    </Button>
                 </Grid>
             </Grid>
         </ScrollViewer>

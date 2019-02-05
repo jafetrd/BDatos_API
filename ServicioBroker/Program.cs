@@ -105,6 +105,16 @@ namespace ServicioBroker
                     agregarDatos(query: "INSERT INTO dbo.dform_patioferrocarril(Presentaciones) VALUES(@Presentaciones)",
                                  datos: a[x], parametro: "@Presentaciones");
                 }
+
+                string[] c = new string[] { "CARGA SUELTA","SACO,COSTAL,BOLSA","TAMBOR,BARRIL Y SIMILARES",
+                "CUBETA,CUÑETA Y SIMILARES", "CAJAS","SUPER SACO","JAULA,REJA Y SIMILARES","ROLLO","BOBINA",
+                "TARIMA,PALLETS Y SIMILARES","BARRA","TUBOS","LINGOTE","ATADO","VEHICULO","CILINDRO","MALETA, BAUL Y OTROS EQUIPAJES",
+                "GRANEL SOLIDO","GRANEL LIQUIDO","OTROS EMPAQUES Y OTRAS UNIDADES SIN EMPAQUE"};
+                for (int x = 0; x < c.Length; x++)
+                {
+                    agregarDatos(query: "INSERT INTO dbo.dform_bodegac(Presentaciones) VALUES(@Presentaciones)",
+                                 datos: a[x], parametro: "@Presentaciones");
+                }
                 RunAsConsole(null);
             }
         }

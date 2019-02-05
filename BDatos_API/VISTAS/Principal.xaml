@@ -3,14 +3,11 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-       xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
-      xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit" 
+      xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-      xmlns:local="clr-namespace:BDatos_API.VISTAS"
-      xmlns:s="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
-      d:DesignWidth="900"
+      d:DesignWidth="900" 
+      d:DesignHeight="726.406"
       Title="Principal" Background="White" >
 
     <Page.Resources>
@@ -42,6 +39,25 @@
             <Style TargetType="DataGridColumnHeader">
                 <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
             </Style>
+            <Style x:Key="GroupHeaderStyle" TargetType="{x:Type GroupItem}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                            <Expander x:Name="expander" IsExpanded="True" Background="White" Foreground="Black">
+                                <Expander.Header>
+                                    <TextBlock Text="{Binding Name}"></TextBlock>
+                                </Expander.Header>
+                                <ItemsPresenter ></ItemsPresenter>
+                            </Expander>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="CheckBox" x:Key="agrupacionCombobox">
+                <Setter Property="FontSize" Value="20"></Setter>
+                <Setter Property="FontWeight" Value="Light"></Setter>
+                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            </Style>
         </ResourceDictionary>
 
     </Page.Resources>
@@ -49,25 +65,14 @@
   
     <Grid>
         <Grid>
-            <ScrollViewer VerticalScrollBarVisibility="Auto"  HorizontalScrollBarVisibility="Disabled"
-                          PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
-
-                <Grid ScrollViewer.CanContentScroll="True" Margin="10 0 10 0" Width="auto">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions >
-                        <RowDefinition Height="45"></RowDefinition>
-                        <RowDefinition Height="45"></RowDefinition>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="Inicio" FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
+            <Grid Margin="10 0 10 0">
+                <Grid.RowDefinitions >
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Inicio" FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
                                FontWeight="Light" Foreground="Black" Grid.Row="0"></TextBlock>
-                    <Separator  Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2"></Separator>
-                    <TextBlock Text=">>Entradas" FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Center"
-                               FontWeight="Light" Foreground="Black" Grid.Column="1" Grid.Row="1" ></TextBlock>
-                    <TabControl Name="areaTab" Grid.Row="2" Margin="0 10 0 0">
+
+                <TabControl Name="areaTab" Grid.Row="0" Margin="0 10 0 0">
                         <TabControl.Resources>
                             <Style TargetType="TabItem">
                                 <Setter Property="Template">
@@ -99,8 +104,13 @@
                                     <TextBlock Margin="4 0 0 0" FontSize="20" VerticalAlignment="Center" Text="     Importaciones" />
                                 </StackPanel>
                             </TabItem.Header>
-                            <StackPanel Orientation="Vertical"  CanVerticallyScroll="True">
-                                <StackPanel Orientation="Horizontal" Height="50" HorizontalAlignment="Center">
+                            <Grid Name="parent1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="10"></RowDefinition>
+                                <RowDefinition Height="50"></RowDefinition>
+                            </Grid.RowDefinitions>
+                                <StackPanel Orientation="Horizontal" Height="50" HorizontalAlignment="Center" Grid.Row="2">
                                     <TextBlock Text="Ir a" VerticalAlignment="Center" Margin="5" FontSize="15" FontWeight="Light"/>
                                     <TextBox Name="tbxPageNum" VerticalAlignment="Center" Width="30" Text="" />
                                     <TextBlock  VerticalAlignment="Center" Margin="5" Text="Pagina" FontSize="15" FontWeight="Light"/>
@@ -147,24 +157,68 @@
                                             <TextBlock Name="Resultados" Text=" TODO" FontSize="15"/>
                                         </StackPanel>
                                     </Button>
+                                    <ComboBox Margin="10 0 0 0" Name="agrupacionCombobox" Width="150" 
+                                              IsEditable="True" IsReadOnly="True" Text="Agrupacion"
+                                              Height="35" VerticalContentAlignment="Center" FontSize="15"
+                                              HorizontalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
+                                                    Margin="0 0 5 0">
+                                            <ComboBoxItem>
+                                                <CheckBox Name="grupoBuque" Content="BUQUE" IsChecked="True"></CheckBox>
+                                            </ComboBoxItem>
+                                            <ComboBoxItem>
+                                                <CheckBox Name="grupoViaje" Content="VIAJE"></CheckBox>
+                                            </ComboBoxItem>
+                                            <ComboBoxItem>
+                                                <CheckBox Name="grupoContenedor" Content="CONTENEDOR"></CheckBox>
+                                            </ComboBoxItem>
+                                            <ComboBoxItem>
+                                                <CheckBox Name="grupoAlmacen" Content="ALMACEN" IsChecked="True"></CheckBox>
+                                            </ComboBoxItem>
+                                            <ComboBoxItem>
+                                                <CheckBox Name="grupoFechaEntrada" Content="FECHA ENTRADAD"></CheckBox>
+                                            </ComboBoxItem>
+                                            <ComboBoxItem>
+                                                <CheckBox Name="grupoDias" Content="DIAS"></CheckBox>
+                                            </ComboBoxItem>
+                                        </StackPanel>
+                                    <ComboBox.Resources>
+                                        <Style TargetType="CheckBox">
+                                            <EventSetter Event="Checked" Handler="CheckBox_Checked"></EventSetter>
+                                            <EventSetter Event="Unchecked" Handler="CheckBox_Unchecked"></EventSetter>
+                                        </Style>
+                                    </ComboBox.Resources>
+                                    </ComboBox>
                                 </StackPanel>
-
+                            <ScrollViewer x:Name="scroll1">
                                 <DataGrid x:Name="tabla_importaciones" AutoGenerateColumns="False"  FontWeight="Light" 
                               FontSize="15" SelectionMode="Extended"  ScrollViewer.CanContentScroll="True" 
+                               HorizontalScrollBarVisibility="Hidden"
                               CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" 
-                              VerticalAlignment="Stretch" CanUserAddRows="False"
-                              IsReadOnly="True"  
-                              CanUserDeleteRows="False" 
-                              HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
-                              Margin="5 10 10 10"
-                              Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Grid}}"
+                               CanUserAddRows="False" IsReadOnly="True"
+                              CanUserDeleteRows="False" HorizontalAlignment="Center" Grid.Row="0"
+                              MaxWidth="{Binding RelativeSource={RelativeSource Self},Path=Parent.ActualWidth}"
+                              EnableRowVirtualization="True" EnableColumnVirtualization="True"
+                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                              VirtualizingStackPanel.VirtualizationMode="Recycling"
+                              ScrollViewer.IsDeferredScrollingEnabled="True"
+                              PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" Background="White"
                               SelectionChanged="Tabla_importaciones_SelectionChanged">
+                                    <DataGrid.GroupStyle>
+                                        <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyle}">
+                                            <GroupStyle.Panel>
+                                                <ItemsPanelTemplate>
+                                                    <DataGridRowsPresenter/>
+                                                </ItemsPanelTemplate>
+                                            </GroupStyle.Panel>
+                                        </GroupStyle>
+                                    </DataGrid.GroupStyle>
 
                                     <DataGrid.Columns>
                                         <DataGridTemplateColumn Width="*">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock FontSize="24" Height="45" Text="{Binding CONTENEDOR,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
+                                                    <TextBlock FontSize="24" Height="45" Text="{Binding CONTENEDOR,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"  
                                                  Margin="5 0 5 0" TextAlignment="Center" Name="iniciales_datagrid"></TextBlock>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
@@ -176,7 +230,7 @@
                                         <DataGridTemplateColumn Width="*">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock FontSize="24" Height="45" Text="{Binding BUQUE,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                    <TextBlock FontSize="24" Height="45" Text="{Binding BUQUE,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
@@ -188,7 +242,7 @@
                                         <DataGridTemplateColumn Width="0.5*">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock FontSize="24" Height="45" Text="{Binding VIAJE,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                    <TextBlock FontSize="24" Height="45" Text="{Binding VIAJE,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
@@ -200,7 +254,7 @@
                                         <DataGridTemplateColumn  Width="*">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock FontSize="24" Height="45" Text="{Binding FECHA_ENTRADA,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                    <TextBlock FontSize="24" Height="45" Text="{Binding FECHA_ENTRADA,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
@@ -212,7 +266,7 @@
                                         <DataGridTemplateColumn Width="*">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock FontSize="24" Height="45" Text="{Binding ALMACEN,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                    <TextBlock FontSize="24" Height="45" Text="{Binding ALMACEN,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
@@ -224,7 +278,7 @@
                                         <DataGridTemplateColumn Width="0.5*">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock FontSize="24" Height="45" Text="{Binding DIAS,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                    <TextBlock FontSize="24" Height="45" Text="{Binding DIAS,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
@@ -238,12 +292,10 @@
                                             <EventSetter Event="KeyDown" Handler="DataGridCell_KeyDown"/>
                                             <EventSetter Event="MouseDoubleClick" Handler="DataGridCell_MouseDoubleClick"></EventSetter>
                                         </Style>
-                                        
                                     </DataGrid.Resources>
-                                    
                                 </DataGrid>
-                               
-                            </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
                         </TabItem>
 
                         <TabItem Cursor="Hand">
@@ -253,129 +305,178 @@
                                     <TextBlock Margin="4 0 0 0" FontSize="20" VerticalAlignment="Center" Text="     Exportaciones" />
                                 </StackPanel>
                             </TabItem.Header>
-                            <StackPanel Orientation="Vertical">
-                                <StackPanel Orientation="Horizontal" Height="50" HorizontalAlignment="Center">
-                                    <TextBlock Text="Ir a" VerticalAlignment="Center" Margin="5" FontSize="15" FontWeight="Light"/>
-                                    <TextBox Name="tbxPageNum2" VerticalAlignment="Center" Width="30" Text="" />
-                                    <TextBlock  VerticalAlignment="Center" Margin="5" Text="Pagina" FontSize="15" FontWeight="Light"/>
-                                    <Button  VerticalAlignment="Center" Margin="5" Style="{DynamicResource SquareButtonStyle}"
+                        <Grid Name="parent2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="10"></RowDefinition>
+                                <RowDefinition Height="50"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            
+                            <StackPanel Orientation="Horizontal" Height="50" HorizontalAlignment="Center" Grid.Row="2">
+                                <TextBlock Text="Ir a" VerticalAlignment="Center" Margin="5" FontSize="15" FontWeight="Light"/>
+                                <TextBox Name="tbxPageNum2" VerticalAlignment="Center" Width="30" Text="" />
+                                <TextBlock  VerticalAlignment="Center" Margin="5" Text="Pagina" FontSize="15" FontWeight="Light"/>
+                                <Button  VerticalAlignment="Center" Margin="5" Style="{DynamicResource SquareButtonStyle}"
                                              Click="Button_Click">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock FontWeight="Light" FontSize="15"> Ir</TextBlock>
-                                        </StackPanel>
-                                    </Button>
-                                    <Button Name="btn_ultima2" Margin="5"  VerticalAlignment="Center"
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontWeight="Light" FontSize="15"> Ir</TextBlock>
+                                    </StackPanel>
+                                </Button>
+                                <Button Name="btn_ultima2" Margin="5"  VerticalAlignment="Center"
                                             Style="{DynamicResource SquareButtonStyle}" Click="Btn_ultima2_Click">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock FontWeight="Light" FontSize="15"> Ultima pagina</TextBlock>
-                                            <iconPacks:PackIconFontAwesome Kind="ArrowAltCircleRightRegular" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </Button>
-                                    <Button Name="btn_siguiente2"  Margin="5"  VerticalAlignment="Center"
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontWeight="Light" FontSize="15"> Ultima pagina</TextBlock>
+                                        <iconPacks:PackIconFontAwesome Kind="ArrowAltCircleRightRegular" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Name="btn_siguiente2"  Margin="5"  VerticalAlignment="Center"
                                             Style="{DynamicResource SquareButtonStyle}" Click="Btn_siguiente2_Click">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock FontWeight="Light" FontSize="15"> Siguiente pagina</TextBlock>
-                                            <iconPacks:PackIconFontAwesome Kind="ArrowRightSolid" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </Button>
-                                    <TextBlock Height="30" VerticalAlignment="Center" FontSize="18">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock FontWeight="Light" FontSize="15"> Siguiente pagina</TextBlock>
+                                        <iconPacks:PackIconFontAwesome Kind="ArrowRightSolid" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                                <TextBlock Height="30" VerticalAlignment="Center" FontSize="18">
                                     <TextBlock Text="Pagina " />
                                     <TextBlock Name="tbkCurrentsize2" Foreground="Red" />
                                     <TextBlock Text="de" />
                                     <TextBlock Name="tbkTotal2" Foreground="Red" />
                                     </TextBlock>
-                                    <Separator Margin="10 0 10 0"></Separator>
+                                <Separator Margin="10 0 10 0"></Separator>
 
-                                    <dotNetKitControls:AutoCompleteComboBox 
+                                <dotNetKitControls:AutoCompleteComboBox 
                                      VerticalAlignment="Center" HorizontalAlignment="Stretch" FontSize="20"  Width="150"
                                      VerticalContentAlignment="Center" HorizontalContentAlignment="Right" x:Name="VIAJE_BUSQUEDA2"
                                      KeyDown="BusquedaExpo_KeyUp" DropDownClosed="VIAJE_BUSQUEDA_DropDownClosed">
-                                    </dotNetKitControls:AutoCompleteComboBox>
+                                </dotNetKitControls:AutoCompleteComboBox>
 
-                                    <Button x:Name="todo2" Height="35" Click="Todo_Click" 
+                                <Button x:Name="todo2" Height="35" Click="Todo_Click" 
                                             Style="{DynamicResource SquareButtonStyle}" Margin="15 0 0 0"
                                             MouseEnter="Todo_MouseEnter" MouseLeave="Todo_MouseLeave">
-                                        <StackPanel Orientation="Horizontal">
-                                            <iconPacks:PackIconMaterial Kind="Glasses" VerticalAlignment="Center"/>
-                                            <TextBlock Name="Resultados2" Text="Resultados: " FontSize="15"/>
-                                        </StackPanel>
-                                    </Button>
-                                </StackPanel>
-                                <DataGrid x:Name="tabla_exportaciones" AutoGenerateColumns="False"  FontWeight="Light" 
-                      FontSize="15" SelectionMode="Extended"  ScrollViewer.CanContentScroll="True" Grid.Row="1"
-                       CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" 
-                              VerticalAlignment="Stretch" CanUserAddRows="False"
-                              IsReadOnly="False"
-                              HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
-                              Margin="0 10 0 0"
-                              Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Grid}}">
-
-                                    <DataGrid.Columns>
-                                        <DataGridTemplateColumn Width="*">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock FontSize="30" Height="45" Text="{Binding CONTENEDOR,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
-                                                 Margin="5 0 5 0" TextAlignment="Center" Name="iniciales_datagrid"></TextBlock>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                            <DataGridTemplateColumn.Header>
-                                                <RadioButton Name="checkContenedor2" Content="CONTENEDOR" FontSize="18" GroupName="grupo1"/>
-                                            </DataGridTemplateColumn.Header>
-                                        </DataGridTemplateColumn>
-
-                                        <DataGridTemplateColumn Width="*">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock FontSize="30" Height="45" Text="{Binding FECHA_ENTRADA,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  
-                                                 Margin="5 0 5 0" TextAlignment="Center" Name="iniciales_datagrid"></TextBlock>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                            <DataGridTemplateColumn.Header>
-                                                <RadioButton Name="checkEntrada2" Content="ENTRADA" FontSize="18" GroupName="grupo1"/>
-                                            </DataGridTemplateColumn.Header>
-                                        </DataGridTemplateColumn>
-
-                                        <DataGridTemplateColumn Width="*">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock FontSize="30" Height="45" Text="{Binding ALMACEN,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                 Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                            <DataGridTemplateColumn.Header>
-                                                <RadioButton Name="checkAlmacen2" Content="ALMACEN" FontSize="18" GroupName="grupo1"/>
-                                            </DataGridTemplateColumn.Header>
-                                        </DataGridTemplateColumn>
-
-                                        <DataGridTemplateColumn Width="0.5*">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock FontSize="30" Height="45" Text="{Binding DIAS,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                                 Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                            <DataGridTemplateColumn.Header>
-                                                <RadioButton Name="checkDias2" Content="DIAS"  FontSize="18" GroupName="grupo1"/>
-                                            </DataGridTemplateColumn.Header>
-
-                                        </DataGridTemplateColumn>
-
-                                    </DataGrid.Columns>
-                                    <DataGrid.Resources>
-                                        <Style TargetType="{x:Type DataGridCell}">
-                                            <EventSetter Event="MouseDoubleClick"  Handler="DataGridCell_MouseDoubleClick"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <iconPacks:PackIconMaterial Kind="Glasses" VerticalAlignment="Center"/>
+                                        <TextBlock Name="Resultados2" Text="Resultados: " FontSize="15"/>
+                                    </StackPanel>
+                                </Button>
+                                <ComboBox Margin="10 0 0 0" Name="agrupacionCombobox2" Width="150" 
+                                              IsEditable="True" IsReadOnly="True" Text="Agrupacion"
+                                              Height="35" VerticalContentAlignment="Center" FontSize="15"
+                                              HorizontalAlignment="Center">
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"
+                                                    Margin="0 0 5 0">
+                                        <ComboBoxItem>
+                                            <CheckBox Name="grupoContenedor2" Content="CONTENEDOR"></CheckBox>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+                                            <CheckBox Name="grupoAlmacen2" Content="ALMACEN" IsChecked="True"></CheckBox>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+                                            <CheckBox Name="grupoFechaEntrada2" Content="FECHA ENTRADA"></CheckBox>
+                                        </ComboBoxItem>
+                                        <ComboBoxItem>
+                                            <CheckBox Name="grupoDias2" Content="DIAS"></CheckBox>
+                                        </ComboBoxItem>
+                                    </StackPanel>
+                                    <ComboBox.Resources>
+                                        <Style TargetType="CheckBox">
+                                            <EventSetter Event="Checked" Handler="CheckBox_Checked"></EventSetter>
+                                            <EventSetter Event="Unchecked" Handler="CheckBox_Unchecked"></EventSetter>
                                         </Style>
-                                    </DataGrid.Resources>
-                                </DataGrid>
+                                    </ComboBox.Resources>
+                                </ComboBox>
                             </StackPanel>
-                        </TabItem>
+                            <ScrollViewer Name="scroll2"> 
+                            <DataGrid x:Name="tabla_exportaciones" AutoGenerateColumns="False"  FontWeight="Light" 
+                             FontSize="15" SelectionMode="Extended"  ScrollViewer.CanContentScroll="True" 
+                               HorizontalScrollBarVisibility="Hidden"
+                              CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" 
+                               CanUserAddRows="False" IsReadOnly="True"
+                              CanUserDeleteRows="False" HorizontalAlignment="Center" Grid.Row="0"
+                              MaxWidth="{Binding RelativeSource={RelativeSource Self},Path=Parent.ActualWidth}"
+                              EnableRowVirtualization="True" EnableColumnVirtualization="True"
+                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                              VirtualizingStackPanel.VirtualizationMode="Recycling"
+                              ScrollViewer.IsDeferredScrollingEnabled="True"
+                              PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" Background="White"
+                              SelectionChanged="Tabla_importaciones_SelectionChanged">
+
+                                <DataGrid.GroupStyle>
+                                    <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyle}">
+                                        <GroupStyle.Panel>
+                                            <ItemsPanelTemplate>
+                                                <DataGridRowsPresenter/>
+                                            </ItemsPanelTemplate>
+                                        </GroupStyle.Panel>
+                                    </GroupStyle>
+                                </DataGrid.GroupStyle>
+
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="30" Height="45" Text="{Binding CONTENEDOR,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"  
+                                                 Margin="5 0 5 0" TextAlignment="Center" Name="iniciales_datagrid"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.Header>
+                                            <RadioButton Name="checkContenedor2" Content="CONTENEDOR" FontSize="18" GroupName="grupo1"/>
+                                        </DataGridTemplateColumn.Header>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="30" Height="45" Text="{Binding FECHA_ENTRADA,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"  
+                                                 Margin="5 0 5 0" TextAlignment="Center" Name="iniciales_datagrid"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.Header>
+                                            <RadioButton Name="checkEntrada2" Content="ENTRADA" FontSize="18" GroupName="grupo1"/>
+                                        </DataGridTemplateColumn.Header>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="30" Height="45" Text="{Binding ALMACEN,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
+                                                 Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.Header>
+                                            <RadioButton Name="checkAlmacen2" Content="ALMACEN" FontSize="18" GroupName="grupo1"/>
+                                        </DataGridTemplateColumn.Header>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="0.5*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="30" Height="45" Text="{Binding DIAS,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
+                                                 Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.Header>
+                                            <RadioButton Name="checkDias2" Content="DIAS"  FontSize="18" GroupName="grupo1"/>
+                                        </DataGridTemplateColumn.Header>
+
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+                                <DataGrid.Resources>
+                                    <Style TargetType="{x:Type DataGridCell}">
+                                        <EventSetter Event="MouseDoubleClick"  Handler="DataGridCell_MouseDoubleClick"/>
+                                    </Style>
+                                </DataGrid.Resources>
+                            </DataGrid>
+                            </ScrollViewer>
+                        </Grid>
+                    </TabItem>
                       
                     </TabControl>
                     
 
 
                 </Grid>
-            </ScrollViewer>
+       
         </Grid>
 
     </Grid>

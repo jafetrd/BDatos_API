@@ -14,8 +14,8 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Data;
 using System.Threading.Tasks;
-using System.Diagnostics;
-using System.Globalization;
+using System.Windows.Media.Animation;
+using System.Windows.Media;
 
 namespace BDatos_API.VISTAS
 {
@@ -24,6 +24,8 @@ namespace BDatos_API.VISTAS
     /// </summary>
     public partial class Principal : Page, IContenedorCallback
     {
+
+        #region modelos y variables
         private class filtroBuque
         {
             public string BUQUE { get; set; }
@@ -67,7 +69,7 @@ namespace BDatos_API.VISTAS
         private ObservableCollection<Contenedor> _impo;
         private ObservableCollection<Contenedor> _expo;
 
-        private List<filtroBuque> buqueFiltro;
+        //private List<filtroBuque> buqueFiltro;
         private List<filtroAlmacen> almacenFiltro;
         private List<filtroDias> diasFiltro;
         private List<filtroEntrada> entradaFiltro;
@@ -79,8 +81,10 @@ namespace BDatos_API.VISTAS
         private List<filtroDias> diasFiltro2;
         private List<filtroEntrada> entradaFiltro2;
 
+        private ObservableCollection<Contenedor> datosVisibles1;
+
         public ContenedorClient _contenedorClient;
-        private int num = 15;
+        private int num = 10;
         private int cont = 0;
         private int cont2 = 0;
         private DataTemplate dataTemplate = null;
@@ -88,16 +92,22 @@ namespace BDatos_API.VISTAS
 
         private IEnumerable<Contenedor> filtro = null;
         private IEnumerable<Contenedor> filtro2 = null;
-        private int cantidadFiltrado = 0;
-        private int cantidadFiltrado2 = 0;
+        //private int cantidadFiltrado = 0;
+        //private int cantidadFiltrado2 = 0;
 
         private FrameworkElementFactory factory;
-        private FrameworkElementFactory text; 
+        private FrameworkElementFactory text;
+        ListCollectionView collection;
+        ListCollectionView collection2;
+        ActualizarAutoCompletado autoCompletado;
+        ScrollViewer tablaimpo;
+        ScrollViewer tablaexpo;
+        #endregion
 
         public Principal()
         {
             InitializeComponent();
-
+            Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 5 });
             VIAJE_BUSQUEDA.IsTextSearchCaseSensitive = false;
 
             var instanceContext = new InstanceContext(this);
@@ -125,19 +135,70 @@ namespace BDatos_API.VISTAS
             _Exportaciones = new ObservableCollection<Contenedor>(_contenedorClient.obtenerTodasExportaciones().AsEnumerable());
             _Importaciones = new ObservableCollection<Contenedor>(_contenedorClient.obtenerTodasImportaciones().AsEnumerable());
              
-            _impo = _Importaciones;
-            _expo = _Exportaciones;
-
+       
             filtro = _Importaciones;
             filtro2 = _Exportaciones;
 
+            datosVisibles1 = new ObservableCollection<Contenedor>();
+
+            autoCompletado = new ActualizarAutoCompletado(); //buques en combobox
+
+            construirFiltros();
+            cargarFiltros();
+
+            colapsarColumnas();
+            agrupacionDataGrid();
             paginacionImpo(num, 1);
             paginacionExpo(num, 1);
+
+            cambioRadioButton(checkViaje, null);
+        }
+
+
+        private async void cargarFiltros()
+        {
+            //Task t1 = evitarRepeticion();
+            Task t4 = evitarRepeticion4();
+            Task t5 = evitarRepeticion5();
+            Task t6 = evitarRepeticion6();
+            Task t7 = evitarRepeticion7();
+            Task t8 = evitarRepeticion8();
+            await Task.WhenAll(t4, t5, t6,t7,t8);
+
+            checkViaje.Checked += cambioRadioButton;
+            checkBuque.Checked += cambioRadioButton;
+            checkContenedor.Checked += cambioRadioButton;
+            checkEntrada.Checked += cambioRadioButton;
+            checkAlmacen.Checked += cambioRadioButton;
+            checkDias.Checked += cambioRadioButton;
+
+            checkAlmacen2.Checked += cambioRadioButton;
+            checkContenedor2.Checked += cambioRadioButton;
+            checkDias2.Checked += cambioRadioButton;
+            checkEntrada2.Checked += cambioRadioButton;
+        }
+
+        private void unsubscribeChecks()
+        {
+            checkViaje.Checked -= cambioRadioButton;
+            checkBuque.Checked -= cambioRadioButton;
+            checkContenedor.Checked -= cambioRadioButton;
+            checkEntrada.Checked -= cambioRadioButton;
+            checkAlmacen.Checked -= cambioRadioButton;
+            checkDias.Checked -= cambioRadioButton;
+
+            checkAlmacen2.Checked -= cambioRadioButton;
+            checkContenedor2.Checked -= cambioRadioButton;
+            checkDias2.Checked -= cambioRadioButton;
+            checkEntrada2.Checked -= cambioRadioButton;
+        }
+
+        private void construirFiltros()
+        {
             //datos el combobox de importacion 
-            buqueFiltro = new List<filtroBuque>();
             almacenFiltro = new List<filtroAlmacen>();
             almacenFiltro.Add(new filtroAlmacen { ALMACEN = nombresPatioContenedor.PCONTENEDOR });
-            almacenFiltro.Add(new filtroAlmacen { ALMACEN = nombresPatioFerrocarril.PFERROCARRIL});
+            almacenFiltro.Add(new filtroAlmacen { ALMACEN = nombresPatioFerrocarril.PFERROCARRIL });
 
             diasFiltro = new List<filtroDias>();
             entradaFiltro = new List<filtroEntrada>();
@@ -148,44 +209,55 @@ namespace BDatos_API.VISTAS
             contenedorFiltro2 = new List<filtroContenedor>();
             almacenFiltro2 = new List<filtroAlmacen>();
 
-            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_1});
-            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_2});
-            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_3});
-            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_1});
-            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_2});
-            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_3});
-            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_4});
-            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_5});
-            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_6});
+            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_1 });
+            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_2 });
+            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_3 });
+            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_1 });
+            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_2 });
+            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_3 });
+            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_4 });
+            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_5 });
+            almacenFiltro2.Add(new filtroAlmacen { ALMACEN = nombresBodegaC.BODEGA_6 });
 
             diasFiltro2 = new List<filtroDias>();
             entradaFiltro2 = new List<filtroEntrada>();
-
-            cargarFiltros();
-            
         }
 
-        private async void cargarFiltros()
+        private void colapsarColumnas()
         {
-            Task t1 = evitarRepeticion();
-            Task t4 = evitarRepeticion4();
-            Task t5 = evitarRepeticion5();
-            Task t6 = evitarRepeticion6();
-            Task t7 = evitarRepeticion7();
-            Task t8 = evitarRepeticion8();
-            await Task.WhenAll(t1, t4, t5, t6,t7,t8);
+            tabla_importaciones.Columns[0].Visibility = Visibility.Collapsed;
+            tabla_importaciones.Columns[3].Visibility = Visibility.Collapsed;
+            tabla_importaciones.Columns[5].Visibility = Visibility.Collapsed;
+        }
 
-            checkViaje.Click += cambioRadioButton;
-            checkBuque.Click += cambioRadioButton;
-            checkContenedor.Click += cambioRadioButton;
-            checkEntrada.Click += cambioRadioButton;
-            checkAlmacen.Click += cambioRadioButton;
-            checkDias.Click += cambioRadioButton;
+        private void agrupacionDataGrid()
+        {
+            if (tabla_importaciones.Columns[0].Visibility == Visibility.Collapsed)
+            {
+                grupoContenedor.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                grupoContenedor.Visibility = Visibility.Collapsed;
+            }
 
-            checkAlmacen2.Click += cambioRadioButton;
-            checkContenedor2.Click += cambioRadioButton;
-            checkDias2.Click += cambioRadioButton;
-            checkEntrada2.Click += cambioRadioButton;
+            if (tabla_importaciones.Columns[3].Visibility == Visibility.Collapsed)
+            {
+                grupoFechaEntrada.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                grupoFechaEntrada.Visibility = Visibility.Collapsed;
+            }
+
+            if (tabla_importaciones.Columns[5].Visibility == Visibility.Collapsed)
+            {
+                grupoDias.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                grupoDias.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void cambioRadioButton(object sender, RoutedEventArgs e)
@@ -241,15 +313,13 @@ namespace BDatos_API.VISTAS
                 VIAJE_BUSQUEDA2.SetValue(TextSearch.TextPathProperty, "DIAS");
                 text.SetBinding(TextBlock.TextProperty, new Binding("DIAS"));
             }
-            
-            //text.SetBinding(TextBlock.TextProperty, new Binding("RESULTADOS"));
         }
 
         private void templateImpo()
         {
             if (checkBuque.IsChecked == true)
             {
-                VIAJE_BUSQUEDA.ItemsSource = buqueFiltro;
+                VIAJE_BUSQUEDA.ItemsSource = autoCompletado.GetBuques;
                 VIAJE_BUSQUEDA.SetValue(TextSearch.TextPathProperty, "BUQUE");
                 text.SetBinding(TextBlock.TextProperty, new Binding("BUQUE"));
             }
@@ -283,7 +353,7 @@ namespace BDatos_API.VISTAS
                 VIAJE_BUSQUEDA.SetValue(TextSearch.TextPathProperty, "DIAS");
                 text.SetBinding(TextBlock.TextProperty, new Binding("DIAS"));
             }
-            //text.SetBinding(TextBlock.TextProperty, new Binding("RESULTADOS"));
+           
         }
 
         private void Principal_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -303,7 +373,7 @@ namespace BDatos_API.VISTAS
 
         private void paginacionImpo(int num, int paginaActual)
         {
-            cont = _Importaciones.Count;
+            cont = datosVisibles1.Count;
             int tamanoPag = 0;
             if (cont % num == 0)
             {
@@ -317,8 +387,11 @@ namespace BDatos_API.VISTAS
             tbkTotal.Text = tamanoPag.ToString();
             tbkCurrentsize.Text = paginaActual.ToString();
 
-            _impo = new ObservableCollection<Contenedor>(_Importaciones.Take(num * paginaActual).Skip(num * (paginaActual - 1)));
-            tabla_importaciones.ItemsSource = _impo;
+            _impo = new ObservableCollection<Contenedor>(datosVisibles1.Take(num * paginaActual).Skip(num * (paginaActual - 1)));
+            collection = new ListCollectionView(_impo);
+            CheckBox_Checked(grupoAlmacen, null);
+            CheckBox_Checked(grupoBuque, null);
+            tabla_importaciones.ItemsSource = collection;
         }
 
         private void paginacionExpo(int num, int paginaActual)
@@ -338,6 +411,8 @@ namespace BDatos_API.VISTAS
             tbkCurrentsize2.Text = paginaActual.ToString();
 
             _expo = new ObservableCollection<Contenedor>(_Exportaciones.Take(num * paginaActual).Skip(num * (paginaActual - 1)));
+            collection2 = new ListCollectionView(_expo);
+            CheckBox_Checked(grupoAlmacen2, null);
             tabla_exportaciones.ItemsSource = _expo;
 
         }
@@ -359,7 +434,8 @@ namespace BDatos_API.VISTAS
                     _vm.ShowSuccess("NUEVA ENTRADA", options);
                     _Exportaciones.Add(new Contenedor { CONTENEDOR = CONTENEDOR, BUQUE = BUQUE, VIAJE = VIAJE, FECHA_ENTRADA = FECHA_ENTRADA, ESTADO = ESTADO, ALMACEN = ALMACEN,DIAS=DIAS });
                 }
-                _expo = _Exportaciones;
+                unsubscribeChecks();
+                cargarFiltros();
             }
         }
 
@@ -382,7 +458,8 @@ namespace BDatos_API.VISTAS
                     _vm.ShowSuccess("NUEVA ENTRADA",options);
                     _Importaciones.Add(new Contenedor { CONTENEDOR = CONTENEDOR, BUQUE = BUQUE, VIAJE = VIAJE, FECHA_ENTRADA = FECHA_ENTRADA, ESTADO = ESTADO,ALMACEN=ALMACEN,DIAS=DIAS });           
                 }
-                _impo = _Importaciones;
+                unsubscribeChecks();
+                cargarFiltros();
             }
         }
 
@@ -464,9 +541,9 @@ namespace BDatos_API.VISTAS
         {
             if (string.IsNullOrEmpty(VIAJE_BUSQUEDA.Text) == true)
             {
-                if (tabla_importaciones.Items.Count != _Importaciones.Count)
+                if (tabla_importaciones.Items.Count != datosVisibles1.Count)
                 {
-                    tabla_importaciones.ItemsSource = _Importaciones;
+                    tabla_importaciones.ItemsSource = datosVisibles1;
                 }
             }
             else
@@ -475,27 +552,27 @@ namespace BDatos_API.VISTAS
                 {
                     if (checkViaje.IsChecked == true)
                     {
-                        filtro = _Importaciones.Where(busqueda => busqueda.VIAJE.Contains(VIAJE_BUSQUEDA.Text));
+                        filtro = datosVisibles1.Where(busqueda => busqueda.VIAJE.Contains(VIAJE_BUSQUEDA.Text));
                     }
                     if (checkBuque.IsChecked == true)
                     {
-                        filtro = _Importaciones.Where(busqueda => busqueda.BUQUE.Contains(VIAJE_BUSQUEDA.Text));
+                        filtro = datosVisibles1.Where(busqueda => busqueda.BUQUE.Contains(VIAJE_BUSQUEDA.Text));
                     }
                     if (checkAlmacen.IsChecked == true)
                     {
-                        filtro = _Importaciones.Where(busqueda => busqueda.ALMACEN.Contains(VIAJE_BUSQUEDA.Text));
+                        filtro = datosVisibles1.Where(busqueda => busqueda.ALMACEN.Contains(VIAJE_BUSQUEDA.Text));
                     }
                     if (checkContenedor.IsChecked == true)
                     {
-                        filtro = _Importaciones.Where(busqueda => busqueda.CONTENEDOR.Contains(VIAJE_BUSQUEDA.Text));
+                        filtro = datosVisibles1.Where(busqueda => busqueda.CONTENEDOR.Contains(VIAJE_BUSQUEDA.Text));
                     }
                     if (checkDias.IsChecked == true)
                     {
-                        filtro = _Importaciones.Where(busqueda => busqueda.DIAS.Contains(VIAJE_BUSQUEDA.Text));
+                        filtro = datosVisibles1.Where(busqueda => busqueda.DIAS.Contains(VIAJE_BUSQUEDA.Text));
                     }
                     if (checkEntrada.IsChecked == true)
                     {
-                        filtro = _Importaciones.Where(busqueda => busqueda.FECHA_ENTRADA.Contains(VIAJE_BUSQUEDA.Text));
+                        filtro = datosVisibles1.Where(busqueda => busqueda.FECHA_ENTRADA.Contains(VIAJE_BUSQUEDA.Text));
                     }
                     filtrado();
                 }
@@ -538,32 +615,24 @@ namespace BDatos_API.VISTAS
 
         private void filtrado()
         {
-                if (areaTab.SelectedIndex == 0)
-                {
-                    cantidadFiltrado = filtro.Count<Contenedor>();
-                    if (cantidadFiltrado > 0)
-                    {
-                        tabla_importaciones.ItemsSource = filtro;
-                        Resultados.Text = "Resultados: " + cantidadFiltrado;
-                }
-                    else
-                    {
-                        Resultados.Text = "Resultados: " + 0;
-                    }
-                }
-                if (areaTab.SelectedIndex == 1)
-                {
-                    cantidadFiltrado2 = filtro2.Count<Contenedor>();
-                    if (cantidadFiltrado2 > 0)
-                    {
-                        tabla_exportaciones.ItemsSource = filtro2;
-                        Resultados2.Text = "Resultados: " + cantidadFiltrado2;
-                    }
-                    else
-                    {
-                        Resultados2.Text = "Resultados: " + 0;
-                    }
-                }
+            if (areaTab.SelectedIndex == 0)
+            {
+                if (filtro == null) return;
+                    collection = new ListCollectionView(filtro.ToList());
+                    checkbox_check(grupoAlmacen);
+                    checkbox_check(grupoBuque);
+                    tabla_importaciones.ItemsSource = collection;
+                    Resultados.Text = "Resultados: " + collection.Count;
+
+            }
+            if (areaTab.SelectedIndex == 1)
+            {
+                if (filtro2 == null) return;
+                collection2 = new ListCollectionView(filtro2.ToList());
+                checkbox_check(grupoAlmacen2);
+                tabla_exportaciones.ItemsSource = collection2;
+                Resultados2.Text = "Resultados: " + collection2.Count;
+            }
         }
 
         private void VIAJE_BUSQUEDA_DropDownClosed(object sender, EventArgs e)
@@ -578,10 +647,21 @@ namespace BDatos_API.VISTAS
 
         private void Todo_Click(object sender, RoutedEventArgs e)
         {
-            if(areaTab.SelectedIndex == 0)
-                tabla_importaciones.ItemsSource = _Importaciones;
+            if (areaTab.SelectedIndex == 0)
+            {
+                collection = null;
+                collection = new ListCollectionView(datosVisibles1);
+                CheckBox_Checked(grupoAlmacen, null);
+                CheckBox_Checked(grupoBuque, null);
+                tabla_importaciones.ItemsSource = collection;
+            }
             if (areaTab.SelectedIndex == 1)
-                tabla_exportaciones.ItemsSource = _Exportaciones;
+            {
+                collection2 = null;
+                collection2 = new ListCollectionView(_Exportaciones);
+                CheckBox_Checked(grupoAlmacen2, null);
+                tabla_exportaciones.ItemsSource = collection2;
+            }
         }
 
         private void Todo_MouseEnter(object sender, MouseEventArgs e)
@@ -594,47 +674,20 @@ namespace BDatos_API.VISTAS
 
         private void Todo_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (areaTab.SelectedIndex == 0)
-                Resultados.Text = "Resultados: " + cantidadFiltrado;
-            if (areaTab.SelectedIndex == 1)
-                Resultados2.Text = "Resultados: " + cantidadFiltrado2;
+            //if (areaTab.SelectedIndex == 0)
+                //Resultados.Text = "Resultados: " + cantidadFiltrado;
+            //if (areaTab.SelectedIndex == 1)
+               // Resultados2.Text = "Resultados: " + cantidadFiltrado2;
         }
-
+       
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            ScrollViewer scv = (ScrollViewer)sender;
-            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+
+            scroll1.ScrollToVerticalOffset(scroll1.VerticalOffset - e.Delta);
             e.Handled = true;
         }
 
         #region filtrado para combobox con busqueda
-        private async Task evitarRepeticion()
-        {
-            buqueFiltro.Add(new filtroBuque { BUQUE = _Importaciones[0].BUQUE,RESULTADOS=0 });
-            bool salir = false;
-            int limite = _Importaciones.Count;
-            int b = 0;
-            for (int a = 0; a < limite; a++)
-            {
-                string pivote = buqueFiltro[a].BUQUE;
-                 while (b < limite)
-                {
-                    if (_Importaciones[b].BUQUE != pivote)
-                    {
-                        buqueFiltro.Add(new filtroBuque {BUQUE= _Importaciones[b].BUQUE,RESULTADOS=0 });
-                        break;
-                    }
-                    b++;   
-                }
-                buqueFiltro[a].RESULTADOS = b;
-                if (b == limite)
-                {
-                    salir = true;
-                    break;
-                }
-            }
-            await Task.FromResult(salir == true);
-        }
         
         private async Task evitarRepeticion4()
         {
@@ -695,6 +748,7 @@ namespace BDatos_API.VISTAS
         private async Task evitarRepeticion6()
         {
             viajeFiltro.Add(new filtroViaje { VIAJE = _Importaciones[0].VIAJE, RESULTADOS = 0 });
+            datosVisibles1.Add(_Importaciones[0]);//datos visibles
             bool salir = false;
             int limite = _Importaciones.Count;
             int b = 0;
@@ -706,6 +760,7 @@ namespace BDatos_API.VISTAS
                     if (_Importaciones[b].VIAJE != pivote)
                     {
                         viajeFiltro.Add(new filtroViaje { VIAJE = _Importaciones[b].VIAJE, RESULTADOS = 0 });
+                        datosVisibles1.Add(_Importaciones[b]);
                         break;
                     }
                     b++;
@@ -776,6 +831,48 @@ namespace BDatos_API.VISTAS
             await Task.FromResult(salir == true);
         }
         #endregion
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            checkbox_check(sender);
+            if (areaTab.SelectedIndex == 0)
+                tabla_importaciones.ItemsSource = collection;
+            if (areaTab.SelectedIndex == 1)
+                tabla_exportaciones.ItemsSource = collection2;
+        }
+
+        private void checkbox_check(object sender)
+        {
+            string name = (sender as CheckBox).Content.ToString();
+            if(areaTab.SelectedIndex==0)
+            collection.GroupDescriptions.Add(new PropertyGroupDescription(name));
+            if(areaTab.SelectedIndex==1)
+            collection2.GroupDescriptions.Add(new PropertyGroupDescription(name));
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            checkbox_uncheck(sender);
+            if (areaTab.SelectedIndex == 0)
+                tabla_importaciones.ItemsSource = collection;
+            if (areaTab.SelectedIndex == 1)
+                tabla_importaciones.ItemsSource = collection2;
+        }
+
+        private void checkbox_uncheck(object sender)
+        {
+            string name = (sender as CheckBox).Content.ToString();
+            if (areaTab.SelectedIndex == 0)
+            {
+                var remover = collection.GroupDescriptions.OfType<PropertyGroupDescription>().FirstOrDefault(pgd => pgd.PropertyName == name);
+                collection.GroupDescriptions.Remove(remover);
+            }
+            if (areaTab.SelectedIndex == 1)
+            {
+                var remover2 = collection2.GroupDescriptions.OfType<PropertyGroupDescription>().FirstOrDefault(pgd => pgd.PropertyName == name);
+                collection2.GroupDescriptions.Remove(remover2);
+            }
+        }
     }
 }
 

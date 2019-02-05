@@ -6,9 +6,6 @@
       xmlns:dotNetKitControls="clr-namespace:DotNetKit.Windows.Controls;assembly=DotNetKit.Wpf.AutoCompleteComboBox"
       xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit" 
       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-      xmlns:local="clr-namespace:BDatos_API.VISTAS"
-       
       xmlns:s="clr-namespace:System;assembly=mscorlib"
       mc:Ignorable="d" 
       d:DesignHeight="726.406" d:DesignWidth="1481.459"
@@ -59,7 +56,7 @@
                     <RowDefinition Height="600"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <TextBlock Text="Patio de Ferrocarriles " FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
+                <TextBlock Text="Patio de UUFF " FontSize="30" VerticalAlignment="Top" HorizontalAlignment="Right"
          FontWeight="Heavy" Foreground="Black" Grid.Column="1" Grid.Row="0" ></TextBlock>
 
                 <Separator  Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="2"></Separator>
@@ -130,8 +127,11 @@
                            VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Format="ShortDate"
                                           Text="{Binding FECHA_ENTRADA, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,BindsDirectlyToSource=True}"></xctk:DateTimePicker>
 
-                    <TextBlock Name ="FFCC" Text="FFCC" TextAlignment="Center" FontSize="28" Grid.Column="0" Grid.Row="4" 
+                    <TextBlock Name ="FFCC" Text="" TextAlignment="Center" FontSize="28" Grid.Column="0" Grid.Row="4" 
                                VerticalAlignment="Bottom" FontWeight="Black"></TextBlock>
+                    <Button Name="estadoPresentacion" Content="Presentacion" Grid.Column="1" Grid.Row="4"
+                            FontWeight="Light"  FontSize="16" VerticalContentAlignment="Top" Style="{DynamicResource SquareButtonStyle}"
+                            Click="EstadoPresentacion_Click"></Button>
                     <DataGrid x:Name="tabla_Principal" AutoGenerateColumns="False"  FontWeight="Light" 
                       FontSize="15" SelectionMode="Extended"  ScrollViewer.CanContentScroll="True" Grid.Row="5"
                        CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" Grid.ColumnSpan="2"
