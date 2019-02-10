@@ -98,7 +98,7 @@ namespace BDatos_API
 
         private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-         
+            principal._contenedorClient.Unsubscribe();
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, (DispatcherOperationCallback)delegate (object o)
             {
                 Navegacion.NavegarAtras();

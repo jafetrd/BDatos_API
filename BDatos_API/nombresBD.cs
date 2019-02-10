@@ -182,6 +182,7 @@ namespace BDatos_API
         public const string PFERROCARRIL = "P. FERROCARRIL";
 
         public const string TABLA_TEMPORAL = "Temporal";
+        public const string TABLA_TEMPORAL2 = "TEMPORAL2";
 
         public const string NOMBRE_TABLA_2 = "dform_patioferrocarril";
         public const string TABLA2_ID = "ID";
@@ -232,6 +233,7 @@ namespace BDatos_API
         public const string ALMACEN_ = "ALMACEN";
         public const string PCONTENEDOR = "P. CONTENEDOR";
         public const string TABLA_TEMPORAL = "Temporal";
+        public const string TABLA_TEMPORAL2 = "TEMPORAL2";
 
         public const string NOMBRE_TABLA_2 = "dform_patiocontenedor";
         public const string TABLA2_ID = "ID";

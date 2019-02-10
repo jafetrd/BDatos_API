@@ -17,7 +17,7 @@ namespace ServicioBroker.Servicio
 
         #region Instance variables
 
-        private readonly List<IclienteCallback> _callbackList = new List<IclienteCallback>();
+        public static List<IclienteCallback> _callbackList = new List<IclienteCallback>();
         private  string _connectionString;
 
         private  SqlTableDependency<Clientes> _sqlTableDependency;
@@ -48,7 +48,7 @@ namespace ServicioBroker.Servicio
 
         private void _sqlTableDependency_OnStatusChanged(object sender, StatusChangedEventArgs e)
         {
-            Console.WriteLine(e.Status);
+            Console.WriteLine(e.Status+" clientes");
             if (e.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.StopDueToError)
             {
                 Unsubscribe();

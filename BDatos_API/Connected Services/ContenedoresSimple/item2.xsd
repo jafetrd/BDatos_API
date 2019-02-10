@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8001/ServicioContenedoresSimple/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/ServicioBroker.Models" />
+  <xs:element name="Subscribe">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SubscribeResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Unsubscribe">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UnsubscribeResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="obtenerTodasImportaciones">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="obtenerTodasImportacionesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ServicioBroker.Models" minOccurs="0" name="obtenerTodasImportacionesResult" nillable="true" type="q1:ArrayOfContenedorSimple" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IContenedorImpoSimple">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="BUQUE" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="VIAJE" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ALMACEN" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="regimen" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IContenedorImpoSimpleResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="obtenerTodasExportaciones">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="obtenerTodasExportacionesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/ServicioBroker.Models" minOccurs="0" name="obtenerTodasExportacionesResult" nillable="true" type="q2:ArrayOfContenedorSimple" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IContenedorExpoSimple">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="BUQUE" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="VIAJE" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ALMACEN" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="regimen" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IContenedorExpoSimpleResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cambiosImpoSimple">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="BUQUE" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="VIAJE" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ALMACEN" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="REGIMEN" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cambiosImpoSimpleResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cambiosExpoSimple">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="BUQUE" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="VIAJE" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ALMACEN" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="REGIMEN" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cambiosExpoSimpleResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

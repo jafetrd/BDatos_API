@@ -34,4 +34,13 @@ namespace ServicioBroker.Cambios
         [OperationContract]
         void cambiosBuques(string BUQUE, string VIAJE,string tipo_Cambio);
     }
+
+    public interface IContenedorSimpleCallBack
+    {
+        [OperationContract]
+        void cambiosImpoSimple(string BUQUE, string VIAJE, string ALMACEN,string REGIMEN);
+
+        [OperationContract]
+        void cambiosExpoSimple(string BUQUE, string VIAJE, string ALMACEN,string REGIMEN);
+    }
 }

@@ -20,6 +20,15 @@
         public string ESTADO_VENCIMIENTO { get; set; }
     }
 
+    public class ContenedorSimple
+    {
+       // public string ID { get; set; }
+        public string BUQUE { get; set; }
+        public string VIAJE { get; set; }
+        public string ALMACEN { get; set; }
+        public string REGIMEN { get; set; }
+    }
+
     public class Clientes
     {
         public int ID { get; set; }

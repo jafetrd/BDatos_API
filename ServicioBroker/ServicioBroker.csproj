@@ -115,6 +115,7 @@
     <Compile Include="Cambios\ICallBacks.cs" />
     <Compile Include="Cambios\IClientes.cs" />
     <Compile Include="Cambios\IContenedor.cs" />
+    <Compile Include="Cambios\IContenedorSimple.cs" />
     <Compile Include="Cambios\IProductos.cs" />
     <Compile Include="Instalador.cs">
       <SubType>Component</SubType>
@@ -130,6 +131,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servicio\buques.cs" />
     <Compile Include="Servicio\clientes.cs" />
+    <Compile Include="Servicio\contenedoresSimple.cs" />
     <Compile Include="Servicio\productos.cs" />
     <Compile Include="Servicio\tabla_contenedor.cs" />
   </ItemGroup>
@@ -159,7 +161,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SQLQuery1.sql" />
-    <Content Include="SQLQuery2.sql" />
     <Content Include="SQLQuery3.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,6 +1,8 @@
 ﻿using MahApps.Metro;
 using System;
 using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace BDatos_API
 {
@@ -14,6 +16,8 @@ namespace BDatos_API
             // add custom accent and theme resource dictionaries to the ThemeManager
             // you should replace MahAppsMetroThemesSample with your application name
             // and correct place where your custom accent lives
+            RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
+
             ThemeManager.AddAccent("CustomAccent1", new Uri("pack://application:,,,/BDatos_API;component/AcentoColor.xaml"));
 
             // get the current app style (theme and accent) from the application
@@ -28,8 +32,6 @@ namespace BDatos_API
 
            
         }
-
-      
 
     }
 }

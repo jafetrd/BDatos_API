@@ -190,111 +190,110 @@
                                     </ComboBox.Resources>
                                     </ComboBox>
                                 </StackPanel>
-                            <ScrollViewer x:Name="scroll1">
-                                <DataGrid x:Name="tabla_importaciones" AutoGenerateColumns="False"  FontWeight="Light" 
+
+                            <DataGrid x:Name="tabla_importaciones" AutoGenerateColumns="False"  FontWeight="Light" 
                               FontSize="15" SelectionMode="Extended"  ScrollViewer.CanContentScroll="True" 
                                HorizontalScrollBarVisibility="Hidden"
                               CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" 
                                CanUserAddRows="False" IsReadOnly="True"
                               CanUserDeleteRows="False" HorizontalAlignment="Center" Grid.Row="0"
-                              MaxWidth="{Binding RelativeSource={RelativeSource Self},Path=Parent.ActualWidth}"
+                              MaxWidth="1920" MaxHeight="1080" 
                               EnableRowVirtualization="True" EnableColumnVirtualization="True"
                               VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                               VirtualizingStackPanel.VirtualizationMode="Recycling"
-                              ScrollViewer.IsDeferredScrollingEnabled="True"
+                              ScrollViewer.IsDeferredScrollingEnabled="true"
                               PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" Background="White"
                               SelectionChanged="Tabla_importaciones_SelectionChanged">
-                                    <DataGrid.GroupStyle>
-                                        <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyle}">
-                                            <GroupStyle.Panel>
-                                                <ItemsPanelTemplate>
-                                                    <DataGridRowsPresenter/>
-                                                </ItemsPanelTemplate>
-                                            </GroupStyle.Panel>
-                                        </GroupStyle>
-                                    </DataGrid.GroupStyle>
+                                <DataGrid.GroupStyle>
+                                    <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyle}">
+                                        <GroupStyle.Panel>
+                                            <ItemsPanelTemplate>
+                                                <DataGridRowsPresenter/>
+                                            </ItemsPanelTemplate>
+                                        </GroupStyle.Panel>
+                                    </GroupStyle>
+                                </DataGrid.GroupStyle>
 
-                                    <DataGrid.Columns>
-                                        <DataGridTemplateColumn Width="*">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock FontSize="24" Height="45" Text="{Binding CONTENEDOR,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"  
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="24" Height="45" Text="{Binding CONTENEDOR,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"  
                                                  Margin="5 0 5 0" TextAlignment="Center" Name="iniciales_datagrid"></TextBlock>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                            <DataGridTemplateColumn.Header>
-                                                <RadioButton Name="checkContenedor" Content="CONTENEDOR" FontSize="18" GroupName="grupo1"/>
-                                            </DataGridTemplateColumn.Header>
-                                        </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.Header>
+                                            <RadioButton Name="checkContenedor" Content="CONTENEDOR" FontSize="18" GroupName="grupo1"/>
+                                        </DataGridTemplateColumn.Header>
+                                    </DataGridTemplateColumn>
 
-                                        <DataGridTemplateColumn Width="*">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock FontSize="24" Height="45" Text="{Binding BUQUE,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
+                                    <DataGridTemplateColumn Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="24" Height="45" Text="{Binding BUQUE,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                            <DataGridTemplateColumn.Header>
-                                                <RadioButton Name="checkBuque" Content="BUQUE" FontSize="18" GroupName="grupo1"/>
-                                            </DataGridTemplateColumn.Header>
-                                        </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.Header>
+                                            <RadioButton Name="checkBuque" Content="BUQUE" FontSize="18" GroupName="grupo1"/>
+                                        </DataGridTemplateColumn.Header>
+                                    </DataGridTemplateColumn>
 
-                                        <DataGridTemplateColumn Width="0.5*">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock FontSize="24" Height="45" Text="{Binding VIAJE,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
+                                    <DataGridTemplateColumn Width="0.5*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="24" Height="45" Text="{Binding VIAJE,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                            <DataGridTemplateColumn.Header>
-                                                <RadioButton Name="checkViaje" Content="#VIAJE" FontSize="18" GroupName="grupo1"/>
-                                            </DataGridTemplateColumn.Header>
-                                        </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.Header>
+                                            <RadioButton Name="checkViaje" Content="#VIAJE" FontSize="18" GroupName="grupo1"/>
+                                        </DataGridTemplateColumn.Header>
+                                    </DataGridTemplateColumn>
 
-                                        <DataGridTemplateColumn  Width="*">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock FontSize="24" Height="45" Text="{Binding FECHA_ENTRADA,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
+                                    <DataGridTemplateColumn  Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="24" Height="45" Text="{Binding FECHA_ENTRADA,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                            <DataGridTemplateColumn.Header>
-                                                <RadioButton Name="checkEntrada" Content="ENTRADA" FontSize="18" GroupName="grupo1"/>
-                                            </DataGridTemplateColumn.Header>
-                                        </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.Header>
+                                            <RadioButton Name="checkEntrada" Content="ENTRADA" FontSize="18" GroupName="grupo1"/>
+                                        </DataGridTemplateColumn.Header>
+                                    </DataGridTemplateColumn>
 
-                                        <DataGridTemplateColumn Width="*">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock FontSize="24" Height="45" Text="{Binding ALMACEN,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
+                                    <DataGridTemplateColumn Width="*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="24" Height="45" Text="{Binding ALMACEN,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                            <DataGridTemplateColumn.Header>
-                                                <RadioButton Name="checkAlmacen" Content="ALMACEN" FontSize="18" GroupName="grupo1"/>
-                                            </DataGridTemplateColumn.Header>
-                                        </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.Header>
+                                            <RadioButton Name="checkAlmacen" Content="ALMACEN" FontSize="18" GroupName="grupo1"/>
+                                        </DataGridTemplateColumn.Header>
+                                    </DataGridTemplateColumn>
 
-                                        <DataGridTemplateColumn Width="0.5*">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock FontSize="24" Height="45" Text="{Binding DIAS,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
+                                    <DataGridTemplateColumn Width="0.5*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock FontSize="24" Height="45" Text="{Binding DIAS,Mode=OneTime,UpdateSourceTrigger=PropertyChanged,IsAsync=True}"
                                                  Margin="5 0 5 0"  TextAlignment="Center" Name="numero_datagrid"></TextBlock>
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                            <DataGridTemplateColumn.Header>
-                                                <RadioButton Name="checkDias" Content="DIAS" FontSize="18" GroupName="grupo1"/>
-                                            </DataGridTemplateColumn.Header>
-                                        </DataGridTemplateColumn>
-                                    </DataGrid.Columns>
-                                    <DataGrid.Resources>
-                                        <Style TargetType="{x:Type DataGridCell}">
-                                            <EventSetter Event="KeyDown" Handler="DataGridCell_KeyDown"/>
-                                            <EventSetter Event="MouseDoubleClick" Handler="DataGridCell_MouseDoubleClick"></EventSetter>
-                                        </Style>
-                                    </DataGrid.Resources>
-                                </DataGrid>
-                            </ScrollViewer>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                        <DataGridTemplateColumn.Header>
+                                            <RadioButton Name="checkDias" Content="DIAS" FontSize="18" GroupName="grupo1"/>
+                                        </DataGridTemplateColumn.Header>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                                <DataGrid.Resources>
+                                    <Style TargetType="{x:Type DataGridCell}">
+                                        <EventSetter Event="KeyDown" Handler="DataGridCell_KeyDown"/>
+                                        <EventSetter Event="MouseDoubleClick" Handler="DataGridCell_MouseDoubleClick"></EventSetter>
+                                    </Style>
+                                </DataGrid.Resources>
+                            </DataGrid>
                         </Grid>
                         </TabItem>
 
@@ -392,11 +391,11 @@
                               CanUserResizeColumns="False"  CanUserReorderColumns="False" VerticalContentAlignment="Center" 
                                CanUserAddRows="False" IsReadOnly="True"
                               CanUserDeleteRows="False" HorizontalAlignment="Center" Grid.Row="0"
-                              MaxWidth="{Binding RelativeSource={RelativeSource Self},Path=Parent.ActualWidth}"
+                              MaxWidth="1920" MaxHeight="1080" 
                               EnableRowVirtualization="True" EnableColumnVirtualization="True"
                               VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                               VirtualizingStackPanel.VirtualizationMode="Recycling"
-                              ScrollViewer.IsDeferredScrollingEnabled="True"
+                              ScrollViewer.IsDeferredScrollingEnabled="true"
                               PreviewMouseWheel="ScrollViewer_PreviewMouseWheel" Background="White"
                               SelectionChanged="Tabla_importaciones_SelectionChanged">
 

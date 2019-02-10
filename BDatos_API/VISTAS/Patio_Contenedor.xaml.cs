@@ -548,107 +548,108 @@ namespace BDatos_API.VISTAS
                     switch (ESTADO_LOCAL)
                     {
                         case GUARDAR:
-                            if (metodos_Comunes.Seleccionar_control(desbloqueado, false))
+                            if (!metodos_Comunes.Seleccionar_control(desbloqueado, false))
                             {
-                                int contenedores = tabla_Principal.Items.Count;
-                                if (contenedores > 0)
-                                {
-                                    bool vacio = verificarTabla();
-                                    if (vacio == false)
-                                    {
-                                        modeloPatioContenedor.conFormatoSQL();
-                                        string msj = "BUQUE: " + autoCompletado.BUQUE + "\n" +
-                                                     "VIAJE: " + modeloPatioContenedor.VIAJE + "\n" +
-                                                     "REGIMEN: " + modeloPatioContenedor.REGIMEN + "\n" +
-                                                     "FECHA DE ENTRADA: " + modeloPatioContenedor._FECHA_ENTRADA + "\n" +
-                                                     "CANTIDAD CONTENEDORES: " + contenedores + "\n";
-                                        for (int a = 0; a < datos.Count; a++)
-                                        {
-                                            msj += datos[a].iniciales + datos[a].numero + "   " + datos[a].seleccionado + "\n";
-                                        }
+                                await this.TryFindParent<MetroWindow>().ShowMessageAsync(TITULO_MENSAJE, "Faltan datos", MessageDialogStyle.Affirmative, configMetro.mensajeNormal);
+                                return;
+                            }
+                            int contenedores = tabla_Principal.Items.Count;
+                            if (contenedores < 1)
+                            {
+                                await this.TryFindParent<MetroWindow>().ShowMessageAsync(TITULO_MENSAJE, "No hay elementos en la tabla", MessageDialogStyle.Affirmative, configMetro.mensajeNormal);
+                                return;
+                            }
+                            bool vacio = verificarTabla();
+                            if (vacio == true)
+                            {
+                                await this.TryFindParent<MetroWindow>().ShowMessageAsync(TITULO_MENSAJE, "Campos vacios en la tabla", MessageDialogStyle.Affirmative, configMetro.mensajeNormal);
+                                return;
+                            }
+                            modeloPatioContenedor.conFormatoSQL();
+                            string msj = "BUQUE: " + autoCompletado.BUQUE + "\n" +
+                                            "VIAJE: " + modeloPatioContenedor.VIAJE + "\n" +
+                                            "REGIMEN: " + modeloPatioContenedor.REGIMEN + "\n" +
+                                            "FECHA DE ENTRADA: " + modeloPatioContenedor._FECHA_ENTRADA + "\n" +
+                                            "CANTIDAD CONTENEDORES: " + contenedores + "\n";
+                            for (int a = 0; a < datos.Count; a++)
+                            {
+                                msj += datos[a].iniciales + datos[a].numero + "   " + datos[a].seleccionado + "\n";
+                            }
 
-                                        var res = await this.TryFindParent<MetroWindow>().ShowMessageAsync("Datos a guardar:", msj, MessageDialogStyle.AffirmativeAndNegative, configMetro.PREVIEW);
-                                        if (res == MessageDialogResult.Affirmative)
-                                        {
-                                            for (int a = 0; a < contenedores; a++)
-                                            {
-                                                metodos_Bd.GUARDAR(NOMBRE_TABLA,
-                                                    (BUQUE_, autoCompletado.BUQUE),
-                                                    (VIAJE_, modeloPatioContenedor._VIAJE),
-                                                    (REGIMEN_, modeloPatioContenedor._REGIMEN),
-                                                    (FECHA_ENTRADA_, modeloPatioContenedor._FECHA_ENTRADA),
-                                                    (PRESENTACION_, datos[a].seleccionado),
-                                                    (INICIALES_, datos[a].iniciales),
-                                                    (NUMERO_, datos[a].numero),
-                                                    (ESTADO_, modeloPatioContenedor._ESTADO),
-                                                    (SESION_ENTRADA_, modeloPatioContenedor._SESION_ENTRADA));
-                                            }
-                                            int ID = metodos_Bd.ULTIMO_REGISTRO(NOMBRE_TABLA, ID_)-contenedores;
-                                            for (int a = 0; a < contenedores; a++)
-                                            {
-                                                metodos_Bd.GUARDAR(nombresPatioContenedor.TABLA_TEMPORAL,
-                                                    (ID_, (ID + a).ToString()),
-                                                    (BUQUE_, autoCompletado.BUQUE),
-                                                    (VIAJE_, modeloPatioContenedor._VIAJE),
-                                                    (REGIMEN_, modeloPatioContenedor._REGIMEN),
-                                                    (FECHA_ENTRADA_, modeloPatioContenedor._FECHA_ENTRADA),
-                                                    (INICIALES_, datos[a].iniciales),
-                                                    (NUMERO_, datos[a].numero),
-                                                    (ESTADO_, modeloPatioContenedor._ESTADO),
-                                                    (ALMACEN_, nombresPatioContenedor.PCONTENEDOR));
-                                            }
-                                            if (autoCompletado.BUQUE!= null)
-                                            {
-                                                ArrayList arrayList = metodos_Bd.BUSCAR(tablaBuque.NOMBRE_TABLA, BUQUE_, autoCompletado.BUQUE, 3, TODO);
-                                                if (arrayList.Count == 0)
-                                                {
-                                                    metodos_Bd.GUARDAR(tablaBuque.NOMBRE_TABLA,
-                                                        (tablaBuque.BUQUE_, autoCompletado.BUQUE),
-                                                        (tablaBuque.VIAJE_, modeloPatioContenedor._VIAJE));
-                                                }
-                                                else
-                                                {
-                                                    metodos_Bd.ACTUALIZAR(tablaBuque.NOMBRE_TABLA, tablaBuque.ID_, arrayList[0].ToString(),
-                                                        (tablaBuque.VIAJE_, modeloPatioContenedor._VIAJE));
-                                                }
-                                            }
-                                            if (autoCompletado.CLIENTE != null)
-                                            {
-                                                ArrayList arrayList = metodos_Bd.BUSCAR(tablaCliente.NOMBRE_TABLA, CLIENTE_, autoCompletado.CLIENTE, tablaCliente.CANTIDAD_COLUMNAS_, TODO);
-                                                if (arrayList.Count == 0)
-                                                {
-                                                    metodos_Bd.GUARDAR(tablaCliente.NOMBRE_TABLA,
-                                                        (tablaCliente.CLIENTE_, autoCompletado.CLIENTE));
-                                                }
-                                            }
-                                            if (autoCompletado.PRODUCTO != null)
-                                            {
-                                                ArrayList arrayList = metodos_Bd.BUSCAR(tablaProducto.NOMBRE_TABLA, PRODUCTO_, autoCompletado.PRODUCTO, tablaProducto.CANTIDAD_COLUMNAS_, TODO);
-                                                if (arrayList.Count == 0)
-                                                {
-                                                    metodos_Bd.GUARDAR(tablaProducto.NOMBRE_TABLA, (tablaProducto.PRODUCTO_, autoCompletado.PRODUCTO));
-                                                }
-                                            }
-                                            await this.TryFindParent<MetroWindow>().ShowMessageAsync(TITULO_MENSAJE, "Se crearon: " + contenedores + " registros",
-                                                MessageDialogStyle.Affirmative, configMetro.PREVIEW);
-                                            ESTADO_LOCAL = LIMPIAR;
-                                            Maquina_Estados();
-                                        }
-                                    }
-                                    else
-                                    {
-                                        await this.TryFindParent<MetroWindow>().ShowMessageAsync(TITULO_MENSAJE, "Campos vacios en la tabla", MessageDialogStyle.Affirmative, configMetro.mensajeNormal);
-                                    }
-                                }
-                                else
-                                {
-                                    await this.TryFindParent<MetroWindow>().ShowMessageAsync(TITULO_MENSAJE, "No hay elementos en la tabla", MessageDialogStyle.Affirmative, configMetro.mensajeNormal);
-                                }
+                            var res = await this.TryFindParent<MetroWindow>().ShowMessageAsync("Datos a guardar:", msj, MessageDialogStyle.AffirmativeAndNegative, configMetro.PREVIEW);
+                            if (!(res == MessageDialogResult.Affirmative)) return;
+
+                            for (int a = 0; a < contenedores; a++)
+                            {
+                                metodos_Bd.GUARDAR(NOMBRE_TABLA,
+                                    (BUQUE_, autoCompletado.BUQUE),
+                                    (VIAJE_, modeloPatioContenedor._VIAJE),
+                                    (REGIMEN_, modeloPatioContenedor._REGIMEN),
+                                    (FECHA_ENTRADA_, modeloPatioContenedor._FECHA_ENTRADA),
+                                    (PRESENTACION_, datos[a].seleccionado),
+                                    (INICIALES_, datos[a].iniciales),
+                                    (NUMERO_, datos[a].numero),
+                                    (ESTADO_, modeloPatioContenedor._ESTADO),
+                                    (SESION_ENTRADA_, modeloPatioContenedor._SESION_ENTRADA));
+                            }
+                            int ID = metodos_Bd.ULTIMO_REGISTRO(NOMBRE_TABLA, ID_)-contenedores;
+                            for (int a = 0; a < contenedores; a++)
+                            {
+                                metodos_Bd.GUARDAR(nombresPatioContenedor.TABLA_TEMPORAL,
+                                    (ID_, (ID + a).ToString()),
+                                    (BUQUE_, autoCompletado.BUQUE),
+                                    (VIAJE_, modeloPatioContenedor._VIAJE),
+                                    (REGIMEN_, modeloPatioContenedor._REGIMEN),
+                                    (FECHA_ENTRADA_, modeloPatioContenedor._FECHA_ENTRADA),
+                                    (INICIALES_, datos[a].iniciales),
+                                    (NUMERO_, datos[a].numero),
+                                    (ESTADO_, modeloPatioContenedor._ESTADO),
+                                    (ALMACEN_, nombresPatioContenedor.PCONTENEDOR));
+                            }
+
+                            if(modeloPatioContenedor._REGIMEN == nombresPatioContenedor.IMPO_SQL)
+                            metodos_Bd.GUARDAR(nombresPatioContenedor.TABLA_TEMPORAL2,
+                                (BUQUE_, autoCompletado.BUQUE),
+                                (VIAJE_, modeloPatioContenedor._VIAJE),
+                                (ALMACEN_, nombresPatioContenedor.PCONTENEDOR),
+                                (REGIMEN_,modeloPatioContenedor._REGIMEN));
+
+                            if (autoCompletado.BUQUE == null) return;
+                            ArrayList arrayList = metodos_Bd.BUSCAR(tablaBuque.NOMBRE_TABLA, BUQUE_, autoCompletado.BUQUE, 3, TODO);
+                            if (arrayList.Count == 0)
+                            {
+                                metodos_Bd.GUARDAR(tablaBuque.NOMBRE_TABLA,
+                                    (tablaBuque.BUQUE_, autoCompletado.BUQUE),
+                                    (tablaBuque.VIAJE_, modeloPatioContenedor._VIAJE));
                             }
                             else
                             {
-                                await this.TryFindParent<MetroWindow>().ShowMessageAsync(TITULO_MENSAJE, "Faltan datos", MessageDialogStyle.Affirmative, configMetro.mensajeNormal);
+                                metodos_Bd.ACTUALIZAR(tablaBuque.NOMBRE_TABLA, tablaBuque.ID_, arrayList[0].ToString(),
+                                    (tablaBuque.VIAJE_, modeloPatioContenedor._VIAJE));
                             }
+
+                            if (autoCompletado.CLIENTE == null) return;
+                            arrayList.Clear();
+                            arrayList = metodos_Bd.BUSCAR(tablaCliente.NOMBRE_TABLA, CLIENTE_, autoCompletado.CLIENTE, tablaCliente.CANTIDAD_COLUMNAS_, TODO);
+                            if (arrayList.Count == 0)
+                            {
+                                metodos_Bd.GUARDAR(tablaCliente.NOMBRE_TABLA,
+                                    (tablaCliente.CLIENTE_, autoCompletado.CLIENTE));
+                            }
+
+                            if (autoCompletado.PRODUCTO == null) return;
+                            arrayList.Clear();
+                            arrayList = metodos_Bd.BUSCAR(tablaProducto.NOMBRE_TABLA, PRODUCTO_, autoCompletado.PRODUCTO, tablaProducto.CANTIDAD_COLUMNAS_, TODO);
+                            if (arrayList.Count == 0)
+                            {
+                                metodos_Bd.GUARDAR(tablaProducto.NOMBRE_TABLA, (tablaProducto.PRODUCTO_, autoCompletado.PRODUCTO));
+                            }
+                                            
+                            await this.TryFindParent<MetroWindow>().ShowMessageAsync(TITULO_MENSAJE, "Se crearon: " + contenedores + " registros",
+                                MessageDialogStyle.Affirmative, configMetro.PREVIEW);
+                            ESTADO_LOCAL = LIMPIAR;
+                            Maquina_Estados();
+                            
                             break;
 
                         case LIMPIAR:
@@ -681,6 +682,7 @@ namespace BDatos_API.VISTAS
         private void EstadoPresentacion_Click(object sender, RoutedEventArgs e)
         {
             int ultimo = tabla_Principal.SelectedIndex;
+            if (ultimo < 0) return;
             datos.Remove(tabla_Principal.SelectedItem as fila);
             cont++;
             if (cont == 3) cont = 0;

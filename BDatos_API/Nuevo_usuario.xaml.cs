@@ -211,7 +211,7 @@ namespace BDatos_API
                 }
                 catch (Exception) { }
 
-                if (row[1].ToString() != TIPO_ADMINISTRADOR)
+                if (row[1].ToString() != "ADMINISTRADOR")
                 {
                     ESTADO = APUNTAR;
                 }

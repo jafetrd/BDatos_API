@@ -18,10 +18,11 @@ namespace ServicioBroker.Servicio
     {
         #region Instance variables
 
-        private readonly List<IContenedorCallback> _callbackList = new List<IContenedorCallback>();
+        public static List<IContenedorCallback> _callbackList = new List<IContenedorCallback>();
         private string _connectionString;
-        private SqlTableDependency<Contenedor> _sqlTableDependency;
-        private SqlTableDependency<Contenedor> _sqlTableDependency2;
+        public SqlTableDependency<Contenedor> _sqlTableDependency;
+        public SqlTableDependency<Contenedor> _sqlTableDependency2;
+        
         #endregion
 
         #region Constructors
@@ -55,14 +56,15 @@ namespace ServicioBroker.Servicio
             _sqlTableDependency2.OnChanged += TableDependency2_Changed;
             _sqlTableDependency2.OnError += _sqlTableDependency2_OnError;
             _sqlTableDependency2.OnStatusChanged += _sqlTableDependency2_OnStatusChanged;
-            _sqlTableDependency2.Start(watchDogTimeOut: 3600);
+            _sqlTableDependency2.Start(watchDogTimeOut: 28800);
             while (!(_sqlTableDependency2.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.WaitingForNotification)) { }
             Console.WriteLine(@"ESPERANDO NOTIFICACIONES CONTENEDORES 2");
         }
 
-        private void _sqlTableDependency_OnStatusChanged(object sender, StatusChangedEventArgs e)
+        
+        public void _sqlTableDependency_OnStatusChanged(object sender, StatusChangedEventArgs e)
         {
-            Console.WriteLine(e.Status);
+            Console.WriteLine(e.Status+" tabla_contenedores1");
             if (e.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.StopDueToError)
             {
                 Unsubscribe();
@@ -72,7 +74,7 @@ namespace ServicioBroker.Servicio
 
         private void _sqlTableDependency2_OnStatusChanged(object sender, StatusChangedEventArgs e)
         {
-            Console.WriteLine(e.Status);
+            Console.WriteLine(e.Status+" tabla_contenedores2");
             if (e.Status == TableDependency.SqlClient.Base.Enums.TableDependencyStatus.StopDueToError)
             {
                 Unsubscribe();
@@ -217,10 +219,6 @@ namespace ServicioBroker.Servicio
         public void Dispose()
         {
             _sqlTableDependency.Stop();
-        }
-
-        public void Dispose2()
-        {
             _sqlTableDependency2.Stop();
         }
 

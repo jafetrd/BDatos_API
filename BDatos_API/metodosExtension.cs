@@ -12,5 +12,11 @@ namespace BDatos_API
         {
             return new Collection<T>(data.ToList());
         }
+
+        public static ObservableCollection<T> IEnumerableToObservableCollection<T>(this IEnumerable<T> col)
+        {
+            return new ObservableCollection<T>(col);
+        }
+
     }
 }

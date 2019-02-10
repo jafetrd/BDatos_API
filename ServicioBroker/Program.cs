@@ -1,6 +1,7 @@
 ﻿using Microsoft.SqlServer.Management.Common;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.Win32;
+using ServicioBroker.Cambios;
 using ServicioBroker.Servicio;
 using System;
 using System.Configuration;
@@ -17,7 +18,10 @@ namespace ServicioBroker
         public const string NombreServicio = "Servicio_API";
         private static Service1 service;
 
-        private static ServiceHost host, host2, host3, host4;
+        private static ServiceHost host, host2, host3, host4,host5;
+
+        
+
         public static bool ESTADO_MAQUINA = true;
         //[STAThread]
         /// <summary>
@@ -29,6 +33,8 @@ namespace ServicioBroker
             host2 = null;
             host3 = null;
             host4 = null;
+            host5 = null;
+
             SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
             service = new Service1();
             //ServiceBase.Run(service);
@@ -44,6 +50,35 @@ namespace ServicioBroker
                 ServiceBase.Run(ServicesToRun);
             }
         }
+        
+        private static void pararSiError()
+        {
+            var registeredUser = OperationContext.Current.GetCallbackChannel<IContenedorCallback>();
+            if (tabla_contenedor._callbackList.Contains(registeredUser))
+            {
+                tabla_contenedor._callbackList.Remove(registeredUser);
+            }
+            var registeredUser2 = OperationContext.Current.GetCallbackChannel<IproductosCallBack>();
+            if (productos._callbackList.Contains(registeredUser2))
+            {
+                productos._callbackList.Remove(registeredUser2);
+            }
+            var registeredUser3 = OperationContext.Current.GetCallbackChannel<IclienteCallback>();
+            if (clientes._callbackList.Contains(registeredUser3))
+            {
+                clientes._callbackList.Remove(registeredUser3);
+            }
+            var registeredUser4 = OperationContext.Current.GetCallbackChannel<IbuquesCallBack>();
+            if (buques._callbackList.Contains(registeredUser4))
+            {
+                buques._callbackList.Remove(registeredUser4);
+            }
+            var registeredUser5 = OperationContext.Current.GetCallbackChannel<IContenedorSimpleCallBack>();
+            if (contenedoresSimple._callbackList.Contains(registeredUser5))
+            {
+                contenedoresSimple._callbackList.Remove(registeredUser5);
+            }
+        }
 
         private static void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
         {
@@ -54,6 +89,7 @@ namespace ServicioBroker
                     Console.WriteLine("Reinicio despues de suspender");
                     break;
                 case PowerModes.Suspend:
+                    pararSiError();
                     Stop();
                     Console.WriteLine("se suspendio la maquina");
                     break;
@@ -113,7 +149,7 @@ namespace ServicioBroker
                 for (int x = 0; x < c.Length; x++)
                 {
                     agregarDatos(query: "INSERT INTO dbo.dform_bodegac(Presentaciones) VALUES(@Presentaciones)",
-                                 datos: a[x], parametro: "@Presentaciones");
+                                 datos: c[x], parametro: "@Presentaciones");
                 }
                 RunAsConsole(null);
             }
@@ -142,6 +178,9 @@ namespace ServicioBroker
             host4.Open();
             //Console.WriteLine($"Servicio 4 iniciado en {host4.Description.Endpoints[1].Address}");
             while (!(host4.State == CommunicationState.Opened)) { }
+            host5 = new ServiceHost(typeof(contenedoresSimple));
+            host5.Open();
+            while (!(host5.State == CommunicationState.Opened)) { }
         }
 
         public static void Stop()
@@ -150,6 +189,7 @@ namespace ServicioBroker
             host2.Close();
             host3.Close();
             host4.Close();
+            host5.Close();
             File.AppendAllText(GetAppFolder()+"\\MyService.txt", String.Format("{0} stopped{1}", DateTime.Now, Environment.NewLine));
         }
 
